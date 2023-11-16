@@ -1,4 +1,4 @@
-package com.ssafy.enjoy;
+package com.ssafy.enjoy.config;
 
 
 import org.springframework.context.annotation.Configuration;
