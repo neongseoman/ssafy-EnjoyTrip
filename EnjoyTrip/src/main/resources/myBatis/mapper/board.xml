@@ -16,28 +16,28 @@
 		select *
 		from board
 		order by
-		article_no desc
+		`article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithSubject" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where subject like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithContent" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where content like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithUserId" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where `user_id` like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<insert id="createBoard" parameterType="board">
