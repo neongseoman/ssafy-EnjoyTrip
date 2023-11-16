@@ -1,0 +1,24 @@
+
+---- 로그인 전략 ----
+
+1. 로그인을 시도한다.
+2. 아디 패스워드를 체크한다.
+3. 성공하면 session의 login을 호출한다.
+4. login은 node에 해당 ID + timestamp로 해쉬를 생성한다.
+5. node는 해쉬를 spring에 리턴한다.
+5-1 그리고 30분 타이머를 맞추고 spring에 해당 hash로 invalidate를 보낸다. (req를 보내야함... 이미 리턴했기 때문.) -> 때문에 session controller 가 필요하다.
+5-2 invalidate를 받으면 spring은 map.get(hash) = null로 만든다.
+6. spring은 MAP<hash, List[hash(user-agent],username....>을 만든다.
+7. spring은 클라이언트에게 hash를 보내고 쿠키로 만든다. {"user_id_token" : hash}
+
+--------- 해결 해야할 부분 -----------
+1. 마지막 요청의 30분 후에 hash를 지워야함. -> 로그인으로부터 30분 후에 지울 수는 없으니까.
+2. map에 timestamp를 넣어두고 node에 30분 요청을 보냄.
+3. node가 invadlidate를 보냈는데 map에 있는 timestamp으로부터 30분이 지나지 않았다면 invalidate하지 않는다.
+4. 30분이 지났다면 map[hash] = null을 실행한다.
+
+---- session check 전략 ----
+
+1. 클라이언트는 "user_id_token"을 쿠키에 담아서 서버에 보낸다.
+2. 서버는 interceptor에서 쿠키의 user_id_token이 session 맵에 있는지 검사한다.
+3. 있으면 ok.  없다면... 전략이 필요하겠지?

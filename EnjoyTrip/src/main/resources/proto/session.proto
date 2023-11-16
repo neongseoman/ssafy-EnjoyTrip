@@ -1,0 +1,18 @@
+syntax = "proto3";
+package session;
+
+service createUUID{
+
+}
+
+service invalidate{
+
+}
+
+message UUIDrequest{
+
+}
+
+message sessionInvalidate{
+
+}

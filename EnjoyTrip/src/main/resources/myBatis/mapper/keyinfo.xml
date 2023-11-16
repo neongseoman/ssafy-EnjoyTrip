@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoy.member.model.mapper.KeyInfoMapper">
+	<select id="readKeyInfo" parameterType="String" resultType="keyInfo">
+		select `hashed_id`, `salt`, `key`
+	 	from `key_info`
+	 	where `hashed_id`=#{hashed_id}
+	</select>
+	<insert id="createKeyInfo" parameterType="keyInfo">
+		insert into `key_info`(`hashed_id`, `key`, `salt`)
+		values(#{hashed_id}, #{key}, #{salt})
+	</insert>
+</mapper>
