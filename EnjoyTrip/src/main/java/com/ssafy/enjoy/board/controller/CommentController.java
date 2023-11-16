@@ -68,7 +68,6 @@ public class CommentController {
 	@PostMapping("/delete")
 	public Map<String, String> delete(@RequestBody Comment comment){
 		Map<String, String> result = new HashMap<String, String>();
-		System.out.println(result);
 		try {
 			commentService.deleteComment(comment);
 			result.put("msg", "OK");
