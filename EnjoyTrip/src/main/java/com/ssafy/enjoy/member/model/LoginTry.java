@@ -4,10 +4,10 @@ import java.sql.Time;
 import java.util.Date;
 
 public class LoginTry {
-	private String user_id;
-	private String client_ip;
-	private Date last_try_date;
-	private Time last_try_time;
+	private String userId;
+	private String clientIp;
+	private Date lastTryDate;
+	private Time lastTryTime;
 	private int retry;
 	
 	
@@ -17,33 +17,29 @@ public class LoginTry {
 	public void setRetry(int retry) {
 		this.retry = retry;
 	}
-	@Override
-	public String toString() {
-		return "LoginTry [user_id=" + user_id + ", client_ip=" + client_ip + ", last_try_date=" + last_try_date
-				+ ", last_try_time=" + last_try_time + ", retry=" + retry + "]";
+	public String getUserId() {
+		return userId;
 	}
-	public Date getLast_try_date() {
-		return last_try_date;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public void setLast_try_date(Date last_try_date) {
-		this.last_try_date = last_try_date;
+	public String getClientIp() {
+		return clientIp;
 	}
-	public Time getLast_try_time() {
-		return last_try_time;
+	public void setClientIp(String clientIp) {
+		this.clientIp = clientIp;
 	}
-	public void setLast_try_time(Time last_try_time) {
-		this.last_try_time = last_try_time;
+	public Date getLastTryDate() {
+		return lastTryDate;
 	}
-	public String getUser_id() {
-		return user_id;
+	public void setLastTryDate(Date lastTryDate) {
+		this.lastTryDate = lastTryDate;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public Time getLastTryTime() {
+		return lastTryTime;
 	}
-	public String getClient_ip() {
-		return client_ip;
+	public void setLastTryTime(Time lastTryTime) {
+		this.lastTryTime = lastTryTime;
 	}
-	public void setClient_ip(String client_ip) {
-		this.client_ip = client_ip;
-	}
+	
 }

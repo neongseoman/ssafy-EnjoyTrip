@@ -3,53 +3,60 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.board.model.mapper.BoardMapper">
-<resultMap type="com.ssafy.enjoy.board.model.Board" id="boardDto"></resultMap>
+<resultMap type="com.ssafy.enjoy.board.model.Board" id="boardDto">
+	<result column="user_id" property="userId" />
+	<result column='article_no' property="articleNo"/>
+	<result column="subject" property="subject"/>
+	<result column="content" property="content"/>
+	<result column="hit" property="hit"/>
+	<result column="register_time" property="registerTime"/>												
+</resultMap>
 
 	<select id="readBoard" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		order by
-		article_no desc
+		`article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithSubject" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where subject like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithContent" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where content like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<select id="readBoardWithUserId" parameterType="page" resultMap="boardDto">
 		select *
 		from board
 		where `user_id` like #{word}
-		order by article_no desc
+		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
 	<insert id="createBoard" parameterType="board">
 		insert into board( `user_id`, `subject`, `content`)
-		values(#{user_id}, #{subject}, #{content})
+		values(#{userId}, #{subject}, #{content})
 	</insert>
-	<select id="readBoardDetail" parameterType="board" resultType="board">
+	<select id="readBoardDetail" parameterType="board" resultMap="boardDto">
 		select *
 		from board
-		where `article_no`=#{article_no}
+		where `article_no`=#{articleNo}
 	</select>
 	<update id="updateBoard" parameterType="board">
 		update board
 		set `subject`=#{subject}, `content`=#{content}
-		where `article_no`=#{article_no} and `user_id`=#{user_id}
+		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</update>
 	<delete id="deleteMapper">
 		delete from board
-		where `article_no`=#{article_no} and `user_id`=#{user_id}
+		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</delete>
 	<select id="countBoard" resultType="Integer">
 		select count(*)
@@ -73,6 +80,6 @@
 	<update id="updateHit">
 		update board
 		set `hit`=`hit`+1
-		where `article_no`=#{article_no}
+		where `article_no`=#{articleNo}
 	</update>
 </mapper>

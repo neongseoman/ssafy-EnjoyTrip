@@ -3,14 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.todo.model.mapper.TodoMapper">
-	<resultMap type="com.ssafy.enjoy.todo.model.Schedule" id="scheduleDto"></resultMap>
+	<resultMap type="com.ssafy.enjoy.todo.model.Schedule" id="scheduleDto">
+		<result column="user_id" property="userId"/>
+		<result column="date" property="date"/>
+		<result column="time" property="time"/>
+		<result column="title" property="title"/>
+		<result column="completed" property="completed"/>
+	</resultMap>
 	<select id="readTodos" parameterType="schedule" resultMap="scheduleDto">
-		select * from `schedule` where user_id=#{user_id}
+		select * from `schedule` where user_id=#{userId}
 	</select>
 	<insert id="createTodo" parameterType="schedule">
 		insert into `schedule`(`user_id`, `title`, `time`, `date`, `completed`) 
-		values(#{user_id}, #{title}, #{time}, #{date}, #{completed})
+		values(#{userId}, #{title}, #{time}, #{date}, #{completed})
 		ON DUPLICATE KEY UPDATE  
 		`title`=#{title}, `completed`=#{completed}
 	</insert>
+	<delete id="deleteTodo">
+		delete from `schedule`
+		where `user_id`=#{userId} and `time`=#{time} and `date`=#{date}
+	</delete>
 </mapper>

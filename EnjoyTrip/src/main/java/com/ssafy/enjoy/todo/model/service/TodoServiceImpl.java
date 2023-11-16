@@ -37,4 +37,14 @@ public class TodoServiceImpl implements TodoService {
 		}
 	}
 
+	@Override
+	public void deleteTodo(Schedule schedule) throws Exception {
+		try {
+			todoMapper.deleteTodo(schedule);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("삭제 실패");
+		}
+	}
+
 }

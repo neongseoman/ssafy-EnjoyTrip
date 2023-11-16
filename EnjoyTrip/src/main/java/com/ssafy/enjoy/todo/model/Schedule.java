@@ -1,20 +1,16 @@
 package com.ssafy.enjoy.todo.model;
 
 public class Schedule {
-	private String title, time, date, user_id;
+	private String title, time, date, userId;
 	private boolean completed;
 
-	public String getUser_id() {
-		return user_id;
+
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-
-	@Override
-	public String toString() {
-		return "Schedule [user_id="+user_id+"title=" + title + ", time=" + time + ", date=" + date + "]";
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getTitle() {

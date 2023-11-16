@@ -1,18 +1,15 @@
 package com.ssafy.enjoy.member.model;
 
 public class KeyInfo {
-	private String hashed_id;
+	private String hashedId;
 	private String salt;
 	private String key;
-	@Override
-	public String toString() {
-		return "KeyInfo [hashed_id=" + hashed_id + ", salt=" + salt + ", key=" + key + "]";
+	
+	public String getHashedId() {
+		return hashedId;
 	}
-	public String getHashed_id() {
-		return hashed_id;
-	}
-	public void setHashed_id(String hashed_id) {
-		this.hashed_id = hashed_id;
+	public void setHashedId(String hashedId) {
+		this.hashedId = hashedId;
 	}
 	public String getSalt() {
 		return salt;

@@ -42,8 +42,8 @@ public class MemberServiceImpl implements MemberService {
 			if (loginTry != null) {
 				Date today = new Date();
 				Time now = new Time(today.getHours(), today.getMinutes() - 30, today.getSeconds());
-				if (loginTry.getRetry() >= 5 && today == loginTry.getLast_try_date()
-						&& loginTry.getLast_try_time().after(now)) {
+				if (loginTry.getRetry() >= 5 && today == loginTry.getLastTryDate()
+						&& loginTry.getLastTryTime().after(now)) {
 					throw new Exception("login try limit 30min");
 				}
 			} else {
@@ -62,10 +62,10 @@ public class MemberServiceImpl implements MemberService {
 			String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
 			Member userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
 			if (userinfo == null) {
-				logintryMapper.updateLointryFail(loginTry.getClient_ip(), loginTry.getUser_id());
+				logintryMapper.updateLointryFail(loginTry.getClientIp(), loginTry.getUserId());
 				throw new Exception("wrong password");
 			}
-			logintryMapper.updateLogintrySuccess(loginTry.getClient_ip(), loginTry.getUser_id());
+			logintryMapper.updateLogintrySuccess(loginTry.getClientIp(), loginTry.getUserId());
 			return userinfo;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
 			byte[] hashed_id_byte= OpenCrypt.getSHA256(idInfo.getId(), idInfo.getSalt());
 			String hashed_id = OpenCrypt.byteArrayToHex(hashed_id_byte);
 			KeyInfo keyInfo = new KeyInfo();
-			keyInfo.setHashed_id(hashed_id);
+			keyInfo.setHashedId(hashed_id);
 			byte[] key_byte = OpenCrypt.generateKey("AES", 128);
 			keyInfo.setKey(OpenCrypt.byteArrayToHex(key_byte));
 			keyInfo.setSalt(UUID.randomUUID().toString());

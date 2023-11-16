@@ -1,25 +1,13 @@
 package com.ssafy.enjoy.board.model;
 
 public class Board {
-	private int article_no;
-	private String user_id;
+	private int articleNo;
+	private String userId;
 	private String subject;
 	private String content;
 	private int hit;
-	private String register_time;
-	
-	public int getArticle_no() {
-		return article_no;
-	}
-	public void setArticle_no(int article_no) {
-		this.article_no = article_no;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
+	private String registerTime;
+
 	public String getSubject() {
 		return subject;
 	}
@@ -38,10 +26,22 @@ public class Board {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public String getRegister_time() {
-		return register_time;
+	public int getArticleNo() {
+		return articleNo;
 	}
-	public void setRegister_time(String register_time) {
-		this.register_time = register_time;
+	public void setArticleNo(int articleNo) {
+		this.articleNo = articleNo;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getRegisterTime() {
+		return registerTime;
+	}
+	public void setRegisterTime(String registerTime) {
+		this.registerTime = registerTime;
 	}
 }
