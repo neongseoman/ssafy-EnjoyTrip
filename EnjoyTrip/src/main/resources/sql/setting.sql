@@ -44,6 +44,7 @@ CREATE TABLE `comment` (
   `content` varchar(1000) NOT NULL,
   `user_name` varchar(20) NOT NULL,
   `article_no` int NOT NULL,
+  `user_id` varchar(16) not null,
   PRIMARY KEY (`idx`),
   KEY `article_no` (`article_no`),
   CONSTRAINT `comment_list_ibfk_1` FOREIGN KEY (`article_no`) REFERENCES `board` (`article_no`)

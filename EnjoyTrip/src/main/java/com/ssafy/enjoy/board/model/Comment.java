@@ -4,6 +4,7 @@ public class Comment {
 	private int idx;
 	private String content;
 	private String user_name;
+	private String usre_id;
 	private int article_no;
 	public int getIdx() {
 		return idx;
@@ -16,6 +17,12 @@ public class Comment {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getUsre_id() {
+		return usre_id;
+	}
+	public void setUsre_id(String usre_id) {
+		this.usre_id = usre_id;
 	}
 	public String getUser_name() {
 		return user_name;
