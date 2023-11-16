@@ -48,7 +48,7 @@ public class BoardController {
 	@PostMapping("/write")
 	public Map<String, Object> writeBoard(@RequestBody Board board) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		if (board.getUser_id() == null || board.getContent() == null || board.getSubject() == null||"".equals(board.getUser_id())||"".equals(board.getContent())||"".equals(board.getSubject())) {
+		if (board.getUserId() == null || board.getContent() == null || board.getSubject() == null||"".equals(board.getUserId())||"".equals(board.getContent())||"".equals(board.getSubject())) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글의 내용을 입력해 주세요");
 		} else {
@@ -70,7 +70,7 @@ public class BoardController {
 	public  Map<String, Object> getDetail(@RequestBody Board board){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(board);
-		if(board.getArticle_no() == 0) {
+		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 불러올 수 없습니다.");
 		}else {
@@ -91,7 +91,7 @@ public class BoardController {
 	@PostMapping("/modify")
 	public  Map<String, Object> modifyBoard(@RequestBody Board board){
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(board.getArticle_no() == 0) {
+		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 수정할 수 없습니다.");
 		}else {
@@ -111,7 +111,7 @@ public class BoardController {
 	@PostMapping("/delete")
 	public  Map<String, Object> deleteBoard(@RequestBody Board board){
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(board.getArticle_no() == 0) {
+		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 삭제할 수 없습니다.");
 		}else {

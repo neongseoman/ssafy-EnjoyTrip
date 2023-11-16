@@ -3,7 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.member.model.mapper.LogintryMapper">
-	<select id="readLoginTry" parameterType="String" resultType="loginTry">
+<resultMap type="com.ssafy.enjoy.member.model.LoginTry" id="loginTryDto">
+	<result column="user_id" property="userId"/>
+	<result column="client_ip" property="clientIp"/>
+	<result column="last_try_date" property="lastTryDate"/>
+	<result column="last_try_time" property="lastTryTime"/>
+	<result column="retry" property="retry"/>
+</resultMap>
+	<select id="readLoginTry" parameterType="String" resultMap="loginTryDto">
 		select `user_id`, `client_ip`, `last_try_date`, `last_try_time`, `retry`
 		from `login_try`
 		where `client_ip`= #{ip} and `user_id`=#{id}

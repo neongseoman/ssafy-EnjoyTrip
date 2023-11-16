@@ -26,7 +26,7 @@ public class CommentController {
 	@PostMapping("/list")
 	public Map<String, Object> getList(@RequestBody Board board) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		if (board.getArticle_no() == 0) {
+		if (board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "fail to load comment");
 		} else {
@@ -48,7 +48,7 @@ public class CommentController {
 	@PostMapping("/write")
 	public Map<String, Object> writeComment(@RequestBody Comment comment) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		if (comment.getArticle_no() == 0) {
+		if (comment.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "fail to load comment");
 		} else {

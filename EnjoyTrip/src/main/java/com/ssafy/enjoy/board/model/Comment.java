@@ -3,9 +3,9 @@ package com.ssafy.enjoy.board.model;
 public class Comment {
 	private int idx;
 	private String content;
-	private String user_name;
-	private String usre_id;
-	private int article_no;
+	private String userName;
+	private String usreId;
+	private int articleNo;
 	public int getIdx() {
 		return idx;
 	}
@@ -18,22 +18,22 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getUsre_id() {
-		return usre_id;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsre_id(String usre_id) {
-		this.usre_id = usre_id;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUsreId() {
+		return usreId;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUsreId(String usreId) {
+		this.usreId = usreId;
 	}
-	public int getArticle_no() {
-		return article_no;
+	public int getArticleNo() {
+		return articleNo;
 	}
-	public void setArticle_no(int article_no) {
-		this.article_no = article_no;
+	public void setArticleNo(int articleNo) {
+		this.articleNo = articleNo;
 	}
 }

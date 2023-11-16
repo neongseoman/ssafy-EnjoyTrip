@@ -3,7 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.board.model.mapper.CommentMapper">
-<resultMap type="com.ssafy.enjoy.board.model.Comment" id="commentDto"></resultMap>
+<resultMap type="com.ssafy.enjoy.board.model.Comment" id="commentDto">
+	<result column="idx" property="idx"/>
+	<result column="user_name" property="usreName"/>
+	<result column="user_id" property="usreId"/>
+	<result column="content" property="content"/>
+	<result column="article_no" property="articleNo"/>
+</resultMap>
 	<select id="readComment" parameterType="board" resultMap="commentDto">
 		select * 
 		from `comment`
