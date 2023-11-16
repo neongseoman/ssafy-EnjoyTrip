@@ -20,4 +20,8 @@
 		insert into `comment`(`article_no`, `user_name`, `content`, `user_id`)
 		values(#{articleNo}, #{userName}, #{content}, #{userId})
 	</insert>
+	<delete id="deleteComment" parameterType="comment">
+		delete from `comment`
+		where `user_id`=#{userId} and `idx`=#{idx}
+	</delete>
 </mapper>
