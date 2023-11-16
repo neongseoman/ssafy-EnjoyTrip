@@ -5,8 +5,8 @@
 <mapper namespace="com.ssafy.enjoy.board.model.mapper.CommentMapper">
 <resultMap type="com.ssafy.enjoy.board.model.Comment" id="commentDto">
 	<result column="idx" property="idx"/>
-	<result column="user_name" property="usreName"/>
-	<result column="user_id" property="usreId"/>
+	<result column="user_name" property="userName"/>
+	<result column="user_id" property="userId"/>
 	<result column="content" property="content"/>
 	<result column="article_no" property="articleNo"/>
 </resultMap>
@@ -17,7 +17,7 @@
 		order by `idx` desc
 	</select>
 	<insert id="createComment" parameterType="comment">
-		insert into `comment`(`article_no`, `user_name`, `content` `user_id`)
-		values(#{articleNo}, #{userName}, #{content} #{userId})
+		insert into `comment`(`article_no`, `user_name`, `content`, `user_id`)
+		values(#{articleNo}, #{userName}, #{content}, #{userId})
 	</insert>
 </mapper>

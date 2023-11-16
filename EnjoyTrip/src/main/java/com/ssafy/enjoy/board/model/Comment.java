@@ -4,7 +4,7 @@ public class Comment {
 	private int idx;
 	private String content;
 	private String userName;
-	private String usreId;
+	private String userId;
 	private int articleNo;
 	public int getIdx() {
 		return idx;
@@ -24,11 +24,12 @@ public class Comment {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getUsreId() {
-		return usreId;
+	
+	public String getUserId() {
+		return userId;
 	}
-	public void setUsreId(String usreId) {
-		this.usreId = usreId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public int getArticleNo() {
 		return articleNo;
