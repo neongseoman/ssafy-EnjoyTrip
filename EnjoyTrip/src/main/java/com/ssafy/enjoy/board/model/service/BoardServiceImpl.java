@@ -91,16 +91,17 @@ public class BoardServiceImpl implements BoardService {
 			if (page.getKey() != null) {
 				page.setWord("%" + page.getWord() + "%");
 				if (page.getKey().equals("subject")) {
-					return boardMapper.countBoardWithSubject(page) / SizeConstant.LIST_SIZE;
+					int pages = boardMapper.countBoardWithSubject(page);
+					return  pages/ SizeConstant.LIST_SIZE+1;
 				} else if (page.getKey().equals("content")) {
-					return boardMapper.countBoardWithContent(page) / SizeConstant.LIST_SIZE;
+					return boardMapper.countBoardWithContent(page) / SizeConstant.LIST_SIZE+1;
 				} else if (page.getKey().equals("user_id")) {
-					return boardMapper.countBoardWithUserId(page) / SizeConstant.LIST_SIZE;
+					return boardMapper.countBoardWithUserId(page) / SizeConstant.LIST_SIZE+1;
 				} else {
 					throw new Exception("worng key");
 				}
 			} else {
-				return boardMapper.countBoard() / SizeConstant.LIST_SIZE;
+				return boardMapper.countBoard() / SizeConstant.LIST_SIZE+1;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

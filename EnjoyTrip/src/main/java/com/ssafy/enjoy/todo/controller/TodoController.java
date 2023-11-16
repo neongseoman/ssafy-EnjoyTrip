@@ -43,7 +43,7 @@ public class TodoController {
 		List<Schedule> todo_list = new ArrayList<Schedule>();
 		for(Map todo : todos) {
 			Schedule temp = new Schedule();
-			temp.setUser_id((String)todo.get("user_id"));
+			temp.setUserId((String)todo.get("user_id"));
 			temp.setDate((String)todo.get("date"));
 			temp.setTime((String)todo.get("time"));
 			temp.setTitle((String)todo.get("title"));
@@ -59,6 +59,19 @@ public class TodoController {
 			e.printStackTrace();
 			result.put("msg", "NO");
 			result.put("detail", "할일 목록을 업로드한느데 실패 했습니다.");
+		}
+		return result;
+	}
+	@PostMapping("/delete")
+	public Map<String, String> delete(@RequestBody Schedule schedule){
+		Map<String, String> result = new HashMap<String, String>();
+		try {
+			todoService.deleteTodo(schedule);
+			result.put("msg", "OK");
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("msg", "NO");
+			result.put("detail", "할일 항목을 삭제하는데 실패했습니다.");
 		}
 		return result;
 	}

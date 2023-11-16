@@ -10,4 +10,6 @@ public interface TodoService {
 
 	void putList(List<Schedule> todos) throws Exception;
 
+	void deleteTodo(Schedule schedule) throws Exception;
+
 }
