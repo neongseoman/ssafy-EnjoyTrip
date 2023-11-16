@@ -7,7 +7,7 @@ public class LoginTry {
 	private String userId;
 	private String clientIp;
 	private Date lastTryDate;
-	private Time lastTryIime;
+	private Time lastTryTime;
 	private int retry;
 	
 	
@@ -35,11 +35,11 @@ public class LoginTry {
 	public void setLastTryDate(Date lastTryDate) {
 		this.lastTryDate = lastTryDate;
 	}
-	public Time getLastTryIime() {
-		return lastTryIime;
+	public Time getLastTryTime() {
+		return lastTryTime;
 	}
-	public void setLastTryIime(Time lastTryIime) {
-		this.lastTryIime = lastTryIime;
+	public void setLastTryTime(Time lastTryTime) {
+		this.lastTryTime = lastTryTime;
 	}
 	
 }

@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 				Date today = new Date();
 				Time now = new Time(today.getHours(), today.getMinutes() - 30, today.getSeconds());
 				if (loginTry.getRetry() >= 5 && today == loginTry.getLastTryDate()
-						&& loginTry.getLastTryIime().after(now)) {
+						&& loginTry.getLastTryTime().after(now)) {
 					throw new Exception("login try limit 30min");
 				}
 			} else {
