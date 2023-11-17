@@ -12,13 +12,11 @@ import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Configuration
 public class S3ClientConfig {
 
-    @Autowired
-    Environment environment;
+
     @Value("${aws.s3.access-key}")
     private String accessKey;
     @Value("${aws.s3.secret-key}")
