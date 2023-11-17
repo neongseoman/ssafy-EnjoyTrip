@@ -75,7 +75,6 @@ public class MapController {
 	}
 	@PostMapping("/detail")
 	public Map<String, Object> detail(@RequestBody MyMap map){
-		System.out.println(map.getContent_id());
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			MapDesc desc = descService.getDetail(map.getContent_id());

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.enjoy.board.model.Board;
 import com.ssafy.enjoy.board.model.Page;
+import com.ssafy.enjoy.board.model.Position;
 import com.ssafy.enjoy.board.model.mapper.BoardMapper;
+import com.ssafy.enjoy.board.model.mapper.PositionMapper;
 import com.ssafy.util.SizeConstant;
 
 @Service
@@ -16,6 +18,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardMapper boardMapper;
+	@Autowired
+	PositionMapper positionMapper;
 
 	@Override
 	public List<Board> getList(Page page) throws Exception {
@@ -45,9 +49,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeBoard(Board board) throws Exception {
+	public void writeBoard(Board board, List<Position> positions) throws Exception {
 		try {
 			boardMapper.createBoard(board);
+			int articleNo = boardMapper.readBoardNo(board);
+			for(int i=0;i<positions.size();i++) {
+				positions.get(i).setArticleNo(articleNo);
+				positionMapper.createPosition(positions.get(i));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");

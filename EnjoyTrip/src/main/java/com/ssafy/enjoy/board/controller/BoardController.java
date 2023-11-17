@@ -1,5 +1,6 @@
 package com.ssafy.enjoy.board.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoy.board.model.Board;
 import com.ssafy.enjoy.board.model.Page;
+import com.ssafy.enjoy.board.model.Position;
 import com.ssafy.enjoy.board.model.service.BoardService;
 
 @RestController
@@ -46,15 +48,28 @@ public class BoardController {
 	}
 
 	@PostMapping("/write")
-	public Map<String, Object> writeBoard(@RequestBody Board board) {
+	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map) {
+		Map boardMap = (Map) map.get("board");
+		Board board = new Board();
+		board.setContent((String)boardMap.get("content"));
+		board.setSubject((String)boardMap.get("subject"));
+		board.setUserId((String)boardMap.get("userId"));
+		List positionList = (List) map.get("positions");
+		List<Position> positions = new ArrayList<Position>();
+		for(int i=0;i<positionList.size();i++) {
+			Map positionMap = (Map)positionList.get(i);
+			Position pos = new Position();
+			pos.setLatitude((double)positionMap.get("latitude"));
+			pos.setLongitude((double)positionMap.get("longitude"));
+			positions.add(pos);
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (board.getUserId() == null || board.getContent() == null || board.getSubject() == null||"".equals(board.getUserId())||"".equals(board.getContent())||"".equals(board.getSubject())) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글의 내용을 입력해 주세요");
 		} else {
 			try {
-				boardService.writeBoard(board);
-				Page page = new Page();
+				boardService.writeBoard(board, positions);
 				result.put("msg", "OK");
 				result.put("detail", "Success to write board");
 			} catch (Exception e) {

@@ -37,4 +37,6 @@ public interface BoardMapper {
 
 	void updateHit(Board board) throws SQLException;
 
+	int readBoardNo(Board board) throws SQLException;
+
 }

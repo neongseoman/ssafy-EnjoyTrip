@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.ssafy.enjoy.board.model.Board;
 import com.ssafy.enjoy.board.model.Page;
+import com.ssafy.enjoy.board.model.Position;
 
 public interface BoardService {
 
 	List<Board> getList(Page page) throws Exception;
 
-	void writeBoard(Board board) throws Exception;
+	void writeBoard(Board board, List<Position> positions) throws Exception;
 
 	Board getDetail(Board board) throws Exception;
 

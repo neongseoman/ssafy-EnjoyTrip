@@ -82,4 +82,11 @@
 		set `hit`=`hit`+1
 		where `article_no`=#{articleNo}
 	</update>
+	<select id="readBoardNo" parameterType="board" resultType="Integer">
+		select `article_no`
+		from board
+		where `user_id`=#{userId} and `subject`=#{subject} and content=#{content}
+		order by `article_no` desc
+		limit 1
+	</select>
 </mapper>
