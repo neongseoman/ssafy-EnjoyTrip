@@ -20,4 +20,6 @@ public interface BoardService {
 
 	int getPageNum(Page page) throws Exception ;
 
+	List<Position> getPositions(Board board) throws Exception;
+
 }

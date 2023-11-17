@@ -54,7 +54,7 @@
 		set `subject`=#{subject}, `content`=#{content}
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</update>
-	<delete id="deleteMapper">
+	<delete id="deleteBoard">
 		delete from board
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</delete>

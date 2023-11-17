@@ -90,10 +90,12 @@ public class BoardController {
 			result.put("detail", "게시글을 불러올 수 없습니다.");
 		}else {
 			try {
+				List<Position> positions = boardService.getPositions(board);
 				board = boardService.getDetail(board);
 				result.put("msg", "OK");
 				result.put("detail", "Success to write board detail");
 				result.put("board", board);
+				result.put("positions", positions);
 			}catch(Exception e) {
 				e.printStackTrace();
 				result.put("msg", "NO");

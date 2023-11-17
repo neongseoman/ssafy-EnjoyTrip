@@ -87,7 +87,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteBoard(Board board) throws Exception {
 		try {
-			boardMapper.deleteMapper(board);
+			positionMapper.deletePositions(board.getArticleNo());
+			boardMapper.deleteBoard(board);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
@@ -113,6 +114,16 @@ public class BoardServiceImpl implements BoardService {
 				return boardMapper.countBoard() / SizeConstant.LIST_SIZE+1;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
+	}
+
+	@Override
+	public List<Position> getPositions(Board board) throws Exception {
+		try {
+			return positionMapper.readPositions(board.getArticleNo());
+		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}

@@ -7,4 +7,13 @@
 		insert into `position`(`articleNo`, `latitude`, `longitude`)
 		values (#{articleNo}, #{latitude}, #{longitude})
 	</insert>
+	<select id="readPositions" parameterType="Integer" resultType="position">
+		select * 
+		from `position`
+		where `articleNo`=#{articleNo}
+	</select>
+	<delete id="deletePositions" parameterType="Integer">
+		delete from `position`
+		where articleNo=#{articleNo}
+	</delete>
 </mapper>

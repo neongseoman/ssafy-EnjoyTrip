@@ -25,7 +25,7 @@ public interface BoardMapper {
 
 	void updateBoard(Board board) throws SQLException;
 
-	void deleteMapper(Board board) throws SQLException;
+	void deleteBoard(Board board) throws SQLException;
 
 	int countBoard() throws SQLException;
 
