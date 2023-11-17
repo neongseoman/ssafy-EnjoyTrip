@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.enjoy.board.model.Board;
 import com.ssafy.enjoy.board.model.Page;
+import com.ssafy.enjoy.board.model.Position;
 import com.ssafy.enjoy.board.model.mapper.BoardMapper;
+import com.ssafy.enjoy.board.model.mapper.PositionMapper;
 import com.ssafy.util.SizeConstant;
 
 @Service
@@ -16,6 +18,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardMapper boardMapper;
+	@Autowired
+	PositionMapper positionMapper;
 
 	@Override
 	public List<Board> getList(Page page) throws Exception {
@@ -45,9 +49,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeBoard(Board board) throws Exception {
+	public void writeBoard(Board board, List<Position> positions) throws Exception {
 		try {
 			boardMapper.createBoard(board);
+			int articleNo = boardMapper.readBoardNo(board);
+			for(int i=0;i<positions.size();i++) {
+				positions.get(i).setArticleNo(articleNo);
+				positionMapper.createPosition(positions.get(i));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
@@ -78,7 +87,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteBoard(Board board) throws Exception {
 		try {
-			boardMapper.deleteMapper(board);
+			positionMapper.deletePositions(board.getArticleNo());
+			boardMapper.deleteBoard(board);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
@@ -104,6 +114,16 @@ public class BoardServiceImpl implements BoardService {
 				return boardMapper.countBoard() / SizeConstant.LIST_SIZE+1;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
+	}
+
+	@Override
+	public List<Position> getPositions(Board board) throws Exception {
+		try {
+			return positionMapper.readPositions(board.getArticleNo());
+		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}

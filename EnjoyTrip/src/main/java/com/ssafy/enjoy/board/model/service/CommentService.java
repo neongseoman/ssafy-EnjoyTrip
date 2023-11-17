@@ -11,4 +11,6 @@ public interface CommentService {
 
 	void writeComment(Comment comment) throws Exception;
 
+	void deleteComment(Comment comment) throws Exception;
+
 }

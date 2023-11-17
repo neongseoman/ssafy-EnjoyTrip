@@ -14,5 +14,6 @@ public interface CommentMapper {
 	List<Comment> readComment(Board board) throws SQLException;
 
 	void createComment(Comment comment) throws SQLException;
-
+	
+	void deleteComment(Comment comment) throws SQLException;
 }

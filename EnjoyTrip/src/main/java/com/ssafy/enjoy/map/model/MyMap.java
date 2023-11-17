@@ -6,6 +6,7 @@ public class MyMap {
 	private int gugun_code;
 	private String gugun_name;
 	private int content_type_id;
+	private int content_id;
 	private String title;
 	private String first_image;
 	private String addr1;
@@ -35,10 +36,10 @@ public class MyMap {
 	}
 	@Override
 	public String toString() {
-		return "Map [sido_code=" + sido_code + ", sido_name=" + sido_name + ", gugun_code=" + gugun_code
-				+ ", gugun_name=" + gugun_name + ", content_type_id=" + content_type_id + ", title=" + title
-				+ ", first_image=" + first_image + ", addr1=" + addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode
-				+ ", tel=" + tel + "]";
+		return "MyMap [sido_code=" + sido_code + ", sido_name=" + sido_name + ", gugun_code=" + gugun_code
+				+ ", gugun_name=" + gugun_name + ", content_type_id=" + content_type_id + ", content_id=" + content_id
+				+ ", title=" + title + ", first_image=" + first_image + ", addr1=" + addr1 + ", addr2=" + addr2
+				+ ", zipcode=" + zipcode + ", latitude=" + latitude + ", longitude=" + longitude + ", tel=" + tel + "]";
 	}
 	public int getSido_code() {
 		return sido_code;
@@ -99,5 +100,11 @@ public class MyMap {
 	}
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
+	}
+	public int getContent_id() {
+		return content_id;
+	}
+	public void setContent_id(int content_id) {
+		this.content_id = content_id;
 	}
 }

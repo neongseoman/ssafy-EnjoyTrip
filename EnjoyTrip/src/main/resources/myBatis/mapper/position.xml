@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoy.board.model.mapper.PositionMapper">
+	<insert id="createPosition" parameterType="position">
+		insert into `position`(`articleNo`, `latitude`, `longitude`)
+		values (#{articleNo}, #{latitude}, #{longitude})
+	</insert>
+	<select id="readPositions" parameterType="Integer" resultType="position">
+		select * 
+		from `position`
+		where `articleNo`=#{articleNo}
+	</select>
+	<delete id="deletePositions" parameterType="Integer">
+		delete from `position`
+		where articleNo=#{articleNo}
+	</delete>
+</mapper>

@@ -36,4 +36,14 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
+	@Override
+	public void deleteComment(Comment comment) throws Exception {
+		try {
+			commentMapper.deleteComment(comment);
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
+	}
+
 }
