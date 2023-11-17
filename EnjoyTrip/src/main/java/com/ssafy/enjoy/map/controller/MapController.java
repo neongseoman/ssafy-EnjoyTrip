@@ -75,11 +75,13 @@ public class MapController {
 	}
 	@PostMapping("/detail")
 	public Map<String, Object> detail(@RequestBody MyMap map){
+		System.out.println(map.getContent_id());
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			MapDesc desc = descService.getDetail(map);
+			MapDesc desc = descService.getDetail(map.getContent_id());
 			result.put("msg", "OK");
 			result.put("detail", "loaded info");
+			result.put("desc", desc);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
