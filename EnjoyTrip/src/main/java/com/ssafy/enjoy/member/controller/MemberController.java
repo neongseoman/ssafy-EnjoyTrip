@@ -64,15 +64,17 @@ public class MemberController {
     }
 
     @PostMapping("/idCheck")
-    public Map<String, String> idCheck(@RequestBody String id) {
+    public Map<String, String> idCheck(@RequestBody Map<String,String> id) {
+        System.out.println("call idcheck");
+        System.out.println(id.get("id"));
         Map<String, String> result = new HashMap<String, String>();
-        if (id == null) {
+        if (id.get("id") == null) {
             result.put("msg", "NO");
             result.put("detail", "no id");
             return result;
         }
         try {
-            if (memberService.idCheck(id) == 0) {
+            if (memberService.idCheck(id.get("id")) == 0) {
                 result.put("msg", "OK");
                 result.put("detail", "사용가능한 id");
             } else {

@@ -19,6 +19,7 @@ import com.ssafy.enjoy.member.model.mapper.KeyInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.LogintryMapper;
 import com.ssafy.enjoy.member.model.mapper.MemberMapper;
 import com.ssafy.util.OpenCrypt;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -90,8 +91,8 @@ public class MemberServiceImpl implements MemberService {
 		if (userinfo == null){
 //			throw new Exception("")
 		}
-		boolean is_login = memberMapper.isLogin(member.getUserId());
-		if (is_login) {
+		int is_login = memberMapper.isLogin(member.getUserId());
+		if (is_login == 1) {
 			throw new Exception("이미 로그인 했는데?");
 		}
 		return userinfo;
@@ -100,13 +101,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int idCheck(String id) throws Exception {
 		try {
-			return memberMapper.idCheck(id);
+			System.out.println(id);
+			int ids = memberMapper.idCheck(id);
+			System.out.println(ids);
+			return ids;
 		} catch (SQLException e) {
+//			return 0;
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}
 	}
 
+	@Transactional
 	@Override
 	public void joinMember(Member member) throws Exception {
 		try {
