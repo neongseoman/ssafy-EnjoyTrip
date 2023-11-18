@@ -21,6 +21,11 @@
 		values(#{userId}, #{userPassword}, #{userName}, #{emailId}, #{emailDomain})
 	</insert>
 
+	<insert id="addLoginCheck" parameterType="String">
+		insert into login_check(`userId`, false)
+		values(#{userId})
+	</insert>
+
 	<update id="updateMember" parameterType="modifyMember">
 		update members
 		set `userPassword`=#{newPassword}, `userName`=#{userName}, `emailId`=#{emailId}, `emailDomain`=#{emailDomain}
@@ -32,6 +37,17 @@
 		from members
 		where userId = #{userId} and userName = #{userName}
 	</select>
+
+	<select id="isLogin" parameterType="String" resultType="Boolean">
+		select is_login
+		from login_check
+		where user_id = #{userId}
+	</select>
+
+	<insert id="addLoginCheck" parameterType="String">
+		insert into is_login (user_id, is_login)
+		values (#{userId}, 0)
+	</insert>
 
 	<insert id="saveToken" parameterType="member" >
 		insert into

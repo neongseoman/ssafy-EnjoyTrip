@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+// 노드로부터 오는 http를 받기 위한 컨트롤러.
 @RestController
 @RequestMapping("session")
 public class sessionController {

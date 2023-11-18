@@ -77,6 +77,27 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member sessionLogin(Member member) throws Exception {
+		// 로그인 시도했는데 id가 없다고 유저가 없다고 알려주는 것은 적절하지 않은 것 같음.
+		// 그냥 실패하면 아이디나 패스워드 둘 중 하나 틀렸다고 하는게 맞는 것 같음.
+		IdInfo idInfo = idInfoMapper.readIdInfo(member.getUserId());
+		String hashed_id = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(member.getUserId(), idInfo.getSalt()));
+		KeyInfo keyInfo = keyInfoMapper.readKeyInfo(hashed_id);
+		byte[] key = OpenCrypt.hexToByteArray(keyInfo.getKey());
+		String cUserPwd = OpenCrypt.aesEncrypt(member.getUserPassword(), key);
+		String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
+		Member userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
+		if (userinfo == null){
+//			throw new Exception("")
+		}
+		boolean is_login = memberMapper.isLogin(member.getUserId());
+		if (is_login) {
+			throw new Exception("이미 로그인 했는데?");
+		}
+		return userinfo;
+	}
+
+	@Override
 	public int idCheck(String id) throws Exception {
 		try {
 			return memberMapper.idCheck(id);
@@ -106,6 +127,7 @@ public class MemberServiceImpl implements MemberService {
 			byte[] key_hashed_byte = OpenCrypt.getSHA256(key_crypt, keyInfo.getSalt());
 			member.setUserPassword(OpenCrypt.byteArrayToHex(key_hashed_byte));
 			memberMapper.createMember(member);
+			memberMapper.addLoginCheck(member.getUserId());
 			idInfoMapper.createIdInfo(idInfo);
 			keyInfoMapper.createKeyInfo(keyInfo);
 		} catch (NoSuchAlgorithmException e) {

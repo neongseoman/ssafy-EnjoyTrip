@@ -22,4 +22,7 @@ public interface MemberMapper {
 
 	public void saveToken(Member m);
 
+	boolean isLogin(String userId);
+	void addLoginCheck(String userId);
+
 }
