@@ -67,6 +67,7 @@ public class MemberServiceImpl implements MemberService {
 				throw new Exception("wrong password");
 			}
 			logintryMapper.updateLogintrySuccess(loginTry.getClientIp(), loginTry.getUserId());
+			System.out.println(userinfo);
 			return userinfo;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -165,6 +166,16 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}
+	}
+
+	@Override
+	public int isLogin(String id) throws Exception {
+		return memberMapper.isLogin(id);
+	}
+
+	@Override
+	public void updateLoginCondition(String userId) throws Exception {
+		memberMapper.updateLoginCondition(userId);
 	}
 
 }

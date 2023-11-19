@@ -33,6 +33,17 @@
 		where userId = #{userId} and userName = #{userName}
 	</select>
 
+	<update id="updateLoginCondition" parameterType="String">
+		UPDATE login_check
+		set is_login =
+		<choose>
+			<when test="is_login == '1'"> 0</when>
+			<otherwise> 1</otherwise>
+		</choose>
+		WHERE
+		user_id = #{userId}
+	</update>
+
 	<select id="isLogin" parameterType="String" resultType="int">
 		select is_login
 		from login_check

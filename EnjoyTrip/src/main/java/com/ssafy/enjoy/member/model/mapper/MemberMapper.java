@@ -24,5 +24,6 @@ public interface MemberMapper {
 
 	int isLogin(String userId);
 	void addLoginCheck(String userId);
+	void updateLoginCondition(String userId);
 
 }

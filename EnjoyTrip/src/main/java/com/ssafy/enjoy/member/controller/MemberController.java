@@ -53,9 +53,20 @@ public class MemberController {
         if (member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
             result.put("detail", "no id or no pw");
+            return result;
         } else {
             try {
                 Member userinfo = memberService.loginMember(member, ip);
+                if (memberService.isLogin(userinfo.getUserId()) == 1){
+                    result.put("msg", "NO");
+                    result.put("detail","이미 로그인된 사용자");
+                    return result;
+                }
+                memberService.updateLoginCondition(userinfo.getUserId());
+                result.put("msg","OK");
+                result.put("detail", "login success");
+                result.put("name",userinfo.getUserName());
+                result.put("id",userinfo.getUserId());
             } catch (Exception e) {
                 e.printStackTrace();
             }

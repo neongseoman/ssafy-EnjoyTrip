@@ -13,5 +13,6 @@ public interface MemberService {
 	void joinMember(Member member) throws Exception;
 
 	void updateMember(ModifyMember member) throws Exception;
-
+	int isLogin(String id) throws  Exception;
+	void updateLoginCondition(String id) throws Exception;
 }
