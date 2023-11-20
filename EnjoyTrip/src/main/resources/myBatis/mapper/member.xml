@@ -33,6 +33,23 @@
 		where userId = #{userId} and userName = #{userName}
 	</select>
 
+	<update id="updateLoginCondition" parameterType="String">
+		UPDATE login_check
+		set is_login = case when is_login = 0 then 1 else 0 end
+		where user_id = #{userId}
+	</update>
+
+	<select id="isLogin" parameterType="String" resultType="int">
+		select is_login
+		from login_check
+		where user_id = #{userId}
+	</select>
+
+	<insert id="addLoginCheck" parameterType="String">
+		insert into login_check (`user_id`, `is_login`)
+		values (#{userId}, 0)
+	</insert>
+
 	<insert id="saveToken" parameterType="member" >
 		insert into
 		member_login (user_id, salt, access_token, refresh_token)
@@ -40,4 +57,12 @@
 		on duplicate key
 		update salt=#{salt},access_token=#{accessToken},refresh_token=#{refreshToken}
 	</insert>
+	<delete id="deleteMember" parameterType="String">
+		delete from members
+		where userId=#{userId}
+	</delete>
+	<delete id="deleteLoginCondition" parameterType="String">
+		delete from login_check
+		where `user_id`=#{userId}
+	</delete>
 </mapper>

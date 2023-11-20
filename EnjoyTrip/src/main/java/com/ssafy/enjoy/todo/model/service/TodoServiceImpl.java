@@ -26,8 +26,9 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public void putList(List<Schedule> todos) throws Exception {
+	public void putList(List<Schedule> todos, String userId) throws Exception {
 		try {
+			todoMapper.deleteTodo(userId);
 			for (int i = 0; i < todos.size(); i++) {
 				todoMapper.createTodo(todos.get(i));
 			}
@@ -37,14 +38,5 @@ public class TodoServiceImpl implements TodoService {
 		}
 	}
 
-	@Override
-	public void deleteTodo(Schedule schedule) throws Exception {
-		try {
-			todoMapper.deleteTodo(schedule);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("삭제 실패");
-		}
-	}
 
 }

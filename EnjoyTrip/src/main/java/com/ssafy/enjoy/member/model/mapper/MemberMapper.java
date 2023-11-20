@@ -22,4 +22,12 @@ public interface MemberMapper {
 
 	public void saveToken(Member m);
 
+	int isLogin(String userId);
+	void addLoginCheck(String userId);
+	void updateLoginCondition(String userId);
+
+	void deleteMember(String userId) throws SQLException;
+
+	void deleteLoginCondition(String userId) throws SQLException;
+
 }

@@ -13,4 +13,6 @@ public interface IdInfoMapper {
 
 	void createIdInfo(IdInfo idInfo) throws SQLException;
 
+	void deleteIdInfo(String userId) throws SQLException;
+
 }

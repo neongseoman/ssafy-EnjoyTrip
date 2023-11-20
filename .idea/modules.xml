@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/EnjoyTrip/EnjoyTrip.iml" filepath="$PROJECT_DIR$/EnjoyTrip/EnjoyTrip.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringBoot_EnjoyTrip-main.iml" filepath="$PROJECT_DIR$/.idea/SpringBoot_EnjoyTrip-main.iml" />
     </modules>
   </component>

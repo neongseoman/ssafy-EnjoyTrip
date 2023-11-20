@@ -8,8 +8,6 @@ public interface TodoService {
 
 	List<Schedule> getList(Schedule schedule) throws Exception;
 
-	void putList(List<Schedule> todos) throws Exception;
-
-	void deleteTodo(Schedule schedule) throws Exception;
+	void putList(List<Schedule> todos, String userId) throws Exception;
 
 }

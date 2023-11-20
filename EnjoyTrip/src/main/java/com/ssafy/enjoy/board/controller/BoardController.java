@@ -106,14 +106,29 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public  Map<String, Object> modifyBoard(@RequestBody Board board){
+	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map){
+		Map boardMap = (Map) map.get("board");
+		Board board = new Board();
+		board.setArticleNo((int)boardMap.get("articleNo"));
+		board.setContent((String)boardMap.get("content"));
+		board.setSubject((String)boardMap.get("subject"));
+		board.setUserId((String)boardMap.get("userId"));
+		List positionList = (List) map.get("positions");
+		List<Position> positions = new ArrayList<Position>();
+		for(int i=0;i<positionList.size();i++) {
+			Map positionMap = (Map)positionList.get(i);
+			Position pos = new Position();
+			pos.setLatitude((double)positionMap.get("latitude"));
+			pos.setLongitude((double)positionMap.get("longitude"));
+			positions.add(pos);
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 수정할 수 없습니다.");
 		}else {
 			try {
-				boardService.modifyBoard(board);
+				boardService.modifyBoard(board, positions);
 				result.put("msg", "OK");
 				result.put("detail", "Success to modify board detail");
 			}catch(Exception e) {

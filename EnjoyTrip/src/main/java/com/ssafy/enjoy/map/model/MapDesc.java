@@ -3,6 +3,7 @@ package com.ssafy.enjoy.map.model;
 public class MapDesc {
 	private int contentId;
 	private String homepage, overview, telname;
+	private String sessionId;
 	public int getContentId() {
 		return contentId;
 	}
@@ -26,5 +27,11 @@ public class MapDesc {
 	}
 	public void setTelname(String telname) {
 		this.telname = telname;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

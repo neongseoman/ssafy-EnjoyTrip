@@ -13,4 +13,6 @@ public interface KeyInfoMapper {
 
 	void createKeyInfo(KeyInfo keyInfo) throws SQLException;
 
+	void deleteKeyInfo(String hashedId) throws SQLException;
+
 }

@@ -6,6 +6,7 @@ public class Comment {
 	private String userName;
 	private String userId;
 	private int articleNo;
+	private String sessionId;
 	public int getIdx() {
 		return idx;
 	}
@@ -36,5 +37,11 @@ public class Comment {
 	}
 	public void setArticleNo(int articleNo) {
 		this.articleNo = articleNo;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

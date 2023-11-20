@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.enjoy.member.model.IdInfo;
 import com.ssafy.enjoy.member.model.KeyInfo;
@@ -66,6 +67,7 @@ public class MemberServiceImpl implements MemberService {
 				throw new Exception("wrong password");
 			}
 			logintryMapper.updateLogintrySuccess(loginTry.getClientIp(), loginTry.getUserId());
+//			System.out.println(userinfo);
 			return userinfo;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -77,15 +79,41 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member sessionLogin(Member member) throws Exception {
+		// 로그인 시도했는데 id가 없다고 유저가 없다고 알려주는 것은 적절하지 않은 것 같음.
+		// 그냥 실패하면 아이디나 패스워드 둘 중 하나 틀렸다고 하는게 맞는 것 같음.
+		IdInfo idInfo = idInfoMapper.readIdInfo(member.getUserId());
+		String hashed_id = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(member.getUserId(), idInfo.getSalt()));
+		KeyInfo keyInfo = keyInfoMapper.readKeyInfo(hashed_id);
+		byte[] key = OpenCrypt.hexToByteArray(keyInfo.getKey());
+		String cUserPwd = OpenCrypt.aesEncrypt(member.getUserPassword(), key);
+		String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
+		Member userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
+		if (userinfo == null){
+//			throw new Exception("")
+		}
+		int is_login = memberMapper.isLogin(member.getUserId());
+		if (is_login == 1) {
+			throw new Exception("이미 로그인 했는데?");
+		}
+		return userinfo;
+	}
+
+	@Override
 	public int idCheck(String id) throws Exception {
 		try {
-			return memberMapper.idCheck(id);
+//			System.out.println(id);
+			int ids = memberMapper.idCheck(id);
+//			System.out.println(ids);
+			return ids;
 		} catch (SQLException e) {
+//			return 0;
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}
 	}
 
+	@Transactional
 	@Override
 	public void joinMember(Member member) throws Exception {
 		try {
@@ -106,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
 			byte[] key_hashed_byte = OpenCrypt.getSHA256(key_crypt, keyInfo.getSalt());
 			member.setUserPassword(OpenCrypt.byteArrayToHex(key_hashed_byte));
 			memberMapper.createMember(member);
+			memberMapper.addLoginCheck(member.getUserId());
 			idInfoMapper.createIdInfo(idInfo);
 			keyInfoMapper.createKeyInfo(keyInfo);
 		} catch (NoSuchAlgorithmException e) {
@@ -134,6 +163,36 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
+	}
+
+	@Override
+	public int isLogin(String id) throws Exception {
+		return memberMapper.isLogin(id);
+	}
+
+	@Override
+	public void updateLoginCondition(String userId) throws Exception {
+		memberMapper.updateLoginCondition(userId);
+	}
+
+	public void logout(String id)  throws Exception{
+		memberMapper.updateLoginCondition(id);
+	}
+
+	@Override
+	public void deleteMember(Member member) throws Exception {
+		try {
+			memberMapper.deleteLoginCondition(member.getUserId());
+			memberMapper.deleteMember(member.getUserId());
+			IdInfo idinfo = idInfoMapper.readIdInfo(member.getUserId());
+			idInfoMapper.deleteIdInfo(member.getUserId());
+			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
+			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);
+			keyInfoMapper.deleteKeyInfo(hashedId);
+		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}

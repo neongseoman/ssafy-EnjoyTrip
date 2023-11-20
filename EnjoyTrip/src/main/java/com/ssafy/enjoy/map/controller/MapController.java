@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ public class MapController {
 	DescService descService;
 	
 	
-	@GetMapping("/sido")
+	@PostMapping("/sido")
 	public Map<String, Object> getSido(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -42,7 +41,7 @@ public class MapController {
 		return result;
 	}
 	
-	@GetMapping("/gugun")
+	@PostMapping("/gugun")
 	public Map<String, Object> getGugun(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {

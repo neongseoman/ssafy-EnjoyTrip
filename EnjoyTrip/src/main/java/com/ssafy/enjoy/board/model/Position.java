@@ -5,6 +5,7 @@ public class Position {
 	private double latitude;
 	private double longitude;
 	private int idx;
+	private String sessionId;
 	@Override
 	public String toString() {
 		return "Position [articleNo=" + articleNo + ", latitude=" + latitude + ", longitude=" + longitude + ", idx="
@@ -33,5 +34,11 @@ public class Position {
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

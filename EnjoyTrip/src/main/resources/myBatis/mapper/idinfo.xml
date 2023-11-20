@@ -12,4 +12,8 @@
 		insert into `id_info`(`id`, `salt`)
 		values (#{id}, #{salt})
 	</insert>
+	<delete id="deleteIdInfo" parameterType="String">
+		delete from `id_info`
+		where id=#{userId}
+	</delete>
 </mapper>

@@ -7,6 +7,7 @@ public class Board {
 	private String content;
 	private int hit;
 	private String registerTime;
+	private String sessionId;
 
 	public String getSubject() {
 		return subject;
@@ -43,5 +44,11 @@ public class Board {
 	}
 	public void setRegisterTime(String registerTime) {
 		this.registerTime = registerTime;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }
