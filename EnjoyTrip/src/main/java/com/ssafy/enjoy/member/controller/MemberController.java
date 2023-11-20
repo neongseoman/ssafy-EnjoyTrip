@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.ssafy.enjoy.session.SessionService;
-import com.ssafy.enjoy.session.model.SessionReqModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.enjoy.member.model.Member;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.service.MemberService;
+import com.ssafy.enjoy.session.SessionService;
+import com.ssafy.enjoy.session.model.SessionReqModel;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +30,7 @@ public class MemberController {
 
     @PostMapping("/session")
     public Map<java.lang.String, java.lang.String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
+    	
         Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         if (member == null || member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
@@ -55,6 +56,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public Map<String,String> login(@RequestBody Member member, HttpServletRequest request) {
+    	
         Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         java.lang.String ip = request.getRemoteAddr();
         if (member.getUserId() == null || member.getUserPassword() == null) {
@@ -81,6 +83,8 @@ public class MemberController {
                 result.put("id",userinfo.getUserId());
             } catch (Exception e) {
                 e.printStackTrace();
+                result.put("msg", "NO");
+                result.put("detail", e.getMessage());
             }
         }
         return result;
