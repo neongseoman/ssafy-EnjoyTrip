@@ -14,6 +14,6 @@ public interface TodoMapper {
 
 	void createTodo(Schedule schedule) throws SQLException;
 
-	void deleteTodo(Schedule schedule) throws SQLException;
+	void deleteTodo(String userId) throws SQLException;
 
 }

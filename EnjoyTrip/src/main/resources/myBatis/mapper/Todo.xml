@@ -19,8 +19,8 @@
 		ON DUPLICATE KEY UPDATE  
 		`title`=#{title}, `completed`=#{completed}
 	</insert>
-	<delete id="deleteTodo">
+	<delete id="deleteTodo" parameterType="String">
 		delete from `schedule`
-		where `user_id`=#{userId} and `time`=#{time} and `date`=#{date}
+		where `user_id`=#{userId}
 	</delete>
 </mapper>
