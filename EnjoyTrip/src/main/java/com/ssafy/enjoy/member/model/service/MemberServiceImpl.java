@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.enjoy.member.model.IdInfo;
 import com.ssafy.enjoy.member.model.KeyInfo;
@@ -19,7 +20,6 @@ import com.ssafy.enjoy.member.model.mapper.KeyInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.LogintryMapper;
 import com.ssafy.enjoy.member.model.mapper.MemberMapper;
 import com.ssafy.util.OpenCrypt;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -180,6 +180,22 @@ public class MemberServiceImpl implements MemberService {
 
 	public void logout(String id)  throws Exception{
 		memberMapper.updateLoginCondition(id);
+	}
+
+	@Override
+	public void deleteMember(Member member) throws Exception {
+		try {
+			memberMapper.deleteLoginCondition(member.getUserId());
+			memberMapper.deleteMember(member.getUserId());
+			IdInfo idinfo = idInfoMapper.readIdInfo(member.getUserId());
+			idInfoMapper.deleteIdInfo(member.getUserId());
+			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
+			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);
+			keyInfoMapper.deleteKeyInfo(hashedId);
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
 	}
 
 }

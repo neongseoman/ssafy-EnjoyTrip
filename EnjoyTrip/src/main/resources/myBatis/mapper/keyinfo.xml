@@ -22,4 +22,8 @@
 		values(#{hashedId}, #{key},
 		#{salt})
 	</insert>
+	<delete id="deleteKeyInfo" parameterType="String">
+		delete from `key_info`
+		where `hashed_id`=#{hashedId}
+	</delete>
 </mapper>

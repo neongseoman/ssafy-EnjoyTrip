@@ -167,4 +167,18 @@ public class MemberController {
         }
         return result;
     }
+    @PostMapping("delete")
+    public Map<String, String> delete(@RequestBody Member member){
+    	 Map<String, String> result = new HashMap<String, String>();
+    	 try {
+    		 memberService.deleteMember(member);
+    		 result.put("msg", "OK");
+    		 result.put("detail", "회원 탈퇴되었습니다.");
+    	 }catch(Exception e) {
+    		 e.printStackTrace();
+    		 result.put("msg", "NO");
+    		 result.put("detail", "회원 탈퇴에 실패 했습니다.");
+    	 }
+    	 return result;
+    }
 }

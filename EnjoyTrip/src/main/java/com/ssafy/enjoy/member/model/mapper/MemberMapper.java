@@ -26,4 +26,8 @@ public interface MemberMapper {
 	void addLoginCheck(String userId);
 	void updateLoginCondition(String userId);
 
+	void deleteMember(String userId) throws SQLException;
+
+	void deleteLoginCondition(String userId) throws SQLException;
+
 }
