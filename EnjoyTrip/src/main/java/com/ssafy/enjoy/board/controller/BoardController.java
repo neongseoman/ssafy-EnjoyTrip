@@ -115,6 +115,13 @@ public class BoardController {
 		board.setUserId((String)boardMap.get("userId"));
 		List positionList = (List) map.get("positions");
 		List<Position> positions = new ArrayList<Position>();
+		for(int i=0;i<positionList.size();i++) {
+			Map positionMap = (Map)positionList.get(i);
+			Position pos = new Position();
+			pos.setLatitude((double)positionMap.get("latitude"));
+			pos.setLongitude((double)positionMap.get("longitude"));
+			positions.add(pos);
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
