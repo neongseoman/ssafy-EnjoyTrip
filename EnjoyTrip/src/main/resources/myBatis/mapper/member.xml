@@ -35,13 +35,8 @@
 
 	<update id="updateLoginCondition" parameterType="String">
 		UPDATE login_check
-		set is_login =
-		<choose>
-			<when test="is_login == '1'"> 0</when>
-			<otherwise> 1</otherwise>
-		</choose>
-		WHERE
-		user_id = #{userId}
+		set is_login = case when is_login = 0 then 1 else 0 end
+		where user_id = #{userId}
 	</update>
 
 	<select id="isLogin" parameterType="String" resultType="int">
