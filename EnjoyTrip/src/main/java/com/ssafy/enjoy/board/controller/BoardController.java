@@ -109,6 +109,7 @@ public class BoardController {
 	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map){
 		Map boardMap = (Map) map.get("board");
 		Board board = new Board();
+		board.setArticleNo((int)boardMap.get("articleNo"));
 		board.setContent((String)boardMap.get("content"));
 		board.setSubject((String)boardMap.get("subject"));
 		board.setUserId((String)boardMap.get("userId"));
