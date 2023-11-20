@@ -178,4 +178,8 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updateLoginCondition(userId);
 	}
 
+	public void logout(String id)  throws Exception{
+		memberMapper.updateLoginCondition(id);
+	}
+
 }
