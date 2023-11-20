@@ -15,6 +15,7 @@ public class MyMap {
 	private double latitude;
 	private double longitude;
 	private String tel;
+	private String sessionId;
 	
 	public void setTel(String tel) {
 		this.tel = tel;
@@ -106,5 +107,11 @@ public class MyMap {
 	}
 	public void setContent_id(int content_id) {
 		this.content_id = content_id;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

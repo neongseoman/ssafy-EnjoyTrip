@@ -6,6 +6,7 @@ public class Page {
 	private String word;
 	private int start;
 	private int end;
+	private String sessionId;
 	public int getStart() {
 		return start;
 	}
@@ -39,6 +40,12 @@ public class Page {
 	@Override
 	public String toString() {
 		return "Page [pgno=" + pgno + ", key=" + key + ", word=" + word + ", start=" + start + ", end=" + end + "]";
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 	
 }	

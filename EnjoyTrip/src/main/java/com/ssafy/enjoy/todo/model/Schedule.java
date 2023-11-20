@@ -3,6 +3,7 @@ package com.ssafy.enjoy.todo.model;
 public class Schedule {
 	private String title, time, date, userId;
 	private boolean completed;
+	private String sessionId;
 
 
 	public String getUserId() {
@@ -43,5 +44,13 @@ public class Schedule {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }
