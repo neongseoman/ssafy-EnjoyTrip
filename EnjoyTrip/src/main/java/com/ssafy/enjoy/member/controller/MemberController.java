@@ -56,9 +56,9 @@ public class MemberController {
 
     @PostMapping("/login")
     public Map<String,String> login(@RequestBody Member member, HttpServletRequest request) {
-    	
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+        Map<String, String> result = new HashMap<String, String>();
         java.lang.String ip = request.getRemoteAddr();
+        System.out.println(member);
         if (member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
             result.put("detail", "no id or no pw");
@@ -75,7 +75,7 @@ public class MemberController {
                 String sessionId = sessionService.sessionReq(sessionReqModel);
 //                System.out.println(sessionId);
                 memberService.updateLoginCondition(userinfo.getUserId());
-//                System.out.println(sessionService.getSession(sessionId));
+                System.out.println(sessionService.getSession(sessionId).toString());
                 result.put("msg","OK");
                 result.put("session_id",sessionId);
                 result.put("detail", "login success");
@@ -87,6 +87,7 @@ public class MemberController {
                 result.put("detail", e.getMessage());
             }
         }
+        System.out.println(result);
         return result;
     }
 
@@ -119,8 +120,8 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public Map<java.lang.String, java.lang.String> join(@RequestBody Member member) {
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+    public Map<String, String> join(@RequestBody Member member) {
+        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
             result.put("msg", "NO");
             result.put("detail", "모든 정보를 입력해 주세요");
@@ -140,14 +141,19 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public Map<java.lang.String, java.lang.String> logout(@RequestBody Map<java.lang.String, java.lang.String> id) throws Exception {
-//        System.out.println(id.toString());
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+    public Map<String, String> logout(@RequestBody Map<String, String> id) {
+        try{
+            System.out.println("logout :  " + id.toString());
+            Map<String, String> result = new HashMap<String, String>();
 //        session.invalidate();
-        memberService.logout(id.get("id"));
-        result.put("msg", "OK");
-        result.put("detail", "로그아웃 되었습니다.");
-        return result;
+            memberService.logout(id.get("userId"));
+            result.put("msg", "OK");
+            result.put("detail", "로그아웃 되었습니다.");
+            return result;
+        } catch ( Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PostMapping("update")

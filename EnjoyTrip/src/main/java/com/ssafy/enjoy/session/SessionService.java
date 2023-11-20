@@ -5,21 +5,28 @@ import com.ssafy.enjoy.session.model.SessionReqModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 
 @Service
-public class SessionService { // 세션은 빈번하게 사용되니까 static으로 만들까?
+public class SessionService { // 세션은 빈번하게 사용되니까
+    private static SessionService instance;
+    private SessionService(){}
+    public static SessionService getInstance(){
+        if (instance == null){
+            instance = new SessionService();
+        }
+        return instance;
+    }
 
-    Map<java.lang.String, SessionModel> session = new HashMap<>();
+
+    static Map<String, SessionModel> session = new HashMap<>();
 
     @Value("${NODE-URL}")
     private java.lang.String NODE_URL;
@@ -35,23 +42,18 @@ public class SessionService { // 세션은 빈번하게 사용되니까 static�
         SessionModel sessionModel = new SessionModel(reqBody.getUserId(), sessionId);
         // session ID가 없을 때 전략 필요. node에 req를 다시 보낼 것인가?
         session.put(sessionId,sessionModel);
-        System.out.println(session.get(sessionId));
+        System.out.println("this is session " + session.get(sessionId));
         return sessionId;
     }
 
-    public boolean isSessionValid(java.lang.String userId){
-        if (session.get(userId) != null){
-            return true;
-        } else{
-            return false;
-        }
+    public boolean isSessionValid(String userId){
+        return session.get(userId) != null;
     }
 
-    public SessionModel getSession(java.lang.String userId){
+    public SessionModel getSession(String userId){
         try{
             if (isSessionValid(userId))
                 return session.get(userId);
-
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -60,10 +62,14 @@ public class SessionService { // 세션은 빈번하게 사용되니까 static�
     return null;
     }
 
-    public void invalidate(java.lang.String userId){
+    public void invalidate(String userId){
         if (isSessionValid(userId)){
             session.remove(userId);
         }
+    }
+
+    public Map<String, SessionModel> getSession() {
+        return session;
     }
 
     public String testSession() {

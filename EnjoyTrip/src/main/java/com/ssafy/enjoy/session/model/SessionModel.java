@@ -28,6 +28,16 @@ public class SessionModel {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "SessionModel{" +
+                "userId='" + userId + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                '}';
+    }
     //    private String userAgent;
 //    private Date lastAccessTime; // 자바에서 찍는 시간의 포멧을 맞출 필요가 있음.
 //
