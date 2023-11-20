@@ -76,7 +76,7 @@ public class MemberController {
 
     @PostMapping("/idCheck")
     public Map<String, String> idCheck(@RequestBody Map<String,String> id) {
-        System.out.println("call idcheck");
+        System.out.println("call id check");
         System.out.println(id.get("id"));
         Map<String, String> result = new HashMap<String, String>();
         if (id.get("id") == null) {
@@ -123,10 +123,12 @@ public class MemberController {
         return result;
     }
 
-    @GetMapping("/logout")
-    public Map<String, String> logout(HttpSession session) {
+    @PostMapping("/logout")
+    public Map<String, String> logout(@RequestBody Map<String,String> id) throws Exception {
+//        System.out.println(id.toString());
         Map<String, String> result = new HashMap<String, String>();
 //        session.invalidate();
+        memberService.logout(id.get("id"));
         result.put("msg", "OK");
         result.put("detail", "로그아웃 되었습니다.");
         return result;
