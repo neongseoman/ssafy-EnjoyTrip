@@ -75,9 +75,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoard(Board board) throws Exception {
+	public void modifyBoard(Board board, List<Position> positions) throws Exception {
 		try {
 			boardMapper.updateBoard(board);
+			int articleNo = board.getArticleNo();
+			positionMapper.deletePositions(articleNo);
+			for(int i=0;i<positions.size();i++) {
+				positions.get(i).setArticleNo(articleNo);
+				positionMapper.createPosition(positions.get(i));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
