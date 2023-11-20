@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.enjoy.session.SessionService;
+import com.ssafy.enjoy.session.model.SessionReqModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,18 +23,20 @@ import com.ssafy.enjoy.member.model.service.MemberService;
 public class MemberController {
 
     @Autowired
+    SessionService sessionService;
+
+    @Autowired
     MemberService memberService;
 
     @PostMapping("/session")
-    public Map<String, String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
-        Map<String, String> result = new HashMap<String, String>();
+    public Map<java.lang.String, java.lang.String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         if (member == null || member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
             result.put("detail", "no input id");
         } else {
             Member userinfo = (Member) session.getAttribute("userinfo");
             if (userinfo == null) {
-                System.out.println(userinfo);
                 result.put("msg", "NO");
                 result.put("detail", "already logout or session expired");
             } else if (userinfo.getUserId().equals(member.getUserId()) && userinfo.getUserPassword().equals(member.getUserPassword())) {
@@ -50,9 +54,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Member member, HttpServletRequest request) {
-        Map<String, String> result = new HashMap<String, String>();
-        String ip = request.getRemoteAddr();
+    public Map<String,String> login(@RequestBody Member member, HttpServletRequest request) {
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+        java.lang.String ip = request.getRemoteAddr();
         if (member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
             result.put("detail", "no id or no pw");
@@ -65,8 +69,13 @@ public class MemberController {
                     result.put("detail","이미 로그인된 사용자");
                     return result;
                 }
+                SessionReqModel sessionReqModel = new SessionReqModel(userinfo.getUserId());
+                String sessionId = sessionService.sessionReq(sessionReqModel);
+//                System.out.println(sessionId);
                 memberService.updateLoginCondition(userinfo.getUserId());
+//                System.out.println(sessionService.getSession(sessionId));
                 result.put("msg","OK");
+                result.put("session_id",sessionId);
                 result.put("detail", "login success");
                 result.put("name",userinfo.getUserName());
                 result.put("id",userinfo.getUserId());
@@ -78,10 +87,10 @@ public class MemberController {
     }
 
     @PostMapping("/idCheck")
-    public Map<String, String> idCheck(@RequestBody Map<String,String> id) {
+    public Map<java.lang.String, java.lang.String> idCheck(@RequestBody Map<java.lang.String, java.lang.String> id) {
         System.out.println("call id check");
         System.out.println(id.get("id"));
-        Map<String, String> result = new HashMap<String, String>();
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         if (id.get("id") == null) {
             result.put("msg", "NO");
             result.put("detail", "no id");
@@ -106,8 +115,8 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public Map<String, String> join(@RequestBody Member member) {
-        Map<String, String> result = new HashMap<String, String>();
+    public Map<java.lang.String, java.lang.String> join(@RequestBody Member member) {
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
             result.put("msg", "NO");
             result.put("detail", "모든 정보를 입력해 주세요");
@@ -127,9 +136,9 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public Map<String, String> logout(@RequestBody Map<String,String> id) throws Exception {
+    public Map<java.lang.String, java.lang.String> logout(@RequestBody Map<java.lang.String, java.lang.String> id) throws Exception {
 //        System.out.println(id.toString());
-        Map<String, String> result = new HashMap<String, String>();
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
 //        session.invalidate();
         memberService.logout(id.get("id"));
         result.put("msg", "OK");
@@ -138,8 +147,8 @@ public class MemberController {
     }
 
     @PostMapping("update")
-    public Map<String, String> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
-        Map<String, String> result = new HashMap<String, String>();
+    public Map<java.lang.String, java.lang.String> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
+        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
         System.out.println(member.toString());
         if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
             result.put("msg", "NO");

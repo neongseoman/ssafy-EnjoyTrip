@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 				throw new Exception("wrong password");
 			}
 			logintryMapper.updateLogintrySuccess(loginTry.getClientIp(), loginTry.getUserId());
-			System.out.println(userinfo);
+//			System.out.println(userinfo);
 			return userinfo;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -102,9 +102,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int idCheck(String id) throws Exception {
 		try {
-			System.out.println(id);
+//			System.out.println(id);
 			int ids = memberMapper.idCheck(id);
-			System.out.println(ids);
+//			System.out.println(ids);
 			return ids;
 		} catch (SQLException e) {
 //			return 0;
