@@ -64,7 +64,7 @@ public class BoardController {
 			positions.add(pos);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		if (board.getUserId() == null || board.getContent() == null || board.getSubject() == null||"".equals(board.getUserId())||"".equals(board.getContent())||"".equals(board.getSubject())) {
+		if (board.getUserId().equals("") || board.getContent().equals("") || board.getSubject().equals("")) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글의 내용을 입력해 주세요");
 		} else {

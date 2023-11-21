@@ -1,18 +1,13 @@
 package com.ssafy.enjoy.member.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.ssafy.enjoy.member.model.dto.FailResDto;
-import com.ssafy.enjoy.member.model.dto.MemberResDto;
-import com.ssafy.enjoy.member.model.dto.ResDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoy.member.model.Member;
 import com.ssafy.enjoy.member.model.ModifyMember;
+import com.ssafy.enjoy.member.model.dto.FailResDto;
+import com.ssafy.enjoy.member.model.dto.MemberResDto;
+import com.ssafy.enjoy.member.model.dto.ResDto;
 import com.ssafy.enjoy.member.model.service.MemberService;
 import com.ssafy.enjoy.session.SessionService;
 import com.ssafy.enjoy.session.model.SessionReqModel;
@@ -94,7 +92,6 @@ public class MemberController {
     @PostMapping("/ZbsgU6oY")
     public ResponseEntity<ResDto> join(@RequestBody Member member) {
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
-
             FailResDto failResDto = new FailResDto("No","모든 정보를 입력해 주세요");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
