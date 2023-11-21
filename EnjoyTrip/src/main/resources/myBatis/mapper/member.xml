@@ -16,7 +16,7 @@
 		where `userId`=#{id} and `userPassword`=#{pw}
 	</select>
 
-	<insert id="createMember" parameterType="member" >
+	<insert id="createMember" parameterType="memberDto" >
 		insert into members(`userId`, `userPassword`, `userName`, `emailId`, `emailDomain`)
 		values(#{userId}, #{userPassword}, #{userName}, #{emailId}, #{emailDomain})
 	</insert>

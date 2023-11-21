@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoy.member.model.IdInfo;
 import com.ssafy.enjoy.member.model.KeyInfo;
 import com.ssafy.enjoy.member.model.LoginTry;
-import com.ssafy.enjoy.member.model.Member;
 import com.ssafy.enjoy.member.model.MemberVO;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.mapper.IdInfoMapper;
