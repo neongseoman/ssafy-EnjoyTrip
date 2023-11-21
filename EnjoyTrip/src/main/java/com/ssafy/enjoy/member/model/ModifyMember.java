@@ -1,6 +1,8 @@
 package com.ssafy.enjoy.member.model;
 
-public class ModifyMember extends Member {
+import com.ssafy.enjoy.member.model.dto.MemberDto;
+
+public class ModifyMember extends MemberDto {
 	private String newPassword;
 
 	public String getNewPassword() {
@@ -8,7 +10,13 @@ public class ModifyMember extends Member {
 	}
 
 	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
+		if (newPassword.length() < 8){
+			this.newPassword = "";
+		}
+	}
+
+	public ModifyMember(String newPassword) {
+		setNewPassword(newPassword);
 	}
 
 	@Override

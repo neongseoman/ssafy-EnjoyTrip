@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
+import com.ssafy.enjoy.member.model.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoy.member.model.IdInfo;
 import com.ssafy.enjoy.member.model.KeyInfo;
 import com.ssafy.enjoy.member.model.LoginTry;
-import com.ssafy.enjoy.member.model.Member;
+import com.ssafy.enjoy.member.model.MemberVO;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.mapper.IdInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.KeyInfoMapper;
@@ -37,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 	KeyInfoMapper keyInfoMapper;
 
 	@Override
-	public Member loginMember(Member member, String ip) throws Exception {
+	public MemberVO loginMember(MemberDto member, String ip) throws Exception {
 		try {
 			LoginTry loginTry = logintryMapper.readLoginTry(ip, member.getUserId());
 			if (loginTry != null) {
@@ -61,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
 			byte[] key = OpenCrypt.hexToByteArray(keyInfo.getKey());
 			String cUserPwd = OpenCrypt.aesEncrypt(member.getUserPassword(), key);
 			String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
-			Member userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
+
+			MemberVO userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
 			if (userinfo == null) {
 				logintryMapper.updateLointryFail(loginTry.getClientIp(), loginTry.getUserId());
 				throw new Exception("wrong password");
@@ -76,27 +78,6 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}
-	}
-
-	@Override
-	public Member sessionLogin(Member member) throws Exception {
-		// 로그인 시도했는데 id가 없다고 유저가 없다고 알려주는 것은 적절하지 않은 것 같음.
-		// 그냥 실패하면 아이디나 패스워드 둘 중 하나 틀렸다고 하는게 맞는 것 같음.
-		IdInfo idInfo = idInfoMapper.readIdInfo(member.getUserId());
-		String hashed_id = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(member.getUserId(), idInfo.getSalt()));
-		KeyInfo keyInfo = keyInfoMapper.readKeyInfo(hashed_id);
-		byte[] key = OpenCrypt.hexToByteArray(keyInfo.getKey());
-		String cUserPwd = OpenCrypt.aesEncrypt(member.getUserPassword(), key);
-		String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
-		Member userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
-		if (userinfo == null){
-//			throw new Exception("")
-		}
-		int is_login = memberMapper.isLogin(member.getUserId());
-		if (is_login == 1) {
-			throw new Exception("이미 로그인 했는데?");
-		}
-		return userinfo;
 	}
 
 	@Override
@@ -115,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Transactional
 	@Override
-	public void joinMember(Member member) throws Exception {
+	public void joinMember(MemberDto member) throws Exception {
 		try {
 			if (idCheck(member.getUserId()) != 0) {
 				throw new Exception("이미 존재하는 사용자");
@@ -179,11 +160,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	public void logout(String id)  throws Exception{
+		System.out.println(id);
 		memberMapper.updateLoginCondition(id);
 	}
 
 	@Override
-	public void deleteMember(Member member) throws Exception {
+	public void deleteMember(MemberDto member) throws Exception {
 		try {
 			memberMapper.deleteLoginCondition(member.getUserId());
 			memberMapper.deleteMember(member.getUserId());

@@ -15,12 +15,12 @@ import com.ssafy.enjoy.todo.model.Schedule;
 import com.ssafy.enjoy.todo.model.service.TodoService;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("/SVIhWrLV")
 public class TodoController {
 	@Autowired
 	TodoService todoService;
 	
-	@PostMapping("/download")
+	@PostMapping("/Crh17XqZ")
 	public Map<String, Object> download(@RequestBody Schedule schedule){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(schedule);
@@ -37,7 +37,7 @@ public class TodoController {
 		return result;
 	}
 	
-	@PostMapping("/upload")
+	@PostMapping("/PmtI1NmN")
 	public Map<String, Object> upload(@RequestBody Map<String, Object> map){
 		List<Map> todos = (List)map.get("todos");
 		String userId = (String)map.get("userId");
