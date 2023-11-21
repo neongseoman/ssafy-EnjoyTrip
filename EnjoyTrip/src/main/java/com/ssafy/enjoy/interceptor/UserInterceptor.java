@@ -30,8 +30,9 @@ public class UserInterceptor implements HandlerInterceptor {
                 String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
                 String userSessionId = jsonObjSessionId.substring(1,jsonObjSessionId.length()-1);
                 if (sessionService.isSessionValid(userSessionId)) {
-
                     System.out.println("interceptor pass!");
+                    System.out.println(sessionService.getSession(userSessionId).getUserId());
+                    request.setAttribute("userId",sessionService.getSession(userSessionId).getUserId());
                     return true;
                 }
             } else{

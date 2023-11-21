@@ -1,12 +1,16 @@
 package com.ssafy.enjoy.session.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 public class SessionModel {
     //
     private String userId;
+    private String userName;
     private String sessionId;
+    private String hashedUserAgent;
+    private LocalDate accessTime;
 
     public SessionModel(String userId, String sessionId) {
         this.userId = userId;

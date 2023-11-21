@@ -4,9 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class MemberResDto extends ResDto{
-    public MemberResDto(String msg, String detail) {
-        super(msg, detail);
-    }
     String sessionId;
     String name;
     String id;

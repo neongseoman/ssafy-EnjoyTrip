@@ -10,7 +10,9 @@ import com.ssafy.enjoy.member.model.dto.FailResDto;
 import com.ssafy.enjoy.member.model.dto.MemberResDto;
 import com.ssafy.enjoy.member.model.dto.ResDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,44 +27,17 @@ import com.ssafy.enjoy.session.SessionService;
 import com.ssafy.enjoy.session.model.SessionReqModel;
 
 @RestController
-@RequestMapping("/user")
+@Description("Member Controller")
+@RequestMapping("/reHfPyFw")
 public class MemberController {
-
     @Autowired
     SessionService sessionService;
-
     @Autowired
     MemberService memberService;
 
-    @PostMapping("/session")
-    public Map<String,String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
-    	
-        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
-        if (member == null || member.getUserId() == null || member.getUserPassword() == null) {
-            result.put("msg", "NO");
-            result.put("detail", "no input id");
-        } else {
-            Member userinfo = (Member) session.getAttribute("userinfo");
-            if (userinfo == null) {
-                result.put("msg", "NO");
-                result.put("detail", "already logout or session expired");
-            } else if (userinfo.getUserId().equals(member.getUserId()) && userinfo.getUserPassword().equals(member.getUserPassword())) {
-                result.put("msg", "OK");
-                result.put("detail", "login success");
-                result.put("name", userinfo.getUserName());
-                result.put("email_id", userinfo.getEmailId());
-                result.put("email_domain", userinfo.getEmailDomain());
-            } else {
-                result.put("msg", "NO");
-                result.put("detail", "already logout or session expired");
-            }
-        }
-        return result;
-    }
-
-    @PostMapping("/login")
+    @Description("이건 로그인")
+    @PostMapping("/MAqGI3Cv")
     public ResponseEntity<ResDto> login(@RequestBody Member member, HttpServletRequest request) {
-        Map<String, String> result = new HashMap<String, String>();
         String ip = request.getRemoteAddr();
         System.out.println(member);
         if (member.getUserId() == null || member.getUserPassword() == null) {
@@ -74,14 +49,14 @@ public class MemberController {
                 if (memberService.isLogin(userinfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
-
                 }
+
                 SessionReqModel sessionReqModel = new SessionReqModel(userinfo.getUserId());
                 String sessionId = sessionService.sessionReq(sessionReqModel);
                 memberService.updateLoginCondition(userinfo.getUserId());
-                System.out.println(sessionService.getSession(sessionId).toString());
+//                System.out.println(sessionService.getSession(sessionId).toString());
                 MemberResDto memberResDto =
-                        new MemberResDto("OK",sessionId,"login success",userinfo.getUserName(),userinfo.getUserId());
+                        new MemberResDto("OK","로그인 성공",sessionId,userinfo.getUserName(),userinfo.getUserId());
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,13 +66,13 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/idCheck")
+    @Description("ID check")
+    @PostMapping("/EpMrOzqa")
     public ResponseEntity<ResDto> idCheck(@RequestBody Map<String, String> id) {
 //        System.out.println("call id check");
-//        System.out.println(id.get("id"));
-        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
+        System.out.println(id);
         if (id.get("id") == null) {
-            FailResDto failResDto = new FailResDto("No","no id");
+            FailResDto failResDto = new FailResDto("No","No CONTENT");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         }
         try {
@@ -115,7 +90,8 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/join")
+    @Description("member join")
+    @PostMapping("/ZbsgU6oY")
     public ResponseEntity<ResDto> join(@RequestBody Member member) {
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
 
@@ -135,12 +111,15 @@ public class MemberController {
 //        return result;
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<ResDto> logout(@RequestBody Map<String, String> id) {
+    @Description("logout")
+    @PostMapping("/tLL8srPp")
+    public ResponseEntity<ResDto> logout(HttpServletRequest request) {
+        String id =(String) request.getAttribute("userId");
+        System.out.println(id);
         try{
-            System.out.println("logout :  " + id.toString());
+            System.out.println("logout :  " + id);
 //        session.invalidate();
-            FailResDto failResDto = new FailResDto("Yes","로그인 성공");
+            FailResDto failResDto = new FailResDto("Yes","로그아웃 성공");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
 
         } catch ( Exception e) {
@@ -150,7 +129,8 @@ public class MemberController {
         }
     }
 
-    @PostMapping("update")
+    @Description("update")
+    @PostMapping("yztR0IHo")
     public ResponseEntity<ResDto> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
         System.out.println(member.toString());
         if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
@@ -181,7 +161,9 @@ public class MemberController {
             }
         }
     }
-    @PostMapping("delete")
+
+    @Description("멤버 탈퇴")
+    @PostMapping("0fokQBK6")
     public ResponseEntity<ResDto> delete(@RequestBody Member member){
     	 try {
     		 memberService.deleteMember(member);
