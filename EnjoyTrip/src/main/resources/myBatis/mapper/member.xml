@@ -10,7 +10,7 @@
 		where `userId`=#{id}
 	</select>
 
-	<select id="readMember" parameterType="String" resultType="member">
+	<select id="readMember" parameterType="String" resultType="memberVO">
 		select `userId`, `userPassword`, `userName`, `emailId`, `emailDomain`
 		from members
 		where `userId`=#{id} and `userPassword`=#{pw}

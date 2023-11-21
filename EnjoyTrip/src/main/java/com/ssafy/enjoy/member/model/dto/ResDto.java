@@ -1,7 +1,6 @@
 package com.ssafy.enjoy.member.model.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public abstract class ResDto {
@@ -20,8 +19,8 @@ public abstract class ResDto {
     }
 
     public ResDto(String msg, String detail) {
-        setDetail(msg);
-        setMsg(detail);
+        setDetail(detail);
+        setMsg(msg);
     }
 
     @Override
