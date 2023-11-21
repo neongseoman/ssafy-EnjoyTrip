@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.member.model.Member;
+import com.ssafy.enjoy.member.model.dto.MemberDto;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.dto.FailResDto;
 import com.ssafy.enjoy.member.model.dto.MemberResDto;
@@ -35,7 +35,7 @@ public class MemberController {
 
     @Description("이건 로그인")
     @PostMapping("/MAqGI3Cv")
-    public ResponseEntity<ResDto> login(@RequestBody Member member, HttpServletRequest request) {
+    public ResponseEntity<ResDto> login(@RequestBody MemberDto member, HttpServletRequest request) {
         String ip = request.getRemoteAddr();
         System.out.println(member);
         if (member.getUserId() == null || member.getUserPassword() == null) {
@@ -43,7 +43,7 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
-                Member userinfo = memberService.loginMember(member, ip);
+                MemberDto userinfo = memberService.loginMember(member, ip);
                 if (memberService.isLogin(userinfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
@@ -90,7 +90,7 @@ public class MemberController {
 
     @Description("member join")
     @PostMapping("/ZbsgU6oY")
-    public ResponseEntity<ResDto> join(@RequestBody Member member) {
+    public ResponseEntity<ResDto> join(@RequestBody MemberDto member) {
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
             FailResDto failResDto = new FailResDto("No","모든 정보를 입력해 주세요");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
@@ -139,7 +139,7 @@ public class MemberController {
                 member.setNewPassword(member.getUserPassword());
             }
             try {
-                Member userinfo = memberService.loginMember(member, request.getRemoteAddr());
+                MemberDto userinfo = memberService.loginMember(member, request.getRemoteAddr());
                 member.setUserPassword(userinfo.getUserPassword());
                 try {
                     memberService.updateMember(member);
@@ -161,7 +161,7 @@ public class MemberController {
 
     @Description("멤버 탈퇴")
     @PostMapping("0fokQBK6")
-    public ResponseEntity<ResDto> delete(@RequestBody Member member){
+    public ResponseEntity<ResDto> delete(@RequestBody MemberDto member){
     	 try {
     		 memberService.deleteMember(member);
              FailResDto failResDto = new FailResDto("Yes","로그인 성공");

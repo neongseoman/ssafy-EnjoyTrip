@@ -2,8 +2,6 @@ package com.ssafy.util;
 
 import java.util.Date;
 
-import com.ssafy.enjoy.member.model.Member;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;

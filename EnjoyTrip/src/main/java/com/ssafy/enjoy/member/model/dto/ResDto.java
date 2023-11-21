@@ -20,8 +20,8 @@ public abstract class ResDto {
     }
 
     public ResDto(String msg, String detail) {
-        setDetail();
-        setMsg();
+        setDetail(msg);
+        setMsg(detail);
     }
 
     @Override

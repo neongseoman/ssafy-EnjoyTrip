@@ -27,7 +27,7 @@
 		where `userId`=#{userId} and `userPassword`=#{userPassword}
 	</update>
 
-	<select id="login" parameterType="member" resultType="String">
+	<select id="login" parameterType="memberDto" resultType="String">
 		select userName
 		from members
 		where userId = #{userId} and userName = #{userName}
@@ -50,7 +50,7 @@
 		values (#{userId}, 0)
 	</insert>
 
-	<insert id="saveToken" parameterType="member" >
+	<insert id="saveToken" parameterType="memberDto" >
 		insert into
 		member_login (user_id, salt, access_token, refresh_token)
 		values (#{userId}, #{salt},#{accessToken}, #{refreshToken})
