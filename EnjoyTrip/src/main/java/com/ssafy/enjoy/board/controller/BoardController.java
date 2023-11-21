@@ -18,14 +18,14 @@ import com.ssafy.enjoy.board.model.Position;
 import com.ssafy.enjoy.board.model.service.BoardService;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/YZ97gY92")
 @CrossOrigin(origins = "*")
 public class BoardController {
 
 	@Autowired
 	BoardService boardService;
 
-	@PostMapping("/list")
+	@PostMapping("/Ct6X83dL")
 	public Map<String, Object> getList(@RequestBody Page page) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(page.getPgno()==0) {
@@ -47,7 +47,7 @@ public class BoardController {
 		return result;
 	}
 
-	@PostMapping("/write")
+	@PostMapping("/ePQowXNQ")
 	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map) {
 		Map boardMap = (Map) map.get("board");
 		Board board = new Board();
@@ -81,7 +81,7 @@ public class BoardController {
 		return result;
 	}
 	
-	@PostMapping("/detail")
+	@PostMapping("/KPVnFhFX")
 	public  Map<String, Object> getDetail(@RequestBody Board board){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(board);
@@ -105,7 +105,7 @@ public class BoardController {
 		return result;
 	}
 	
-	@PostMapping("/modify")
+	@PostMapping("/7QJMgsU7")
 	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map){
 		Map boardMap = (Map) map.get("board");
 		Board board = new Board();
@@ -140,7 +140,7 @@ public class BoardController {
 		return result;
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/S1BLjFsA")
 	public  Map<String, Object> deleteBoard(@RequestBody Board board){
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(board.getArticleNo() == 0) {
@@ -161,7 +161,7 @@ public class BoardController {
 		return result;
 	}
 	
-	@PostMapping("/page")
+	@PostMapping("/t7OqJjRE")
 	public Map<String, Object> getPageNum(@RequestBody Page page){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(page);

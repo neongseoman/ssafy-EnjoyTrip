@@ -25,7 +25,7 @@ public class MapController {
 	DescService descService;
 	
 	
-	@PostMapping("/sido")
+	@PostMapping("/vQ1gaZml")
 	public Map<String, Object> getSido(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -41,7 +41,7 @@ public class MapController {
 		return result;
 	}
 	
-	@PostMapping("/gugun")
+	@PostMapping("/j4nwRBe9")
 	public Map<String, Object> getGugun(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -57,7 +57,7 @@ public class MapController {
 		return result;
 	}
 	
-	@PostMapping("/search")
+	@PostMapping("/hqJImwm8")
 	public Map<String, Object> search(@RequestBody MyMap map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -72,7 +72,7 @@ public class MapController {
 		}
 		return result;
 	}
-	@PostMapping("/detail")
+	@PostMapping("/Lnbkmq9x")
 	public Map<String, Object> detail(@RequestBody MyMap map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
