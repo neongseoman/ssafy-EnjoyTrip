@@ -1,11 +1,15 @@
 package com.ssafy.enjoy.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.enjoy.member.model.dto.MemberDto;
+import com.ssafy.util.OpenCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
@@ -36,9 +40,21 @@ public class MemberController {
 
     @Description("이건 로그인")
     @PostMapping("/MAqGI3Cv")
-    public ResponseEntity<ResDto> login(@RequestBody MemberDto member, HttpServletRequest request) {
+    public ResponseEntity<ResDto> login(@RequestBody MemberDto member, HttpServletRequest request) throws UnsupportedEncodingException {
         String ip = request.getRemoteAddr();
-        System.out.println(member);
+
+        String userAgent = request.getHeader("User-Agent");
+        String hashedUserAgent = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA1(userAgent, "ssafy"));
+//        System.out.println(userAgent);
+//        System.out.println(hashedUserAgent);
+//        System.out.println(userAgent.getBytes(StandardCharsets.UTF_8).length);
+//        System.out.println(hashedUserAgent.getBytes(StandardCharsets.UTF_8).length);
+//        System.out.println(hashedUserAgent.substring(0,16).getBytes(StandardCharsets.UTF_8).length);
+//        System.out.println(hashedUserAgent.substring(0,32).getBytes(StandardCharsets.UTF_8).length);
+//        System.out.println(hashedUserAgent.getBytes().length);
+//        System.out.println(hashedUserAgent.getBytes("UTF-8").length);
+//        System.out.println(hashedUserAgent.getBytes(StandardCharsets.UTF_8).length);
+        // =======>> 결론: 해쉬하고 16으로 짜른 값이 길이가 적절하다. userAgent 통째로 한 것 보다.
         if (member.getUserId() == null || member.getUserPassword() == null) {
             FailResDto failResDto = new FailResDto("No","no id or no pw");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
@@ -51,9 +67,10 @@ public class MemberController {
                 }
 
                 SessionReqDto sessionReqModel = new SessionReqDto(userinfo.getUserId());
-                String sessionId = sessionService.sessionReq(sessionReqModel);
+                String sessionId = sessionService.sessionReq(sessionReqModel); // session put도 해줌.
                 memberService.updateLoginCondition(userinfo.getUserId());
-//                System.out.println(sessionService.getSession(sessionId).toString());
+                sessionService.getSession(sessionId).setHashedUserAgent(hashedUserAgent.substring(0,10));
+
                 MemberResDto memberResDto =
                         new MemberResDto("OK","로그인 성공",sessionId,userinfo.getUserName(),userinfo.getUserId());
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);

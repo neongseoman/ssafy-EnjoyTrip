@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     static Map<String, SessionModel> session = new HashMap<>();
 
     @Value("${NODE-URL}")
-    private java.lang.String NODE_URL;
+    private String NODE_URL;
 
     public String sessionReq(SessionReqDto reqBody) throws IOException {
 //        System.out.println(reqBody.toString());
@@ -75,11 +77,6 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     public String testSession() {
         return "session Hello";
     }
-//
-//    public void accessTimeModify(java.lang.String userId, Date accessTime){
-//        SessionModel sessionModel = session.get(userId);
-//        sessionModel.setLastAccessTime(accessTime);
-//        session.put(userId,sessionModel);
-//    }
+
 
 }

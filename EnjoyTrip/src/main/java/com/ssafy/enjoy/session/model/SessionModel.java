@@ -1,39 +1,54 @@
 package com.ssafy.enjoy.session.model;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+@Getter
 public class SessionModel {
     //
     private String userId;
     private String userName;
     private String sessionId;
     private String hashedUserAgent;
-    private LocalDate accessTime;
+    private int blackListPoint;
+    private LocalDateTime latelyAccessTime;
 
     public SessionModel(String userId, String sessionId) {
         this.userId = userId;
         this.sessionId = sessionId;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
+    public void setHashedUserAgent(String hashedUserAgent) {
+        this.hashedUserAgent = hashedUserAgent;
+    }
+
+    public void setBlackListPoint(int blackListPoint) {
+        this.blackListPoint = blackListPoint;
+    }
+
+    public void plusOneBlackListPoint() {
+        this.blackListPoint++;
+    }
+
+    public void setLatelyAccessTime(LocalDateTime latelyAccessTime) {
+        this.latelyAccessTime = latelyAccessTime;
+    }
 
     @Override
     public String toString() {
