@@ -16,7 +16,7 @@ import com.ssafy.enjoy.map.model.service.DescService;
 import com.ssafy.enjoy.map.model.service.MapService;
 
 @RestController
-@RequestMapping("/map")
+@RequestMapping("/MytfEaEE")
 public class MapController {
 	
 	@Autowired
