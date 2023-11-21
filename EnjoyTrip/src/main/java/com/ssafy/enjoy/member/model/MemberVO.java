@@ -29,7 +29,7 @@ public class MemberVO {
 		return userPassword;
 	}
 	public void setUserPassword(String userPassword) throws VOException{
-		if(userPassword==null||"".equals(userPassword)) {
+		if(userPassword==null||"".equals(userPassword)||userPassword.length()!=64) {
 			throw new VOException("usrePassword is empty");
 		}
 		this.userPassword = userPassword;
@@ -62,7 +62,7 @@ public class MemberVO {
 		if(joinDate==null||"".equals(joinDate)) {
 			throw new VOException("join date is empty");
 		}
-		if(!joinDate.matches("^d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]")) {
+		if(!joinDate.matches("^d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$")) {
 			throw new VOException("join date is in wrong form");
 		}
 		this.joinDate = joinDate;
