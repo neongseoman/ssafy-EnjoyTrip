@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoy.member.model.Member;
+import com.ssafy.enjoy.member.model.MemberVO;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.dto.FailResDto;
 import com.ssafy.enjoy.member.model.dto.MemberResDto;
@@ -43,7 +44,7 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
-                Member userinfo = memberService.loginMember(member, ip);
+                MemberVO userinfo = memberService.loginMember(member, ip);
                 if (memberService.isLogin(userinfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
@@ -139,7 +140,7 @@ public class MemberController {
                 member.setNewPassword(member.getUserPassword());
             }
             try {
-                Member userinfo = memberService.loginMember(member, request.getRemoteAddr());
+                MemberVO userinfo = memberService.loginMember(member, request.getRemoteAddr());
                 member.setUserPassword(userinfo.getUserPassword());
                 try {
                     memberService.updateMember(member);

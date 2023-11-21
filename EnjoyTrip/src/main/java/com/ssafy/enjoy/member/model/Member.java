@@ -2,8 +2,6 @@ package com.ssafy.enjoy.member.model;
 
 
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 
 @Getter
@@ -20,7 +18,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", emailId="
-				+ emailId + ", emailDomain=" + emailDomain + ", joinDate="]";
+				+ emailId + ", emailDomain=" + emailDomain ;
 	}
 	
 }

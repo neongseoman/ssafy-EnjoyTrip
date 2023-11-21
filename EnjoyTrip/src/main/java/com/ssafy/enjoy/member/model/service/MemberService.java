@@ -1,12 +1,12 @@
 package com.ssafy.enjoy.member.model.service;
 
 import com.ssafy.enjoy.member.model.Member;
+import com.ssafy.enjoy.member.model.MemberVO;
 import com.ssafy.enjoy.member.model.ModifyMember;
 
 public interface MemberService {
 
-	Member loginMember(Member member, String ip) throws Exception;
-	Member sessionLogin(Member member) throws Exception;
+	MemberVO loginMember(Member member, String ip) throws Exception;
 
 	int idCheck(String id) throws Exception;
 
