@@ -1,5 +1,7 @@
 package com.ssafy.enjoy.session;
 
+import com.google.type.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +14,12 @@ import java.util.Map;
 @RequestMapping("session")
 public class sessionController {
 
+    @Autowired
+    SessionService sessionService;
+
     @PostMapping("invalidate")
     public void invalidate(@RequestBody Map<String,String> hash_data){
+//        sessionService.isSessionValid()
         System.out.println(hash_data.toString() + " is delicated");
     }
 }

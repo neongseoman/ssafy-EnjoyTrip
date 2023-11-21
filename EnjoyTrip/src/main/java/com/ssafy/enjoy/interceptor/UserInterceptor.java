@@ -8,7 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 
 //
 
@@ -20,29 +19,33 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String reqBody = (String) request.getAttribute("requestBody");
-        if ("POST".equals(request.getMethod())){
-            if(reqBody != null){
+        if ("POST".equals(request.getMethod())) {
+            if (reqBody != null) {
                 System.out.println("interceptor reqBody : " + reqBody);
                 JsonParser jsonParser = new JsonParser();
                 Object obj = jsonParser.parse(reqBody);
                 JsonObject jsonObj = (JsonObject) obj;
 
                 String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
-                String userSessionId = jsonObjSessionId.substring(1,jsonObjSessionId.length()-1);
+                String userSessionId = jsonObjSessionId.substring(1, jsonObjSessionId.length() - 1);
+
                 if (sessionService.isSessionValid(userSessionId)) {
+//                    Enumeration<String> e = request.getHeaderNames();
+//                    while (e.hasMoreElements()) {
+//                        String n = e.nextElement();
+//                        System.out.println(n + " : " + request.getHeader(n));
                     System.out.println("interceptor pass!");
-                    System.out.println(sessionService.getSession(userSessionId).getUserId());
-                    request.setAttribute("userId",sessionService.getSession(userSessionId).getUserId());
                     return true;
+                } else { // if session is Valid return true, else return false
+                    return false;
                 }
-            } else{
-                System.out.println("error");
-                response.setStatus(999);
+            } else { // if requestBody is null return false. if send post, must bring body.
                 return false;
             }
-        }
-        return true;
+        } else { // if not post method, pass
+            return true;
 
+        }
     }
 
 }
