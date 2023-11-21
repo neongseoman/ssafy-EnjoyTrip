@@ -20,32 +20,27 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String reqBody = (String) request.getAttribute("requestBody");
+        if ("POST".equals(request.getMethod())){
+            if(reqBody != null){
+                System.out.println("interceptor reqBody : " + reqBody);
+                JsonParser jsonParser = new JsonParser();
+                Object obj = jsonParser.parse(reqBody);
+                JsonObject jsonObj = (JsonObject) obj;
 
-        System.out.println("interceptor reqBody : " + reqBody);
-        JsonParser jsonParser = new JsonParser();
-        Object obj = jsonParser.parse(reqBody);
-        JsonObject jsonObj = (JsonObject) obj;
+                String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
+                String userSessionId = jsonObjSessionId.substring(1,jsonObjSessionId.length()-1);
+                if (sessionService.isSessionValid(userSessionId)) {
 
-        String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
-        String userSessionId = jsonObjSessionId.substring(1,jsonObjSessionId.length()-1);
-
-        if (sessionService.isSessionValid(userSessionId)) {
-//            Enumeration<String > e  = request.getHeaderNames();
-//            while(e.hasMoreElements()){
-//                String n = e.nextElement();
-//                System.out.println(n + " : "+ request.getHeader(n));
-//            }
-//            System.out.println("interceptor pass!");
-            return true;
+                    System.out.println("interceptor pass!");
+                    return true;
+                }
+            } else{
+                System.out.println("error");
+                response.setStatus(999);
+                return false;
+            }
         }
-        else {
-            System.out.println("error");
-            response.setStatus(999);
-            return false;
-        }
-
-//        System.out.println("interceptor " + request.getMethod());
-//        return true;
+        return true;
 
     }
 

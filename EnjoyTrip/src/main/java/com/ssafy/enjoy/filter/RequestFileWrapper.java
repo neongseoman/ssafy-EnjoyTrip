@@ -13,7 +13,7 @@ public class RequestFileWrapper extends HttpServletRequestWrapper{
     private byte[] bytes;
     private String requestBody;
     private final Map<String,String> customHeaders;
-//    //
+
     public RequestFileWrapper(HttpServletRequest request) throws IOException {
         super(request);
         InputStream in = super.getInputStream();
@@ -22,29 +22,6 @@ public class RequestFileWrapper extends HttpServletRequestWrapper{
         customHeaders = new HashMap<>();
         System.out.println("Filter" + getRequestBody());
     }
-//    // header setting...
-//    public void putHeader(String name ,String value){
-//        this.customHeaders.put(name,value);
-//    }
-//    public String getHeader(String name){
-//        String headerValue = customHeaders.get(name);
-//        if (headerValue != null){
-//            return headerValue;
-//        }
-//        return ((HttpServletRequest) getRequest()).getHeader(name);
-//    }
-//
-//    public Enumeration<String> getHeaderNames(){
-//        Set<String> set = new HashSet<>(customHeaders.keySet());
-//
-//        Enumeration<String> e = ((HttpServletRequest) getRequest()).getHeaderNames();
-//        while(e.hasMoreElements()){
-//            String n = e.nextElement();
-//            set.add(n);
-//        }
-//        return Collections.enumeration(set);
-//
-//    }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {

@@ -6,7 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.enjoy.member.model.dto.FailResDto;
+import com.ssafy.enjoy.member.model.dto.MemberResDto;
+import com.ssafy.enjoy.member.model.dto.ResDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +35,9 @@ public class MemberController {
     MemberService memberService;
 
     @PostMapping("/session")
-    public Map<java.lang.String, java.lang.String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
+    public Map<String,String> sessionCheck(@RequestBody Member member, HttpSession session, HttpServletRequest request) {
     	
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
         if (member == null || member.getUserId() == null || member.getUserPassword() == null) {
             result.put("msg", "NO");
             result.put("detail", "no input id");
@@ -55,114 +61,102 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public Map<String,String> login(@RequestBody Member member, HttpServletRequest request) {
+    public ResponseEntity<ResDto> login(@RequestBody Member member, HttpServletRequest request) {
         Map<String, String> result = new HashMap<String, String>();
-        java.lang.String ip = request.getRemoteAddr();
+        String ip = request.getRemoteAddr();
         System.out.println(member);
         if (member.getUserId() == null || member.getUserPassword() == null) {
-            result.put("msg", "NO");
-            result.put("detail", "no id or no pw");
-            return result;
+            FailResDto failResDto = new FailResDto("No","no id or no pw");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
                 Member userinfo = memberService.loginMember(member, ip);
                 if (memberService.isLogin(userinfo.getUserId()) == 1){
-                    result.put("msg", "NO");
-                    result.put("detail","이미 로그인된 사용자");
-                    return result;
+                    FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
+
                 }
                 SessionReqModel sessionReqModel = new SessionReqModel(userinfo.getUserId());
                 String sessionId = sessionService.sessionReq(sessionReqModel);
-//                System.out.println(sessionId);
                 memberService.updateLoginCondition(userinfo.getUserId());
                 System.out.println(sessionService.getSession(sessionId).toString());
-                result.put("msg","OK");
-                result.put("session_id",sessionId);
-                result.put("detail", "login success");
-                result.put("name",userinfo.getUserName());
-                result.put("id",userinfo.getUserId());
+                MemberResDto memberResDto =
+                        new MemberResDto("OK",sessionId,"login success",userinfo.getUserName(),userinfo.getUserId());
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);
             } catch (Exception e) {
                 e.printStackTrace();
-                result.put("msg", "NO");
-                result.put("detail", e.getMessage());
+                FailResDto failResDto = new FailResDto("No","Unchecked Error");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }
         }
-        System.out.println(result);
-        return result;
     }
 
     @PostMapping("/idCheck")
-    public Map<java.lang.String, java.lang.String> idCheck(@RequestBody Map<java.lang.String, java.lang.String> id) {
-        System.out.println("call id check");
-        System.out.println(id.get("id"));
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+    public ResponseEntity<ResDto> idCheck(@RequestBody Map<String, String> id) {
+//        System.out.println("call id check");
+//        System.out.println(id.get("id"));
+        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
         if (id.get("id") == null) {
-            result.put("msg", "NO");
-            result.put("detail", "no id");
-            return result;
+            FailResDto failResDto = new FailResDto("No","no id");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         }
         try {
             if (memberService.idCheck(id.get("id")) == 0) {
-                result.put("msg", "OK");
-                result.put("detail", "사용가능한 id");
+                FailResDto failResDto = new FailResDto("Yes","사용가능한 id");
+                return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
             } else {
-                result.put("msg", "NO");
-                result.put("detail", "id 중복");
+                FailResDto failResDto = new FailResDto("No","id 중복");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("msg", "No");
-            result.put("detail", e.getMessage());
+            FailResDto failResDto = new FailResDto("No","ERROR");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
         }
-//		result.put("msg","OK");
-//		result.put("detail","on Test config all req is OK");
-        return result;
     }
 
     @PostMapping("/join")
-    public Map<String, String> join(@RequestBody Member member) {
-        Map<String, String> result = new HashMap<java.lang.String, java.lang.String>();
+    public ResponseEntity<ResDto> join(@RequestBody Member member) {
         if (member.getUserId() == null || member.getUserPassword() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getUserName() == null) {
-            result.put("msg", "NO");
-            result.put("detail", "모든 정보를 입력해 주세요");
+
+            FailResDto failResDto = new FailResDto("No","모든 정보를 입력해 주세요");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
                 memberService.joinMember(member);
-                result.put("msg", "OK");
-                result.put("detail", "회원가입 성공 로그인 해주세요");
-//				result.put("detail","on Test config all req is OK");
+                FailResDto failResDto = new FailResDto("Yes","회원가입 성공 로그인 해주세요");
+                return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
             } catch (Exception e) {
                 e.printStackTrace();
-                result.put("msg", "NO");
-                result.put("detail", e.getMessage());
+                FailResDto failResDto = new FailResDto("No","ERRROR");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }
         }
-        return result;
+//        return result;
     }
 
     @PostMapping("/logout")
-    public Map<String, String> logout(@RequestBody Map<String, String> id) {
+    public ResponseEntity<ResDto> logout(@RequestBody Map<String, String> id) {
         try{
             System.out.println("logout :  " + id.toString());
-            Map<String, String> result = new HashMap<String, String>();
 //        session.invalidate();
-            memberService.logout(id.get("userId"));
-            result.put("msg", "OK");
-            result.put("detail", "로그아웃 되었습니다.");
-            return result;
+            FailResDto failResDto = new FailResDto("Yes","로그인 성공");
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
+
         } catch ( Exception e) {
             e.printStackTrace();
+            FailResDto failResDto = new FailResDto("No","ERRROR");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
         }
-        return null;
     }
 
     @PostMapping("update")
-    public Map<java.lang.String, java.lang.String> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
-        Map<java.lang.String, java.lang.String> result = new HashMap<java.lang.String, java.lang.String>();
+    public ResponseEntity<ResDto> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
         System.out.println(member.toString());
         if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
-            result.put("msg", "NO");
-            result.put("detail", "모든 정보를 입력해 주세요");
+
+            FailResDto failResDto = new FailResDto("No","내용이 없음");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             if (member.getNewPassword().equals("")) {
                 member.setNewPassword(member.getUserPassword());
@@ -172,32 +166,31 @@ public class MemberController {
                 member.setUserPassword(userinfo.getUserPassword());
                 try {
                     memberService.updateMember(member);
-                    result.put("msg", "OK");
-                    result.put("detail", "정보 수정이 완료 되었습니다");
+
+                    FailResDto failResDto = new FailResDto("Yes","로그인 성공");
+                    return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
                 } catch (Exception e) {
-                    result.put("msg", "NO");
-                    result.put("detail", e.getMessage());
+                    e.printStackTrace();
+                    FailResDto failResDto = new FailResDto("No","ERRROR");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                result.put("msg", "NO");
-                result.put("detail", "비밀번호가 틀립니다.");
+                e.getMessage();
+                FailResDto failResDto = new FailResDto("No","ERRROR");
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }
         }
-        return result;
     }
     @PostMapping("delete")
-    public Map<String, String> delete(@RequestBody Member member){
-    	 Map<String, String> result = new HashMap<String, String>();
+    public ResponseEntity<ResDto> delete(@RequestBody Member member){
     	 try {
     		 memberService.deleteMember(member);
-    		 result.put("msg", "OK");
-    		 result.put("detail", "회원 탈퇴되었습니다.");
+             FailResDto failResDto = new FailResDto("Yes","로그인 성공");
+             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
     	 }catch(Exception e) {
     		 e.printStackTrace();
-    		 result.put("msg", "NO");
-    		 result.put("detail", "회원 탈퇴에 실패 했습니다.");
+             FailResDto failResDto = new FailResDto("No","회원가입 실패");
+             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
     	 }
-    	 return result;
     }
 }
