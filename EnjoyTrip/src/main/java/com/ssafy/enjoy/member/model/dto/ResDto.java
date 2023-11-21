@@ -6,20 +6,22 @@ import lombok.Setter;
 @Getter
 public abstract class ResDto {
     String msg;
-
     String detail;
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        if (msg == null){
+            this.msg="";
+        }
     }
 
     public void setDetail(String detail) {
-        this.detail = detail;
+        if (detail == null)
+            this.detail = "";
     }
 
     public ResDto(String msg, String detail) {
-        this.msg = msg;
-        this.detail = detail;
+        setDetail();
+        setMsg();
     }
 
     @Override

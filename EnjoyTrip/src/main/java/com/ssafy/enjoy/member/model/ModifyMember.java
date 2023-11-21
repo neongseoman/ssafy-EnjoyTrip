@@ -8,7 +8,13 @@ public class ModifyMember extends Member {
 	}
 
 	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
+		if (newPassword.length() < 8){
+			this.newPassword = "";
+		}
+	}
+
+	public ModifyMember(String newPassword) {
+		setNewPassword(newPassword);
 	}
 
 	@Override

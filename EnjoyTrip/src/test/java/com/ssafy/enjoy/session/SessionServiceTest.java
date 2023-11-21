@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.session;
 
-import com.ssafy.enjoy.session.model.SessionReqModel;
+import com.ssafy.enjoy.session.model.SessionReqDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ class SessionServiceTest {
     @Test
     @DisplayName("session req to node test")
     void sessionReqTest() throws IOException {
-        SessionReqModel reqTestModel = new SessionReqModel("test");
+        SessionReqDto reqTestModel = new SessionReqDto("test");
         assertThat(sessionService.sessionReq(reqTestModel)).isInstanceOf(String.class);
     }
 

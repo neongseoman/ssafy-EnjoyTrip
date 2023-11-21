@@ -1,7 +1,7 @@
 package com.ssafy.enjoy.session;
 
 import com.ssafy.enjoy.session.model.SessionModel;
-import com.ssafy.enjoy.session.model.SessionReqModel;
+import com.ssafy.enjoy.session.model.SessionReqDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,7 +31,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     @Value("${NODE-URL}")
     private java.lang.String NODE_URL;
 
-    public String sessionReq(SessionReqModel reqBody) throws IOException {
+    public String sessionReq(SessionReqDto reqBody) throws IOException {
 //        System.out.println(reqBody.toString());
         RestTemplate restTemplate = new RestTemplate();
 

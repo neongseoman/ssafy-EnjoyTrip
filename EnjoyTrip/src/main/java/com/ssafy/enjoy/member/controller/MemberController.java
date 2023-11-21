@@ -1,6 +1,5 @@
 package com.ssafy.enjoy.member.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import com.ssafy.enjoy.member.model.dto.ResDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +22,7 @@ import com.ssafy.enjoy.member.model.Member;
 import com.ssafy.enjoy.member.model.ModifyMember;
 import com.ssafy.enjoy.member.model.service.MemberService;
 import com.ssafy.enjoy.session.SessionService;
-import com.ssafy.enjoy.session.model.SessionReqModel;
+import com.ssafy.enjoy.session.model.SessionReqDto;
 
 @RestController
 @Description("Member Controller")
@@ -51,7 +49,7 @@ public class MemberController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
                 }
 
-                SessionReqModel sessionReqModel = new SessionReqModel(userinfo.getUserId());
+                SessionReqDto sessionReqModel = new SessionReqDto(userinfo.getUserId());
                 String sessionId = sessionService.sessionReq(sessionReqModel);
                 memberService.updateLoginCondition(userinfo.getUserId());
 //                System.out.println(sessionService.getSession(sessionId).toString());

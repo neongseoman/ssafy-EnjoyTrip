@@ -5,5 +5,4 @@ public class FailResDto extends ResDto{
         super(msg, detail);
     }
 
-
 }
