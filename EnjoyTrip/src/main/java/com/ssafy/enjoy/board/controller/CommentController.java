@@ -16,14 +16,14 @@ import com.ssafy.enjoy.board.model.Comment;
 import com.ssafy.enjoy.board.model.service.CommentService;
 
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/B1Fc0O5K")
 @CrossOrigin(origins = "*")
 public class CommentController {
 
 	@Autowired
 	CommentService commentService;
 
-	@PostMapping("/list")
+	@PostMapping("/qSg1WWvf")
 	public Map<String, Object> getList(@RequestBody Board board) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (board.getArticleNo() == 0) {
@@ -45,7 +45,7 @@ public class CommentController {
 		return result;
 	}
 
-	@PostMapping("/write")
+	@PostMapping("/ndKw8G69")
 	public Map<String, Object> writeComment(@RequestBody Comment comment) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (comment.getArticleNo() == 0) {
@@ -65,7 +65,7 @@ public class CommentController {
 		}
 		return result;
 	}
-	@PostMapping("/delete")
+	@PostMapping("/cBHoXtQ5")
 	public Map<String, String> delete(@RequestBody Comment comment){
 		Map<String, String> result = new HashMap<String, String>();
 		try {
