@@ -1,6 +1,6 @@
-package com.ssafy.enjoy.map.model;
+package com.ssafy.enjoy.map.vo;
 
-public class MyMap {
+public class MyMapVo {
 	private int sido_code;
 	private String sido_name;
 	private int gugun_code;

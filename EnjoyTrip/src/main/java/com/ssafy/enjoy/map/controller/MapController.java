@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.enjoy.map.dto.MyMapDto;
+import com.ssafy.enjoy.map.vo.MyMapVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.map.model.MapDesc;
-import com.ssafy.enjoy.map.model.MyMap;
+import com.ssafy.enjoy.map.vo.MapDescVo;
 import com.ssafy.enjoy.map.model.service.DescService;
 import com.ssafy.enjoy.map.model.service.MapService;
 
@@ -29,7 +30,7 @@ public class MapController {
 	public Map<String, Object> getSido(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			List<MyMap> list = mapService.getSido();
+			List<MyMapVo> list = mapService.getSido();
 			result.put("msg", "OK");
 			result.put("detail","loaded city info");
 			result.put("list", list);
@@ -45,7 +46,7 @@ public class MapController {
 	public Map<String, Object> getGugun(){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			List<MyMap> list = mapService.getGugun();
+			List<MyMapVo> list = mapService.getGugun();
 			result.put("msg", "OK");
 			result.put("detail", "loaded section info");
 			result.put("list", list);
@@ -58,7 +59,7 @@ public class MapController {
 	}
 	
 	@PostMapping("/hqJImwm8")
-	public Map<String, Object> search(@RequestBody MyMap map){
+	public Map<String, Object> search(@RequestBody MyMapDto map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			List list = mapService.search(map);
@@ -73,10 +74,10 @@ public class MapController {
 		return result;
 	}
 	@PostMapping("/Lnbkmq9x")
-	public Map<String, Object> detail(@RequestBody MyMap map){
+	public Map<String, Object> detail(@RequestBody MyMapVo map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			MapDesc desc = descService.getDetail(map.getContent_id());
+			MapDescVo desc = descService.getDetail(map.getContent_id());
 			result.put("msg", "OK");
 			result.put("detail", "loaded info");
 			result.put("desc", desc);

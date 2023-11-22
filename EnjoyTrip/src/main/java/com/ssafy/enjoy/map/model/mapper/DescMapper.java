@@ -4,11 +4,11 @@ import java.sql.SQLException;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.map.model.MapDesc;
+import com.ssafy.enjoy.map.vo.MapDescVo;
 
 @Mapper
 public interface DescMapper {
 
-	MapDesc readDesc(int contentId) throws SQLException ;
+	MapDescVo readDesc(int contentId) throws SQLException ;
 	
 }
