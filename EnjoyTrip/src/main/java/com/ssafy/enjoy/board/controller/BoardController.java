@@ -20,7 +20,7 @@ import com.ssafy.enjoy.board.model.dto.PositionDto;
 import com.ssafy.enjoy.board.model.service.BoardService;
 import com.ssafy.enjoy.board.model.vo.BoardVo;
 import com.ssafy.enjoy.board.model.vo.PositionVo;
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 
 @RestController
 @RequestMapping("/YZ97gY92")

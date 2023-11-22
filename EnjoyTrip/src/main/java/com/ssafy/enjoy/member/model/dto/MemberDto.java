@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.member.model.dto;
 
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.board.model.dto;
 
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 
 public class PositionDto {
 	private int articleNo;

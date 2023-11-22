@@ -2,46 +2,43 @@ import express from 'express';
 import bodyParser from "body-parser";
 import {createKey, invalidateCall} from "./session.js";
 import axios from "axios";
+
 const app = express();
 // app.use(express.json());
 app.use(bodyParser.json());
 const PORT = 3000
-const URL = "http://localhost/EnjoyTrip/session"
+const URL = "http://localhost/EnjoyTrip/session/invalidate"
 
-app.post('/session', (req,res)=>{
+// java에서 session을 만들면 여기로 요청이 온다. sessionId를 만들고 30분 후에 invalidate 메세지를 보낸댜.
+app.post('/session', (req, res) => {
     let body = req.body;
-    // console.log(req)
-    console.log(body)
-    console.log(req.headers)
     const key = createKey(body)
-    console.log(key)
+    // invalidateCall(5000,{"userId":body.userId,"sessionId":key})
 
-    invalidateCall(5000,{"id":body.userId,"sessionId":key})
-    return "login - invalidate call push at queue"
-    // setTimeout(() => {
-    //     axios.post(URL + "/invalidate", {"userId": body.userId, "sessionId": key}, {
-    //         headers: {"Content-Type": "application/json"}
-    //     })
-    // }, 5000) //1000 = 1초 // 1,800,000 = 30분
-    //
-    // setTimeout(()=>{
-    //     console.log("SendMSG")
-    // }, 5000)
-    //
-    // res.send(key)
-})
-
-app.post('/session/invalidateRequest', (req,res)=>{
-    let body = req.body;
-    // console.log(req)
     console.log(body)
-    console.log(req.headers)
-    // const key = createKey(body)
-
-    invalidateCall(body.time,{"id":"from logout call","sessionId":body.sessionId})
-    return "logout - invalidate call push at queue"
+    setTimeout(() => {
+        axios.post(URL, {"userId": body.userId, "sessionId": key}, {
+            headers: {"Content-Type": "application/json"}
+        })
+    }, 5000)
+    res.send(key)
 })
 
-app.listen(PORT,()=>{
+// logout이 아니라
+app.post('/session/invalidateRequest', (req, res) => {
+    let body = req.body;
+    console.log(body)
+    //reaction of invalidate message. invalidate 요청을 받았는데 삭제할 시간이 아니면, 마지막 세션 사용의 30분 후에 왔다면 다시 이거 보낸다.
+    //time차 만큼 이후에 다시 request 보내라고 한다.
+    // invalidateCall(body.requestTime, {"id": "invalidated called", "sessionId": body.sessionId})
+    setTimeout(() => {
+        axios.post(URL, {"user_id": body.userId, "sessionId": body.session_id}, {
+            headers: {"Content-Type": "application/json"}
+        })
+    }, body.requestTime)
+    res.send("logout - invalidate call push at queue")
+})
+
+app.listen(PORT, () => {
     console.log(`server is running at localhost:${PORT}`)
 })

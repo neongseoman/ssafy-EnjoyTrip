@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.util.Exception.MySessinException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,7 @@ import com.ssafy.enjoy.member.model.service.MemberService;
 import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.enjoy.session.SessionService;
 import com.ssafy.enjoy.session.model.SessionReqDto;
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 import com.ssafy.util.OpenCrypt;
 
 @RestController
@@ -58,6 +59,7 @@ public class MemberController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
                 }
                 SessionReqDto sessionReqModel = new SessionReqDto(userInfo.getUserId());
+                System.out.println("request to node");
                 String sessionId = sessionService.sessionReq(sessionReqModel,userInfo,hashedUserAgent); // session put도 해줌.
                 memberService.updateLoginCondition(userInfo.getUserId());
                 System.out.println(hashedUserAgent.substring(0,10));
@@ -127,7 +129,9 @@ public class MemberController {
         String sessionId = (String) request.getAttribute("sessionId");
 
         try{
-            sessionService.invalidate(sessionId);
+            if (!sessionService.invalidate(sessionId))
+                throw new MySessinException("cant session invalidate");
+
             memberService.logout(id);
             FailResDto failResDto = new FailResDto("Yes","로그아웃 성공");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);

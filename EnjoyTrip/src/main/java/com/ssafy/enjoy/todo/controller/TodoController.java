@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
 import com.ssafy.enjoy.todo.model.service.TodoService;
 import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 
 @RestController
 @RequestMapping("/SVIhWrLV")

@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.todo.model.vo;
 
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 
 public class ScheduleVo {
 	private String title, time, date, userId;

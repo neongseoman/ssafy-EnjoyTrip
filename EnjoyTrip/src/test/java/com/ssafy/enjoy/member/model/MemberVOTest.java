@@ -1,6 +1,6 @@
 //package com.ssafy.enjoy.member.model;
 //
-//import com.ssafy.util.VOException;
+//import com.ssafy.util.Exception.VOException;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;

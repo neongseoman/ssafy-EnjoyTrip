@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.member.model.vo;
 
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 import lombok.Getter;
 
 @Getter

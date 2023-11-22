@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.map.vo;
 
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 import lombok.Getter;
 
 import static com.ssafy.enjoy.map.data.OfficialMapData.*;

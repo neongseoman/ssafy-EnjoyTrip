@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoy.board.model.dto.PositionDto;
 import com.ssafy.enjoy.board.model.vo.PositionVo;
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 
 @Mapper
 public interface PositionMapper {

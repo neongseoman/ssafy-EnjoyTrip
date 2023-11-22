@@ -1,6 +1,6 @@
 package com.ssafy.enjoy.todo.model.dto;
 
-import com.ssafy.util.DtoException;
+import com.ssafy.util.Exception.DtoException;
 
 public class ScheduleDto {
 	private String title, time, date, userId;

@@ -1,8 +1,6 @@
 package com.ssafy.enjoy.map.vo;
 
-import com.ssafy.enjoy.map.dto.MyMapDto;
-import com.ssafy.util.DtoException;
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 import lombok.Getter;
 
 @Getter

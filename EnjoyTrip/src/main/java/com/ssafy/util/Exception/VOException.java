@@ -1,4 +1,4 @@
-package com.ssafy.util;
+package com.ssafy.util.Exception;
 
 public class VOException extends Exception {
 

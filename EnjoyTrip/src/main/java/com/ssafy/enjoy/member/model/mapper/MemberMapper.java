@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.enjoy.member.model.dto.MemberDto;
 import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.vo.MemberVo;
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 
 @Mapper
 public interface MemberMapper {

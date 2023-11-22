@@ -19,7 +19,8 @@ public class sessionController {
 
     @PostMapping("invalidate")
     public void invalidate(@RequestBody Map<String,String> hash_data){
-        sessionService.nodeReqInvalidate(hash_data.get("sessionId"));
-        System.out.println(hash_data.toString() + " is removed");
+        if(sessionService.nodeReqInvalidate(hash_data.get("sessionId")))
+            System.out.println(hash_data.toString() + " is removed");
+        System.out.println(hash_data + " is not removed");
     }
 }

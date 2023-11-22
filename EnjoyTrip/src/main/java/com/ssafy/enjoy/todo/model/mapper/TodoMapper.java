@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
 import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
-import com.ssafy.util.VOException;
+import com.ssafy.util.Exception.VOException;
 
 @Mapper
 public interface TodoMapper {

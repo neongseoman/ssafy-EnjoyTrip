@@ -5,6 +5,7 @@ import com.ssafy.enjoy.session.model.SessionModel;
 import com.ssafy.enjoy.session.model.SessionReqDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.Local;
+import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -35,24 +36,26 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     @Value("${NODE-URL}")
     private String NODE_URL;
 
+    @Description("node에 세션을 요청함. sessionId를 받고 비동기 요청을 함.")
     public String sessionReq(SessionReqDto reqBody, MemberVo userInfo, String hashedUserAgent) throws IOException {
-//        System.out.println(reqBody.toString());
-        RestTemplate restTemplate = new RestTemplate();
+        System.out.println("into session req:" + reqBody.toString());
 
+        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         MediaType mediaType = new MediaType("application","json", StandardCharsets.UTF_8);
         headers.setContentType(mediaType);
         String sessionId = restTemplate.postForObject(NODE_URL+"/session", reqBody, String.class);
         SessionModel sessionModel
-                = new SessionModel(reqBody.getUserId(),userInfo.getUserName(),
-                sessionId,hashedUserAgent,0, LocalDateTime.now());
-        // session ID가 없을 때 전략 필요. node에 req를 다시 보낼 것인가?
+                = new SessionModel(reqBody.getUserId(),userInfo.getUserName(), sessionId, hashedUserAgent,0, LocalDateTime.now());
+
         session.put(sessionId,sessionModel);
         System.out.println("this is session : " + session.get(sessionId));
         return sessionId;
     }
 
+    @Description("this session is valid? live? not null?")
     public boolean isSessionValid(String sessionId){
+        // session key - value is live?
         if (session.get(sessionId) == null) {
             return false;
         }
@@ -66,14 +69,14 @@ public class SessionService { // 세션은 빈번하게 사용되니까
 //        System.out.println(LocalDateTime.now().minusMinutes(30).isBefore(sessionModel.getLatelyAccessTime()));
 
 //         현재 시간 -30분 이 마지막 접근 시간보다 뒤에 있다면 세션을 갱신했으니 invalidate하지 않는다.
+        // request is before 30m from lastAccessTime
         if (!LocalDateTime.now().minusMinutes(30).isBefore(sessionModel.getLatelyAccessTime())){
-            Duration duration = Duration.between(LocalDateTime.now(),sessionModel.getLatelyAccessTime());
-//            System.out.println(duration.getNano());
             return false;
         }
         return true;
     }
 
+    @Description("HashMap get Value")
     public SessionModel getSession(String sessionId){
         try{
             if (isSessionValid(sessionId))
@@ -86,6 +89,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     return null;
     }
 
+    @Description("이게 오면 그냥 바로 삭제 => logout.")
     public boolean invalidate(String sessionId){
         if (isSessionValid(sessionId)){
             session.remove(sessionId);
@@ -101,19 +105,27 @@ public class SessionService { // 세션은 빈번하게 사용되니까
             return false;
         }
         SessionModel sessionModel = session.get(sessionId);
-        if (!LocalDateTime.now().minusMinutes(30).isBefore(sessionModel.getLatelyAccessTime())){
+        // 마지막 접근으로부터 30분이 지났다...
+        // 네트워크 에러나 노드의 딜레이로 인해서 조금 늦더라도 시간 여유를 주겠음.
+        if (!LocalDateTime.now().minusMinutes(32).isBefore(sessionModel.getLatelyAccessTime())){
             Duration duration = Duration.between(LocalDateTime.now(),sessionModel.getLatelyAccessTime());
             int second = duration.getNano();
             Map<String, String> invalidRequest = new HashMap<>();
             invalidRequest.put("session_id",sessionId);
+            invalidRequest.put("user_id", sessionModel.getUserId());
             invalidRequest.put("requestTime", String.valueOf(second));
+
+            // invalidate Message Request to session-manager(node)
+            // request time : upper duration.nano time
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             MediaType mediaType = new MediaType("application","json", StandardCharsets.UTF_8);
             headers.setContentType(mediaType);
             String response = restTemplate.postForObject(NODE_URL+"/session/invalidRequest", invalidRequest, String.class);
+
             return false;
         }
+
         session.remove(sessionId);
         return true;
     }
