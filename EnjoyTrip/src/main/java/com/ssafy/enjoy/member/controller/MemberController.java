@@ -68,7 +68,7 @@ public class MemberController {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);
             } catch (Exception e) {
                 e.printStackTrace();
-                FailResDto failResDto = new FailResDto("No","Unchecked Error");
+                FailResDto failResDto = new FailResDto("No",e.getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }
         }

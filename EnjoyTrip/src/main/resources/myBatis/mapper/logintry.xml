@@ -3,21 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.member.model.mapper.LogintryMapper">
-<resultMap type="com.ssafy.enjoy.member.model.vo.LoginTryVo" id="loginTryDto">
+<resultMap type="com.ssafy.enjoy.member.model.vo.LoginTryVo" id="loginTryVo">
 	<result column="user_id" property="userId"/>
 	<result column="client_ip" property="clientIp"/>
 	<result column="last_try_date" property="lastTryDate"/>
 	<result column="last_try_time" property="lastTryTime"/>
 	<result column="retry" property="retry"/>
 </resultMap>
-	<select id="readLoginTry" parameterType="String" resultMap="loginTryDto">
+	<select id="readLoginTry" parameterType="String" resultMap="loginTryVo">
 		select `user_id`, `client_ip`, `last_try_date`, `last_try_time`, `retry`
 		from `login_try`
 		where `client_ip`= #{ip} and `user_id`=#{id}
 	</select>
 	<update id="updateLointryFail" parameterType="String">
 		update `login_try`
-		set `retry`=`retry`+1, `last_try_date`=current_timestamp, `last_try_time`=current_timestamp 
+		set `retry`=`retry`+1, `last_try_date`=current_timestamp(), `last_try_time`=current_timestamp() 
 		where `client_ip`=#{ip} and `user_id`=#{id}
 	</update>
 	<update id="updateLogintrySuccess" parameterType="String">
