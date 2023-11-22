@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,6 @@ import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
 import com.ssafy.enjoy.member.model.vo.LoginTryVo;
 import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.util.OpenCrypt;
-import com.ssafy.util.VOException;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -75,10 +75,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
-		}catch(VOException e) {
+		} catch(MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -124,10 +121,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
-		}catch(VOException e) {
+		} catch(MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -148,10 +142,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
-		}catch(VOException e) {
+		} catch(MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -181,10 +172,7 @@ public class MemberServiceImpl implements MemberService {
 			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
 			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);
 			keyInfoMapper.deleteKeyInfo(hashedId);
-		}catch(SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
-		}catch(VOException e) {
+		}catch(MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
