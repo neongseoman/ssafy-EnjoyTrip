@@ -44,9 +44,12 @@ public class MemberServiceImpl implements MemberService {
 			LoginTryVo loginTryVo = logintryMapper.readLoginTry(ip, member.getUserId());
 			if (loginTryVo != null) {
 				Date today = new Date();
-				Time now = new Time(today.getHours(), today.getMinutes() - 30, today.getSeconds());
-				if (loginTryVo.getRetry() >= 5 && today == loginTryVo.getLastTryDate()
-						&& loginTryVo.getLastTryTime().after(now)) {
+				Time now = new Time(today.getHours()-9, today.getMinutes() - 32, today.getSeconds());
+				System.out.println(now);
+				Date loginDay = loginTryVo.getLastTryDate();
+				boolean sameDay = loginDay!=null&&today.getDate()==loginDay.getDate()&&today.getDay()==loginDay.getDay()&&today.getMonth()==loginDay.getMonth()&&today.getYear()==loginDay.getYear();
+				if (loginTryVo.getRetry() >= 5
+						&& sameDay  && now.before(loginTryVo.getLastTryTime())) {
 					throw new Exception("login try limit 30min");
 				}
 			} else {
@@ -75,7 +78,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch(MyBatisSystemException e) {
+		} catch (MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -104,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 			IdInfoVo idInfoVo = new IdInfoVo();
 			idInfoVo.setId(member.getUserId());
 			idInfoVo.setSalt(UUID.randomUUID().toString());
-			byte[] hashed_id_byte= OpenCrypt.getSHA256(idInfoVo.getId(), idInfoVo.getSalt());
+			byte[] hashed_id_byte = OpenCrypt.getSHA256(idInfoVo.getId(), idInfoVo.getSalt());
 			String hashed_id = OpenCrypt.byteArrayToHex(hashed_id_byte);
 			KeyInfoVo keyInfoVo = new KeyInfoVo();
 			keyInfoVo.setHashedId(hashed_id);
@@ -121,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch(MyBatisSystemException e) {
+		} catch (MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -133,7 +136,8 @@ public class MemberServiceImpl implements MemberService {
 			byte[] hashed_id_byte = OpenCrypt.getSHA256(idInfoVo.getId(), idInfoVo.getSalt());
 			String hashed_id = OpenCrypt.byteArrayToHex(hashed_id_byte);
 			KeyInfoVo keyInfoVo = keyInfoMapper.readKeyInfo(hashed_id);
-			String pw_crypt = OpenCrypt.aesEncrypt(member.getNewPassword(),OpenCrypt.hexToByteArray(keyInfoVo.getKey()));
+			String pw_crypt = OpenCrypt.aesEncrypt(member.getNewPassword(),
+					OpenCrypt.hexToByteArray(keyInfoVo.getKey()));
 			byte[] pw_hashed_byte = OpenCrypt.getSHA256(pw_crypt, keyInfoVo.getSalt());
 			String pw_hashed = OpenCrypt.byteArrayToHex(pw_hashed_byte);
 			member.setNewPassword(pw_hashed);
@@ -142,7 +146,7 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch(MyBatisSystemException e) {
+		} catch (MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}
@@ -157,7 +161,7 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updateLoginCondition(userId);
 	}
 
-	public void logout(String id)  throws Exception{
+	public void logout(String id) throws Exception {
 		System.out.println(id);
 		memberMapper.updateLoginCondition(id);
 	}
@@ -172,7 +176,7 @@ public class MemberServiceImpl implements MemberService {
 			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
 			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);
 			keyInfoMapper.deleteKeyInfo(hashedId);
-		}catch(MyBatisSystemException e) {
+		} catch (MyBatisSystemException e) {
 			throw new Exception("Database error");
 		}
 	}

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,7 @@ public class BoardController {
 	@PostMapping("/Ct6X83dL")
 	public Map<String, Object> getList(@RequestBody PageDto page) throws DtoException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(page.getPgno()==0) {
+		if (page.getPgno() == 0) {
 			page.setPgno(1);
 		}
 		try {
@@ -48,19 +50,20 @@ public class BoardController {
 	}
 
 	@PostMapping("/ePQowXNQ")
-	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map) throws DtoException{
+	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map, HttpServletRequest request)
+			throws DtoException {
 		Map boardMap = (Map) map.get("board");
 		BoardDto board = new BoardDto();
-		board.setContent((String)boardMap.get("content"));
-		board.setSubject((String)boardMap.get("subject"));
-		board.setUserId((String)boardMap.get("userId"));
+		board.setContent((String) boardMap.get("content"));
+		board.setSubject((String) boardMap.get("subject"));
+		board.setUserId((String) request.getAttribute("userId"));
 		List positionList = (List) map.get("positions");
 		List<PositionDto> positions = new ArrayList<PositionDto>();
-		for(int i=0;i<positionList.size();i++) {
-			Map positionMap = (Map)positionList.get(i);
+		for (int i = 0; i < positionList.size(); i++) {
+			Map positionMap = (Map) positionList.get(i);
 			PositionDto pos = new PositionDto();
-			pos.setLatitude((double)positionMap.get("latitude"));
-			pos.setLongitude((double)positionMap.get("longitude"));
+			pos.setLatitude((double) positionMap.get("latitude"));
+			pos.setLongitude((double) positionMap.get("longitude"));
 			positions.add(pos);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -80,15 +83,15 @@ public class BoardController {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/KPVnFhFX")
-	public  Map<String, Object> getDetail(@RequestBody BoardDto board){
+	public Map<String, Object> getDetail(@RequestBody BoardDto board) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(board);
-		if(board.getArticleNo() == 0) {
+		if (board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 불러올 수 없습니다.");
-		}else {
+		} else {
 			try {
 				List<PositionVo> positions = boardService.getPositions(board);
 				BoardVo boardResult = boardService.getDetail(board);
@@ -96,7 +99,7 @@ public class BoardController {
 				result.put("detail", "Success to write board detail");
 				result.put("board", boardResult);
 				result.put("positions", positions);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				result.put("msg", "NO");
 				result.put("detail", "fail to write board detail");
@@ -104,34 +107,35 @@ public class BoardController {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/7QJMgsU7")
-	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map) throws DtoException{
+	public Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map, HttpServletRequest request)
+			throws DtoException {
 		Map boardMap = (Map) map.get("board");
 		BoardDto board = new BoardDto();
-		board.setArticleNo((int)boardMap.get("articleNo"));
-		board.setContent((String)boardMap.get("content"));
-		board.setSubject((String)boardMap.get("subject"));
-		board.setUserId((String)boardMap.get("userId"));
+		board.setArticleNo((int) boardMap.get("articleNo"));
+		board.setContent((String) boardMap.get("content"));
+		board.setSubject((String) boardMap.get("subject"));
+		board.setUserId((String) request.getAttribute("userId"));
 		List positionList = (List) map.get("positions");
 		List<PositionDto> positions = new ArrayList<PositionDto>();
-		for(int i=0;i<positionList.size();i++) {
-			Map positionMap = (Map)positionList.get(i);
+		for (int i = 0; i < positionList.size(); i++) {
+			Map positionMap = (Map) positionList.get(i);
 			PositionDto pos = new PositionDto();
-			pos.setLatitude((double)positionMap.get("latitude"));
-			pos.setLongitude((double)positionMap.get("longitude"));
+			pos.setLatitude((double) positionMap.get("latitude"));
+			pos.setLongitude((double) positionMap.get("longitude"));
 			positions.add(pos);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(board.getArticleNo() == 0) {
+		if (board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 수정할 수 없습니다.");
-		}else {
+		} else {
 			try {
 				boardService.modifyBoard(board, positions);
 				result.put("msg", "OK");
 				result.put("detail", "Success to modify board detail");
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				result.put("msg", "NO");
 				result.put("detail", "fail to modify board detail");
@@ -139,20 +143,21 @@ public class BoardController {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/S1BLjFsA")
-	public  Map<String, Object> deleteBoard(@RequestBody BoardDto board){
+	public Map<String, Object> deleteBoard(@RequestBody BoardDto board, HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(board.getArticleNo() == 0) {
+		if (board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "게시글을 삭제할 수 없습니다.");
-		}else {
+		} else {
 			try {
+				board.setUserId((String) request.getAttribute("userId"));
 				boardService.deleteBoard(board);
 				PageDto page = new PageDto();
 				result.put("msg", "OK");
 				result.put("detail", "Success to delete board detail");
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				result.put("msg", "NO");
 				result.put("detail", "fail to delete board detail");
@@ -160,9 +165,9 @@ public class BoardController {
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/t7OqJjRE")
-	public Map<String, Object> getPageNum(@RequestBody PageDto page){
+	public Map<String, Object> getPageNum(@RequestBody PageDto page) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(page);
 		try {
@@ -170,7 +175,7 @@ public class BoardController {
 			result.put("msg", "OK");
 			result.put("detail", "Success to load page nation");
 			result.put("pages", pages);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("msg", "NO");
 			result.put("detail", "fail to load page nation");

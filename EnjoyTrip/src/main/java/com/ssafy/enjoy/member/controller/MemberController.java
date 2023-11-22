@@ -1,14 +1,11 @@
 package com.ssafy.enjoy.member.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.ssafy.enjoy.member.model.dto.MemberDto;
-import com.ssafy.util.OpenCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
@@ -19,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.member.model.vo.MemberVo;
-import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.dto.FailResDto;
+import com.ssafy.enjoy.member.model.dto.MemberDto;
 import com.ssafy.enjoy.member.model.dto.MemberResDto;
+import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.dto.ResDto;
 import com.ssafy.enjoy.member.model.service.MemberService;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.enjoy.session.SessionService;
 import com.ssafy.enjoy.session.model.SessionReqDto;
+import com.ssafy.util.DtoException;
+import com.ssafy.util.OpenCrypt;
 
 @RestController
 @Description("Member Controller")
@@ -70,7 +70,7 @@ public class MemberController {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);
             } catch (Exception e) {
                 e.printStackTrace();
-                FailResDto failResDto = new FailResDto("No","Unchecked Error");
+                FailResDto failResDto = new FailResDto("No",e.getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }
         }
@@ -141,8 +141,10 @@ public class MemberController {
 
     @Description("update")
     @PostMapping("yztR0IHo")
-    public ResponseEntity<ResDto> update(@RequestBody ModifyMemberDto member, HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<ResDto> update(@RequestBody ModifyMemberDto member, HttpServletRequest request, HttpSession session) throws DtoException {
         System.out.println(member.toString());
+        member.setUserId((String)request.getAttribute("userId"));
+        member.setUserName((String)request.getAttribute("userName"));
         if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
 
             FailResDto failResDto = new FailResDto("No","내용이 없음");
@@ -174,8 +176,11 @@ public class MemberController {
 
     @Description("멤버 탈퇴")
     @PostMapping("0fokQBK6")
-    public ResponseEntity<ResDto> delete(@RequestBody MemberDto member){
+    public ResponseEntity<ResDto> delete(HttpServletRequest request){
     	 try {
+    		 MemberDto member = new MemberDto();
+    		 member.setUserId((String)request.getAttribute("userId"));
+    		 member.setUserName((String)request.getAttribute("userName"));
     		 memberService.deleteMember(member);
              FailResDto failResDto = new FailResDto("Yes","로그인 성공");
              return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);

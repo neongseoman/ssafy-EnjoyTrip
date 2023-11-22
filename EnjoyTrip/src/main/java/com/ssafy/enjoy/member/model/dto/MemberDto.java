@@ -1,6 +1,7 @@
 package com.ssafy.enjoy.member.model.dto;
 
 import com.ssafy.util.DtoException;
+
 import lombok.Getter;
 
 @Getter
@@ -24,13 +25,16 @@ public class MemberDto {
 			throw new DtoException(MemberDto.class, "user name");
 		this.userName = userName;
 	}
+<<<<<<< HEAD
 //
+=======
+
+>>>>>>> 6c06b0b5b8e714b3e6b0bfcb5087e0cb2e4328bf
 	public void setUserPassword(String userPassword) throws DtoException {
 		if (userId == null || "".equals(userId))
 			throw new DtoException(MemberDto.class, "user id");
 		this.userPassword = userPassword;
 	}
-//
 	public void setEmailId(String emailId) throws DtoException {
 		if (userId == null || "".equals(userId))
 			throw new DtoException(MemberDto.class, "emailId");

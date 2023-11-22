@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,13 +49,15 @@ public class CommentController {
 	}
 
 	@PostMapping("/ndKw8G69")
-	public Map<String, Object> writeComment(@RequestBody CommentDto comment) {
+	public Map<String, Object> writeComment(@RequestBody CommentDto comment, HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (comment.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "fail to load comment");
 		} else {
 			try {
+				comment.setUserId((String)request.getAttribute("userId"));
+				comment.setUserName((String)request.getAttribute("userName"));
 				commentService.writeComment(comment);
 				result.put("msg", "OK");
 				result.put("detail", "fail to load comment");
@@ -67,9 +71,11 @@ public class CommentController {
 		return result;
 	}
 	@PostMapping("/cBHoXtQ5")
-	public Map<String, String> delete(@RequestBody CommentDto comment){
+	public Map<String, String> delete(@RequestBody CommentDto comment, HttpServletRequest request){
 		Map<String, String> result = new HashMap<String, String>();
 		try {
+			comment.setUserId((String)request.getAttribute("userId"));
+			comment.setUserName((String) request.getAttribute("userName"));
 			commentService.deleteComment(comment);
 			result.put("msg", "OK");
 		}catch(Exception e) {

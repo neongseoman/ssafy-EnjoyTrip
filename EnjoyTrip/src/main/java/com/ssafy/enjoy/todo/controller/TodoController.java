@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +25,11 @@ public class TodoController {
 	TodoService todoService;
 	
 	@PostMapping("/Crh17XqZ")
-	public Map<String, Object> download(@RequestBody ScheduleDto schedule){
+	public Map<String, Object> download(HttpServletRequest request){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
+			ScheduleDto schedule = new ScheduleDto();
+			schedule.setUserId((String)request.getAttribute("userId"));
 			List<ScheduleVo> list = todoService.getList(schedule);
 			result.put("msg", "OK");
 			result.put("detail", "할일 목록 로드 성공");
@@ -39,13 +43,13 @@ public class TodoController {
 	}
 	
 	@PostMapping("/PmtI1NmN")
-	public Map<String, Object> upload(@RequestBody Map<String, Object> map) throws DtoException{
+	public Map<String, Object> upload(@RequestBody Map<String, Object> map, HttpServletRequest request) throws DtoException{
 		List<Map> todos = (List)map.get("todos");
-		String userId = (String)map.get("userId");
+		String userId = (String)request.getAttribute("userId");
 		List<ScheduleDto> todo_list = new ArrayList<ScheduleDto>();
 		for(Map todo : todos) {
 			ScheduleDto temp = new ScheduleDto();
-			temp.setUserId((String)todo.get("user_id"));
+			temp.setUserId(userId);
 			temp.setDate((String)todo.get("date"));
 			temp.setTime((String)todo.get("time"));
 			temp.setTitle((String)todo.get("title"));
