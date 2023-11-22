@@ -3,17 +3,17 @@ package com.ssafy.enjoy.map.model.mapper;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ssafy.enjoy.map.dto.MyMapDto;
+import com.ssafy.enjoy.map.vo.MyMapVo;
 import org.apache.ibatis.annotations.Mapper;
-
-import com.ssafy.enjoy.map.model.MyMap;
 
 @Mapper
 public interface MapMapper {
 
-	List<MyMap> readSido() throws SQLException;
+	List<MyMapVo> readSido() throws SQLException;
 
-	List<MyMap> readGugun() throws SQLException;
+	List<MyMapVo> readGugun() throws SQLException;
 
-	List<MyMap> readMap(MyMap map) throws SQLException;
+	List<MyMapVo> readMap(MyMapDto map) throws SQLException;
 
 }

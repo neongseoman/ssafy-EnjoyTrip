@@ -1,6 +1,6 @@
-package com.ssafy.enjoy.map.model;
+package com.ssafy.enjoy.map.vo;
 
-public class MapDesc {
+public class MapDescVo {
 	private int contentId;
 	private String homepage, overview, telname;
 	private String sessionId;

@@ -40,6 +40,7 @@ public class MemberController {
     @PostMapping("/MAqGI3Cv")
     public ResponseEntity<ResDto> login(@RequestBody MemberDto member, HttpServletRequest request) throws UnsupportedEncodingException {
         String ip = request.getRemoteAddr();
+        System.out.println(member);
 
         String userAgent = request.getHeader("User-Agent");
         String hashedUserAgent = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA1(userAgent, "ssafy"));
