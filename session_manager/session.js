@@ -15,13 +15,3 @@ export const createKey = (info) => {
 
     return key
 }
-
-export const invalidateCall =  (time,data) => {
-    console.log("   ----    " + data)
-    console.log(time +" " +data.sessionId+" "+data.userId)
-
-    setTimeout((time) => {
-    axios.post(URL + "/invalidate", {"id": data.userId, "sessionId": data.sessionId}, {
-        headers: {"Content-Type": "application/json"}
-    }).then(r => log(data.sessionId))},5000)
-} //1000 = 1초 // 1,800,000 = 30분

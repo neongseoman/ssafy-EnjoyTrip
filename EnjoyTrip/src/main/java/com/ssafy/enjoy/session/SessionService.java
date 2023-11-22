@@ -125,7 +125,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
 
             return false;
         }
-
+        System.out.println("session 삭제");
         session.remove(sessionId);
         return true;
     }

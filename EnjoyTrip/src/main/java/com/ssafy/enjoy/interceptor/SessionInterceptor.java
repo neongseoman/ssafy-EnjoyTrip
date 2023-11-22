@@ -36,7 +36,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 
         if (jsonObj.get("sessionId") == null)
             return false;
-//        System.out.println("session ID : " + jsonObj.get("sessionId"));
+        System.out.println("session ID : " + jsonObj.get("sessionId"));
         String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
         String userSessionId = jsonObjSessionId.substring(1, jsonObjSessionId.length() - 1);
         // 너가 포스트로 보냈고 바디도 있고 바디가 비어있지 않고 바디에 세션아이디가 있다면 여기까지 올 수 있어.

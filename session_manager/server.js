@@ -1,13 +1,13 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import {createKey, invalidateCall} from "./session.js";
+import {createKey} from "./session.js";
 import axios from "axios";
 
 const app = express();
 // app.use(express.json());
 app.use(bodyParser.json());
 const PORT = 3000
-const URL = "http://localhost/EnjoyTrip/session/invalidate"
+const URL = "http://localhost/EnjoyTrip/session/invalidate" //세션 제거하는 URL
 
 // java에서 session을 만들면 여기로 요청이 온다. sessionId를 만들고 30분 후에 invalidate 메세지를 보낸댜.
 app.post('/session', (req, res) => {
@@ -20,7 +20,7 @@ app.post('/session', (req, res) => {
         axios.post(URL, {"userId": body.userId, "sessionId": key}, {
             headers: {"Content-Type": "application/json"}
         })
-    }, 5000)
+    }, 10000)
     res.send(key)
 })
 
