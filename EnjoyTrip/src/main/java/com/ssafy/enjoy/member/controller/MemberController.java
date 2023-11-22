@@ -127,8 +127,8 @@ public class MemberController {
         String sessionId = (String) request.getAttribute("sessionId");
 
         try{
-            memberService.logout(id);
             sessionService.invalidate(sessionId);
+            memberService.logout(id);
             FailResDto failResDto = new FailResDto("Yes","로그아웃 성공");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
 
