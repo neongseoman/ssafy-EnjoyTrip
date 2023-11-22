@@ -45,8 +45,8 @@ public class SessionInterceptor implements HandlerInterceptor {
             SessionModel session = sessionService.getSession(userSessionId);
             LocalDateTime currentDateTime = LocalDateTime.now();
             // 세션 유효시간을 넘겼어.. 현재 시간 30분 이전보다 세션을 사용했다면
-//            if (currentDateTime.minusMinutes(30).isBefore(session.getLatelyAccessTime()))
-//                return false; //돌아가.
+            if (!currentDateTime.minusMinutes(30).isBefore(session.getLatelyAccessTime()))
+                return false; //돌아가.
             System.out.println("setTime");
             session.setLatelyAccessTime(LocalDateTime.now()); // 세션 유지 시간 갱신.
             String userAgent = request.getHeader("User-Agent");
