@@ -28,7 +28,7 @@ public class CustomServletWrappingFilter extends OncePerRequestFilter {
                 filterChain.doFilter(requestFileWrapper, response);
             }
         } else {
-            System.out.println("filter pass");
+            System.out.println("other method filter pass");
             filterChain.doFilter(request, response);
         }
 

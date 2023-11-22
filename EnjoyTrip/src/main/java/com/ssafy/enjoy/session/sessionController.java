@@ -19,7 +19,7 @@ public class sessionController {
 
     @PostMapping("invalidate")
     public void invalidate(@RequestBody Map<String,String> hash_data){
-//        sessionService.isSessionValid()
-        System.out.println(hash_data.toString() + " is delicated");
+        sessionService.invalidate(hash_data.get("sessionId"));
+        System.out.println(hash_data.toString() + " is removed");
     }
 }

@@ -15,12 +15,17 @@ app.post('/session', (req,res)=>{
     console.log(req.headers)
     const key = createKey(body)
     console.log(key)
-    const callInvalidate = () => {
+
+    setTimeout(() => {
         axios.post(URL + "/invalidate", {"userId": body.userId, "sessionId": key}, {
             headers: {"Content-Type": "application/json"}
         })
-        setTimeout(callInvalidate, 3000) //1000 = 1초 // 1,800,000 = 30분
-    }
+    }, 5000) //1000 = 1초 // 1,800,000 = 30분
+
+    setTimeout(()=>{
+        console.log("SendMSG")
+    }, 5000)
+
     res.send(key)
 })
 

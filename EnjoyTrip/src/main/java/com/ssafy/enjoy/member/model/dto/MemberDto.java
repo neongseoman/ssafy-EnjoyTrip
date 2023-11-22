@@ -13,17 +13,17 @@ public class MemberDto {
 
 	public MemberDto() {}
 
-//	public void setUserId(String userId) throws  DtoException {
-//		if (userId == null || "".equals(userId))
-//			throw new DtoException(MemberDto.class, "user id");
-//		this.userId = userId;
-//	}
-//
-//	public void setUserName(String userName) throws DtoException {
-//		if (userName == null || "".equals(userName))
-//			throw new DtoException(MemberDto.class, "user name");
-//		this.userName = userName;
-//	}
+	public void setUserId(String userId) throws  DtoException {
+		if (userId == null || "".equals(userId))
+			throw new DtoException(MemberDto.class, "user id");
+		this.userId = userId;
+	}
+
+	public void setUserName(String userName) throws DtoException {
+		if (userName == null || "".equals(userName))
+			throw new DtoException(MemberDto.class, "user name");
+		this.userName = userName;
+	}
 //
 	public void setUserPassword(String userPassword) throws DtoException {
 		if (userId == null || "".equals(userId))
@@ -31,17 +31,17 @@ public class MemberDto {
 		this.userPassword = userPassword;
 	}
 //
-//	public void setEmailId(String emailId) throws DtoException {
-//		if (userId == null || "".equals(userId))
-//			throw new DtoException(MemberDto.class, "emailId");
-//		this.emailId = emailId;
-//	}
-//
-//	public void setEmailDomain(String emailDomain) throws DtoException {
-//		if (userId == null || "".equals(userId))
-//			throw new DtoException(MemberDto.class, "emailDomain");
-//		this.emailDomain = emailDomain;
-//	}
+	public void setEmailId(String emailId) throws DtoException {
+		if (userId == null || "".equals(userId))
+			throw new DtoException(MemberDto.class, "emailId");
+		this.emailId = emailId;
+	}
+
+	public void setEmailDomain(String emailDomain) throws DtoException {
+		if (userId == null || "".equals(userId))
+			throw new DtoException(MemberDto.class, "emailDomain");
+		this.emailDomain = emailDomain;
+	}
 
 	@Override
 	public String toString() {

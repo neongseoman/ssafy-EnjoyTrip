@@ -60,7 +60,9 @@ public class MemberController {
                 SessionReqDto sessionReqModel = new SessionReqDto(userInfo.getUserId());
                 String sessionId = sessionService.sessionReq(sessionReqModel,userInfo,hashedUserAgent); // session put도 해줌.
                 memberService.updateLoginCondition(userInfo.getUserId());
-                sessionService.getSession(sessionId).setHashedUserAgent(hashedUserAgent.substring(0,10));
+                System.out.println(hashedUserAgent.substring(0,10));
+                sessionService.getSession(sessionId)
+                        .setHashedUserAgent(hashedUserAgent.substring(0,10));
 
                 MemberResDto memberResDto =
                         new MemberResDto("OK","로그인 성공",sessionId,userInfo.getUserName(),userInfo.getUserId());
@@ -120,13 +122,13 @@ public class MemberController {
 
     @Description("logout")
     @PostMapping("/tLL8srPp")
-    public ResponseEntity<ResDto> logout(HttpServletRequest request) {
+    public ResponseEntity<ResDto> logout( HttpServletRequest request) {
         String id =(String) request.getAttribute("userId");
-        System.out.println(id);
+        String sessionId = (String) request.getAttribute("sessionId");
+
         try{
-            System.out.println("logout :  " + id);
             memberService.logout(id);
-//        session.invalidate();
+            sessionService.invalidate(sessionId);
             FailResDto failResDto = new FailResDto("Yes","로그아웃 성공");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);
 

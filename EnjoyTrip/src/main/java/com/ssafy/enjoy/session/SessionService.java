@@ -4,6 +4,7 @@ import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.enjoy.session.model.SessionModel;
 import com.ssafy.enjoy.session.model.SessionReqDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,21 +44,41 @@ public class SessionService { // 세션은 빈번하게 사용되니까
         headers.setContentType(mediaType);
         String sessionId = restTemplate.postForObject(NODE_URL+"/session", reqBody, String.class);
         SessionModel sessionModel
-                = new SessionModel(reqBody.getUserId(),userInfo.getUserName(), sessionId,hashedUserAgent,0, LocalDateTime.now());
+                = new SessionModel(reqBody.getUserId(),userInfo.getUserName(),
+                sessionId,hashedUserAgent,0, LocalDateTime.now());
         // session ID가 없을 때 전략 필요. node에 req를 다시 보낼 것인가?
         session.put(sessionId,sessionModel);
-        System.out.println("this is session " + session.get(sessionId));
+        System.out.println("this is session : " + session.get(sessionId));
         return sessionId;
     }
 
-    public boolean isSessionValid(String userId){
-        return session.get(userId) != null;
+    public boolean isSessionValid(String sessionId){
+        if (session.get(sessionId) == null) {
+            return false;
+        }
+        SessionModel sessionModel = session.get(sessionId);
+//        Duration duration1 = Duration.between(LocalDateTime.now(),sessionModel.getLatelyAccessTime());
+//        System.out.println("현재와 마지막 접근 시간의 차이"+duration1.getSeconds());
+//        Duration duration2 = Duration.between(LocalDateTime.now().minusMinutes(30),sessionModel.getLatelyAccessTime());
+//        System.out.println("현재와 마지막 접근 시간의 차이"+duration2.getSeconds());
+//        System.out.println(LocalDateTime.now()+" : "+LocalDateTime.now().minusMinutes(30));
+//        System.out.println(sessionModel.getLatelyAccessTime());
+//        System.out.println(LocalDateTime.now().minusMinutes(30).isBefore(sessionModel.getLatelyAccessTime()));
+
+//         현재 시간 -30분 이 마지막 접근 시간보다 뒤에 있다면 세션을 갱신했으니 invalidate하지 않는다.
+        if (!LocalDateTime.now().minusMinutes(30).isBefore(sessionModel.getLatelyAccessTime())){
+            Duration duration = Duration.between(LocalDateTime.now(),sessionModel.getLatelyAccessTime());
+            System.out.println(duration.getNano());
+            session.remove(sessionId);
+            return false;
+        }
+        return true;
     }
 
-    public SessionModel getSession(String userId){
+    public SessionModel getSession(String sessionId){
         try{
-            if (isSessionValid(userId))
-                return session.get(userId);
+            if (isSessionValid(sessionId))
+                return session.get(sessionId);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -65,19 +87,11 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     return null;
     }
 
-    public void invalidate(String userId){
-        if (isSessionValid(userId)){
-            session.remove(userId);
+    public boolean invalidate(String sessionId){
+        if (isSessionValid(sessionId)){
+            session.remove(sessionId);
+            return true;
         }
+        return false;
     }
-
-    public Map<String, SessionModel> getSession() {
-        return session;
-    }
-
-    public String testSession() {
-        return "session Hello";
-    }
-
-
 }

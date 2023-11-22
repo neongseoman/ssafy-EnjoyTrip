@@ -60,6 +60,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 //          여기까지 통과한 Req는 어느정도 믿어준다.
             request.setAttribute("userId", session.getUserId());
             request.setAttribute("userName", session.getUserName());
+            request.setAttribute("sessionId",userSessionId);
             System.out.println("interceptor pass!");
 
             return true;

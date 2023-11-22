@@ -20,7 +20,7 @@ public class RequestFileWrapper extends HttpServletRequestWrapper{
         this.bytes = IoUtils.toByteArray(in);
         this.requestBody =  new String(this.bytes);
         customHeaders = new HashMap<>();
-        System.out.println("Filter" + getRequestBody());
+//        System.out.println("Filter" + getRequestBody());
     }
 
     @Override
