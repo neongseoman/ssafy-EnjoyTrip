@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoy.map.vo.MapDescVo;
 import com.ssafy.enjoy.map.model.mapper.DescMapper;
+import com.ssafy.enjoy.map.vo.MapDescVo;
+import com.ssafy.util.VOException;
 
 @Service
 public class DescServiceImpl implements DescService {
@@ -21,6 +22,8 @@ public class DescServiceImpl implements DescService {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server Error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 

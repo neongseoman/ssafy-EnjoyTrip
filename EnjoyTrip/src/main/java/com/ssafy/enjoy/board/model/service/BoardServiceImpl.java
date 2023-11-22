@@ -14,6 +14,7 @@ import com.ssafy.enjoy.board.model.mapper.PositionMapper;
 import com.ssafy.enjoy.board.model.vo.BoardVo;
 import com.ssafy.enjoy.board.model.vo.PositionVo;
 import com.ssafy.util.SizeConstant;
+import com.ssafy.util.VOException;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -47,6 +48,8 @@ public class BoardServiceImpl implements BoardService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -73,6 +76,8 @@ public class BoardServiceImpl implements BoardService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -134,6 +139,8 @@ public class BoardServiceImpl implements BoardService {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 

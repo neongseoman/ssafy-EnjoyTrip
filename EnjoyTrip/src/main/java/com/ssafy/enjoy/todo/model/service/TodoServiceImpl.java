@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
 import com.ssafy.enjoy.todo.model.mapper.TodoMapper;
 import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
+import com.ssafy.util.VOException;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -23,6 +24,8 @@ public class TodoServiceImpl implements TodoService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("로드 실패");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 

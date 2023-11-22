@@ -10,6 +10,7 @@ import com.ssafy.enjoy.board.model.dto.BoardDto;
 import com.ssafy.enjoy.board.model.dto.CommentDto;
 import com.ssafy.enjoy.board.model.mapper.CommentMapper;
 import com.ssafy.enjoy.board.model.vo.CommentVo;
+import com.ssafy.util.VOException;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -46,6 +47,8 @@ public class CommentServiceImpl implements CommentService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 

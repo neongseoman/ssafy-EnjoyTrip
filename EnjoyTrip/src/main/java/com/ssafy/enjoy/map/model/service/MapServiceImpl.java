@@ -3,12 +3,13 @@ package com.ssafy.enjoy.map.model.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.ssafy.enjoy.map.dto.MyMapDto;
-import com.ssafy.enjoy.map.vo.MyMapVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.enjoy.map.dto.MyMapDto;
 import com.ssafy.enjoy.map.model.mapper.MapMapper;
+import com.ssafy.enjoy.map.vo.MyMapVo;
+import com.ssafy.util.VOException;
 
 @Service
 public class MapServiceImpl implements MapService {
@@ -23,6 +24,8 @@ public class MapServiceImpl implements MapService {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -33,6 +36,8 @@ public class MapServiceImpl implements MapService {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -43,6 +48,8 @@ public class MapServiceImpl implements MapService {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(VOException e) {
+			throw new Exception("Database error");
 		}
 	}
 	
