@@ -2,13 +2,15 @@ package com.ssafy.enjoy.member.model.mapper;
 
 import java.sql.SQLException;
 
-import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
+import com.ssafy.util.VOException;
 
 @Mapper
 public interface KeyInfoMapper {
 
-	KeyInfoVo readKeyInfo(String hashed_id) throws SQLException;
+	KeyInfoVo readKeyInfo(String hashed_id) throws SQLException, VOException;
 
 	void createKeyInfo(KeyInfoVo keyInfoVo) throws SQLException;
 

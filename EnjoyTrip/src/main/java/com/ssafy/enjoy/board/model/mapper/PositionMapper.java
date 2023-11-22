@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoy.board.model.dto.PositionDto;
 import com.ssafy.enjoy.board.model.vo.PositionVo;
+import com.ssafy.util.VOException;
 
 @Mapper
 public interface PositionMapper {
 
 	void createPosition(PositionDto position) throws SQLException;
 
-	List<PositionVo> readPositions(int articleNo) throws SQLException;
+	List<PositionVo> readPositions(int articleNo) throws SQLException, VOException;
 
 	void deletePositions(int articleNo) throws SQLException;
 

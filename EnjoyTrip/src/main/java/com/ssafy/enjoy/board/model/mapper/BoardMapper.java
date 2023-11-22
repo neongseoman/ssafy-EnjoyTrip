@@ -8,21 +8,22 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.enjoy.board.model.dto.BoardDto;
 import com.ssafy.enjoy.board.model.dto.PageDto;
 import com.ssafy.enjoy.board.model.vo.BoardVo;
+import com.ssafy.util.VOException;
 
 @Mapper
 public interface BoardMapper {
 
-	List<BoardVo> readBoard(PageDto page) throws SQLException;
+	List<BoardVo> readBoard(PageDto page) throws SQLException, VOException;
 
-	List<BoardVo> readBoardWithSubject(PageDto page) throws SQLException;
+	List<BoardVo> readBoardWithSubject(PageDto page) throws SQLException, VOException;
 	
-	List<BoardVo> readBoardWithUserId(PageDto page) throws SQLException;
+	List<BoardVo> readBoardWithUserId(PageDto page) throws SQLException, VOException;
 	
-	List<BoardVo> readBoardWithContent(PageDto page) throws SQLException;
+	List<BoardVo> readBoardWithContent(PageDto page) throws SQLException, VOException;
 
 	void createBoard(BoardDto board) throws SQLException;
 
-	BoardVo readBoardDetail(BoardDto board) throws SQLException;
+	BoardVo readBoardDetail(BoardDto board) throws SQLException, VOException;
 
 	void updateBoard(BoardDto board) throws SQLException;
 

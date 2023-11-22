@@ -8,11 +8,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.enjoy.board.model.dto.BoardDto;
 import com.ssafy.enjoy.board.model.dto.CommentDto;
 import com.ssafy.enjoy.board.model.vo.CommentVo;
+import com.ssafy.util.VOException;
 
 @Mapper
 public interface CommentMapper {
 
-	List<CommentVo> readComment(BoardDto board) throws SQLException;
+	List<CommentVo> readComment(BoardDto board) throws SQLException, VOException;
 
 	void createComment(CommentDto comment) throws SQLException;
 	

@@ -12,7 +12,7 @@ public class PageDto {
 		return start;
 	}
 	public void setStart(int start) throws DtoException {
-		if(start<=0) {
+		if(start<0) {
 			throw new DtoException(PageDto.class, "page start number is smaller than 1");
 		}
 		this.start = start;
