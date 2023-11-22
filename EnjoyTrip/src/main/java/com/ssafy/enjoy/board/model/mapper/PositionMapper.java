@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.board.model.Position;
+import com.ssafy.enjoy.board.model.dto.PositionDto;
+import com.ssafy.enjoy.board.model.vo.PositionVo;
 
 @Mapper
 public interface PositionMapper {
 
-	void createPosition(Position position) throws SQLException;
+	void createPosition(PositionDto position) throws SQLException;
 
-	List<Position> readPositions(int articleNo) throws SQLException;
+	List<PositionVo> readPositions(int articleNo) throws SQLException;
 
 	void deletePositions(int articleNo) throws SQLException;
 

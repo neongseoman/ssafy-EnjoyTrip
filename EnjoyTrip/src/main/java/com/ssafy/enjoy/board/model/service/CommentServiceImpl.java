@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Comment;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.CommentDto;
 import com.ssafy.enjoy.board.model.mapper.CommentMapper;
+import com.ssafy.enjoy.board.model.vo.CommentVo;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -16,18 +17,10 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	CommentMapper commentMapper;
 
-	@Override
-	public List<Comment> getList(Board board) throws Exception {
-		try {
-			return commentMapper.readComment(board);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
-		}
-	}
+	
 
 	@Override
-	public void writeComment(Comment comment) throws Exception {
+	public void writeComment(CommentDto comment) throws Exception {
 		try {
 			commentMapper.createComment(comment);
 		} catch (SQLException e) {
@@ -37,10 +30,20 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteComment(Comment comment) throws Exception {
+	public void deleteComment(CommentDto comment) throws Exception {
 		try {
 			commentMapper.deleteComment(comment);
 		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Server error");
+		}
+	}
+
+	@Override
+	public List<CommentVo> getList(BoardDto board) throws Exception {
+		try {
+			return commentMapper.readComment(board);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}

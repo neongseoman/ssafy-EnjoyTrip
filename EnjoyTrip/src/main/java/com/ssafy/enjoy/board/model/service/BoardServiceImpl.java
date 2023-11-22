@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Page;
-import com.ssafy.enjoy.board.model.Position;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.PageDto;
+import com.ssafy.enjoy.board.model.dto.PositionDto;
 import com.ssafy.enjoy.board.model.mapper.BoardMapper;
 import com.ssafy.enjoy.board.model.mapper.PositionMapper;
+import com.ssafy.enjoy.board.model.vo.BoardVo;
+import com.ssafy.enjoy.board.model.vo.PositionVo;
 import com.ssafy.util.SizeConstant;
 
 @Service
@@ -22,9 +24,9 @@ public class BoardServiceImpl implements BoardService {
 	PositionMapper positionMapper;
 
 	@Override
-	public List<Board> getList(Page page) throws Exception {
+	public List<BoardVo> getList(PageDto page) throws Exception {
 		try {
-			List<Board> list = null;
+			List<BoardVo> list = null;
 			page.setStart(page.getPgno() * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE);
 			page.setEnd(SizeConstant.LIST_SIZE);
 			if (page.getKey() != null) {
@@ -49,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeBoard(Board board, List<Position> positions) throws Exception {
+	public void writeBoard(BoardDto board, List<PositionDto> positions) throws Exception {
 		try {
 			boardMapper.createBoard(board);
 			int articleNo = boardMapper.readBoardNo(board);
@@ -64,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board getDetail(Board board) throws Exception {
+	public BoardVo getDetail(BoardDto board) throws Exception {
 		try {
 			boardMapper.updateHit(board);
 			return boardMapper.readBoardDetail(board);
@@ -75,7 +77,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoard(Board board, List<Position> positions) throws Exception {
+	public void modifyBoard(BoardDto board, List<PositionDto> positions) throws Exception {
 		try {
 			boardMapper.updateBoard(board);
 			int articleNo = board.getArticleNo();
@@ -91,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteBoard(Board board) throws Exception {
+	public void deleteBoard(BoardDto board) throws Exception {
 		try {
 			positionMapper.deletePositions(board.getArticleNo());
 			boardMapper.deleteBoard(board);
@@ -102,7 +104,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getPageNum(Page page) throws Exception {
+	public int getPageNum(PageDto page) throws Exception {
 		try {
 			if (page.getKey() != null) {
 				page.setWord("%" + page.getWord() + "%");
@@ -126,7 +128,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Position> getPositions(Board board) throws Exception {
+	public List<PositionVo> getPositions(BoardDto board) throws Exception {
 		try {
 			return positionMapper.readPositions(board.getArticleNo());
 		}catch(SQLException e) {

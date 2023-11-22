@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.board.model.mapper.BoardMapper">
-<resultMap type="com.ssafy.enjoy.board.model.Board" id="boardDto">
+<resultMap type="com.ssafy.enjoy.board.model.vo.BoardVo" id="board">
 	<result column="user_id" property="userId" />
 	<result column='article_no' property="articleNo"/>
 	<result column="subject" property="subject"/>
@@ -12,49 +12,49 @@
 	<result column="register_time" property="registerTime"/>												
 </resultMap>
 
-	<select id="readBoard" parameterType="page" resultMap="boardDto">
+	<select id="readBoard" parameterType="pageDto" resultMap="board">
 		select *
 		from board
 		order by
 		`article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithSubject" parameterType="page" resultMap="boardDto">
+	<select id="readBoardWithSubject" parameterType="pageDto" resultMap="board">
 		select *
 		from board
 		where subject like #{word}
 		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithContent" parameterType="page" resultMap="boardDto">
+	<select id="readBoardWithContent" parameterType="pageDto" resultMap="board">
 		select *
 		from board
 		where content like #{word}
 		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithUserId" parameterType="page" resultMap="boardDto">
+	<select id="readBoardWithUserId" parameterType="pageDto" resultMap="board">
 		select *
 		from board
 		where `user_id` like #{word}
 		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<insert id="createBoard" parameterType="board">
+	<insert id="createBoard" parameterType="boardDto">
 		insert into board( `user_id`, `subject`, `content`)
 		values(#{userId}, #{subject}, #{content})
 	</insert>
-	<select id="readBoardDetail" parameterType="board" resultMap="boardDto">
+	<select id="readBoardDetail" parameterType="boardDto" resultMap="board">
 		select *
 		from board
 		where `article_no`=#{articleNo}
 	</select>
-	<update id="updateBoard" parameterType="board">
+	<update id="updateBoard" parameterType="boardDto">
 		update board
 		set `subject`=#{subject}, `content`=#{content}
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</update>
-	<delete id="deleteBoard">
+	<delete id="deleteBoard" parameterType="boarDto">
 		delete from board
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</delete>
@@ -62,17 +62,17 @@
 		select count(*)
 		from board
 	</select>
-	<select id="countBoardWithSubject" parameterType="page" resultType="Integer">
+	<select id="countBoardWithSubject" parameterType="pageDto" resultType="Integer">
 		select count(*)
 		from board
 		where `subject` like #{word}
 	</select>
-	<select id="countBoardWithContent" parameterType="page" resultType="Integer">
+	<select id="countBoardWithContent" parameterType="pageDto" resultType="Integer">
 		select count(*)
 		from board
 		where `content` like #{word}
 	</select>
-	<select id="countBoardWithUserId" parameterType="page" resultType="Integer">
+	<select id="countBoardWithUserId" parameterType="pageDto" resultType="Integer">
 		select count(*)
 		from board
 		where `user_id` like #{word}
@@ -82,7 +82,7 @@
 		set `hit`=`hit`+1
 		where `article_no`=#{articleNo}
 	</update>
-	<select id="readBoardNo" parameterType="board" resultType="Integer">
+	<select id="readBoardNo" parameterType="boardDto" resultType="Integer">
 		select `article_no`
 		from board
 		where `user_id`=#{userId} and `subject`=#{subject} and content=#{content}

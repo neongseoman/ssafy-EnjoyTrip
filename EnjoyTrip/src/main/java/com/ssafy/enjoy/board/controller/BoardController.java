@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Page;
-import com.ssafy.enjoy.board.model.Position;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.PageDto;
+import com.ssafy.enjoy.board.model.dto.PositionDto;
 import com.ssafy.enjoy.board.model.service.BoardService;
+import com.ssafy.enjoy.board.model.vo.BoardVo;
+import com.ssafy.enjoy.board.model.vo.PositionVo;
+import com.ssafy.util.DtoException;
 
 @RestController
 @RequestMapping("/YZ97gY92")
@@ -26,16 +29,13 @@ public class BoardController {
 	BoardService boardService;
 
 	@PostMapping("/Ct6X83dL")
-	public Map<String, Object> getList(@RequestBody Page page) {
+	public Map<String, Object> getList(@RequestBody PageDto page) throws DtoException {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(page.getPgno()==0) {
 			page.setPgno(1);
 		}
-		if("".equals(page.getKey())) {
-			page.setKey(null);
-		}
 		try {
-			List<Board> list = boardService.getList(page);
+			List<BoardVo> list = boardService.getList(page);
 			result.put("msg", "OK");
 			result.put("detail", "success to load board");
 			result.put("list", list);
@@ -48,17 +48,17 @@ public class BoardController {
 	}
 
 	@PostMapping("/ePQowXNQ")
-	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map) {
+	public Map<String, Object> writeBoard(@RequestBody Map<String, Object> map) throws DtoException{
 		Map boardMap = (Map) map.get("board");
-		Board board = new Board();
+		BoardDto board = new BoardDto();
 		board.setContent((String)boardMap.get("content"));
 		board.setSubject((String)boardMap.get("subject"));
 		board.setUserId((String)boardMap.get("userId"));
 		List positionList = (List) map.get("positions");
-		List<Position> positions = new ArrayList<Position>();
+		List<PositionDto> positions = new ArrayList<PositionDto>();
 		for(int i=0;i<positionList.size();i++) {
 			Map positionMap = (Map)positionList.get(i);
-			Position pos = new Position();
+			PositionDto pos = new PositionDto();
 			pos.setLatitude((double)positionMap.get("latitude"));
 			pos.setLongitude((double)positionMap.get("longitude"));
 			positions.add(pos);
@@ -82,7 +82,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/KPVnFhFX")
-	public  Map<String, Object> getDetail(@RequestBody Board board){
+	public  Map<String, Object> getDetail(@RequestBody BoardDto board){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(board);
 		if(board.getArticleNo() == 0) {
@@ -90,11 +90,11 @@ public class BoardController {
 			result.put("detail", "게시글을 불러올 수 없습니다.");
 		}else {
 			try {
-				List<Position> positions = boardService.getPositions(board);
-				board = boardService.getDetail(board);
+				List<PositionVo> positions = boardService.getPositions(board);
+				BoardVo boardResult = boardService.getDetail(board);
 				result.put("msg", "OK");
 				result.put("detail", "Success to write board detail");
-				result.put("board", board);
+				result.put("board", boardResult);
 				result.put("positions", positions);
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -106,18 +106,18 @@ public class BoardController {
 	}
 	
 	@PostMapping("/7QJMgsU7")
-	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map){
+	public  Map<String, Object> modifyBoard(@RequestBody Map<String, Object> map) throws DtoException{
 		Map boardMap = (Map) map.get("board");
-		Board board = new Board();
+		BoardDto board = new BoardDto();
 		board.setArticleNo((int)boardMap.get("articleNo"));
 		board.setContent((String)boardMap.get("content"));
 		board.setSubject((String)boardMap.get("subject"));
 		board.setUserId((String)boardMap.get("userId"));
 		List positionList = (List) map.get("positions");
-		List<Position> positions = new ArrayList<Position>();
+		List<PositionDto> positions = new ArrayList<PositionDto>();
 		for(int i=0;i<positionList.size();i++) {
 			Map positionMap = (Map)positionList.get(i);
-			Position pos = new Position();
+			PositionDto pos = new PositionDto();
 			pos.setLatitude((double)positionMap.get("latitude"));
 			pos.setLongitude((double)positionMap.get("longitude"));
 			positions.add(pos);
@@ -141,7 +141,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/S1BLjFsA")
-	public  Map<String, Object> deleteBoard(@RequestBody Board board){
+	public  Map<String, Object> deleteBoard(@RequestBody BoardDto board){
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(board.getArticleNo() == 0) {
 			result.put("msg", "NO");
@@ -149,7 +149,7 @@ public class BoardController {
 		}else {
 			try {
 				boardService.deleteBoard(board);
-				Page page = new Page();
+				PageDto page = new PageDto();
 				result.put("msg", "OK");
 				result.put("detail", "Success to delete board detail");
 			}catch(Exception e) {
@@ -162,12 +162,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("/t7OqJjRE")
-	public Map<String, Object> getPageNum(@RequestBody Page page){
+	public Map<String, Object> getPageNum(@RequestBody PageDto page){
 		Map<String, Object> result = new HashMap<String, Object>();
 		System.out.println(page);
-		if("".equals(page.getKey())) {
-			page.setKey(null);
-		}
 		try {
 			int pages = boardService.getPageNum(page);
 			result.put("msg", "OK");

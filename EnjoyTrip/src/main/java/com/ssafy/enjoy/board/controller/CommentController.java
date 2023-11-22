@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Comment;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.CommentDto;
 import com.ssafy.enjoy.board.model.service.CommentService;
+import com.ssafy.enjoy.board.model.vo.CommentVo;
 
 @RestController
 @RequestMapping("/B1Fc0O5K")
@@ -24,14 +25,14 @@ public class CommentController {
 	CommentService commentService;
 
 	@PostMapping("/qSg1WWvf")
-	public Map<String, Object> getList(@RequestBody Board board) {
+	public Map<String, Object> getList(@RequestBody BoardDto board) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (board.getArticleNo() == 0) {
 			result.put("msg", "NO");
 			result.put("detail", "fail to load comment");
 		} else {
 			try {
-				List<Comment> list = commentService.getList(board);
+				List<CommentVo> list = commentService.getList(board);
 				result.put("msg", "OK");
 				result.put("detail", "fail to load comment");
 				result.put("list", list);
@@ -46,7 +47,7 @@ public class CommentController {
 	}
 
 	@PostMapping("/ndKw8G69")
-	public Map<String, Object> writeComment(@RequestBody Comment comment) {
+	public Map<String, Object> writeComment(@RequestBody CommentDto comment) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (comment.getArticleNo() == 0) {
 			result.put("msg", "NO");
@@ -66,7 +67,7 @@ public class CommentController {
 		return result;
 	}
 	@PostMapping("/cBHoXtQ5")
-	public Map<String, String> delete(@RequestBody Comment comment){
+	public Map<String, String> delete(@RequestBody CommentDto comment){
 		Map<String, String> result = new HashMap<String, String>();
 		try {
 			commentService.deleteComment(comment);

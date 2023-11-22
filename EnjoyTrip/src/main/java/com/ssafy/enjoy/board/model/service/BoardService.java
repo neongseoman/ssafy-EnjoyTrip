@@ -2,24 +2,26 @@ package com.ssafy.enjoy.board.model.service;
 
 import java.util.List;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Page;
-import com.ssafy.enjoy.board.model.Position;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.PageDto;
+import com.ssafy.enjoy.board.model.dto.PositionDto;
+import com.ssafy.enjoy.board.model.vo.BoardVo;
+import com.ssafy.enjoy.board.model.vo.PositionVo;
 
 public interface BoardService {
 
-	List<Board> getList(Page page) throws Exception;
+	List<BoardVo> getList(PageDto page) throws Exception;
 
-	void writeBoard(Board board, List<Position> positions) throws Exception;
+	void writeBoard(BoardDto board, List<PositionDto> positions) throws Exception;
 
-	Board getDetail(Board board) throws Exception;
+	BoardVo getDetail(BoardDto board) throws Exception;
 
-	void modifyBoard(Board board, List<Position> positions) throws Exception;
+	void modifyBoard(BoardDto board, List<PositionDto> positions) throws Exception;
 
-	void deleteBoard(Board board) throws Exception;
+	void deleteBoard(BoardDto board) throws Exception;
 
-	int getPageNum(Page page) throws Exception ;
+	int getPageNum(PageDto page) throws Exception ;
 
-	List<Position> getPositions(Board board) throws Exception;
+	List<PositionVo> getPositions(BoardDto board) throws Exception;
 
 }

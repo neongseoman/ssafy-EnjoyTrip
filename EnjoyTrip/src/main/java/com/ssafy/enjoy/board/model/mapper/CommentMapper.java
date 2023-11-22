@@ -5,15 +5,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.board.model.Board;
-import com.ssafy.enjoy.board.model.Comment;
+import com.ssafy.enjoy.board.model.dto.BoardDto;
+import com.ssafy.enjoy.board.model.dto.CommentDto;
+import com.ssafy.enjoy.board.model.vo.CommentVo;
 
 @Mapper
 public interface CommentMapper {
 
-	List<Comment> readComment(Board board) throws SQLException;
+	List<CommentVo> readComment(BoardDto board) throws SQLException;
 
-	void createComment(Comment comment) throws SQLException;
+	void createComment(CommentDto comment) throws SQLException;
 	
-	void deleteComment(Comment comment) throws SQLException;
+	void deleteComment(CommentDto comment) throws SQLException;
 }
