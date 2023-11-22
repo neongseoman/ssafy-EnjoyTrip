@@ -54,7 +54,7 @@
 		set `subject`=#{subject}, `content`=#{content}
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</update>
-	<delete id="deleteBoard" parameterType="boarDto">
+	<delete id="deleteBoard" parameterType="boardDto">
 		delete from board
 		where `article_no`=#{articleNo} and `user_id`=#{userId}
 	</delete>
