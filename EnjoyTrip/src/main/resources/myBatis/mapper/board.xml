@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoy.board.model.mapper.BoardMapper">
-<resultMap type="com.ssafy.enjoy.board.model.vo.BoardVo" id="board">
+<resultMap type="com.ssafy.enjoy.board.model.vo.BoardVo" id="boardVo">
 	<result column="user_id" property="userId" />
 	<result column='article_no' property="articleNo"/>
 	<result column="subject" property="subject"/>
@@ -12,28 +12,28 @@
 	<result column="register_time" property="registerTime"/>												
 </resultMap>
 
-	<select id="readBoard" parameterType="pageDto" resultMap="board">
+	<select id="readBoard" parameterType="pageDto" resultMap="boardVo">
 		select *
 		from board
 		order by
 		`article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithSubject" parameterType="pageDto" resultMap="board">
+	<select id="readBoardWithSubject" parameterType="pageDto" resultMap="boardVo">
 		select *
 		from board
 		where subject like #{word}
 		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithContent" parameterType="pageDto" resultMap="board">
+	<select id="readBoardWithContent" parameterType="pageDto" resultMap="boardVo">
 		select *
 		from board
 		where content like #{word}
 		order by `article_no` desc
 		limit #{start}, #{end}
 	</select>
-	<select id="readBoardWithUserId" parameterType="pageDto" resultMap="board">
+	<select id="readBoardWithUserId" parameterType="pageDto" resultMap="boardVo">
 		select *
 		from board
 		where `user_id` like #{word}
@@ -44,7 +44,7 @@
 		insert into board( `user_id`, `subject`, `content`)
 		values(#{userId}, #{subject}, #{content})
 	</insert>
-	<select id="readBoardDetail" parameterType="boardDto" resultMap="board">
+	<select id="readBoardDetail" parameterType="boardDto" resultMap="boardVo">
 		select *
 		from board
 		where `article_no`=#{articleNo}
