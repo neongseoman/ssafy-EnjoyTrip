@@ -1,32 +1,25 @@
-package com.ssafy.enjoy.member.model;
+package com.ssafy.enjoy.member.model.vo;
 
 import com.ssafy.util.VOException;
+import lombok.Getter;
 
-public class MemberVO {
+@Getter
+public class MemberVo {
 	private String userId;
 	private String userName;
 	private String userPassword;
 	private String emailId;
 	private String emailDomain;
 	private String joinDate;
-	public String getUserId() {
-		return userId;
-	}
 	public void setUserId(String userId) throws VOException{
 		if(userId==null||"".equals(userId))
 			throw new VOException("usreId is empty");
 		this.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
-	}
 	public void setUserName(String userName) throws VOException{
 		if(userName==null||"".equals(userName))
 			throw new VOException("userName is empty");
 		this.userName = userName;
-	}
-	public String getUserPassword() {
-		return userPassword;
 	}
 	public void setUserPassword(String userPassword) throws VOException{
 		if(userPassword==null||"".equals(userPassword)||userPassword.length()!=64) {
@@ -34,30 +27,35 @@ public class MemberVO {
 		}
 		this.userPassword = userPassword;
 	}
-	public String getEmailId(){
-		return emailId;
-	}
 	public void setEmailId(String emailId) throws VOException{
 		if(emailId==null||"".equals(emailId)) {
 			throw new VOException("email id is empty");
 		}
 		this.emailId = emailId;
 	}
-	public String getEmailDomain(){
-		return emailDomain;
-	}
 	public void setEmailDomain(String emailDomain)throws VOException{
 		if(emailDomain==null||"".equals(emailDomain)) {
 			throw new VOException("email domain is empty");
 		}
-		if(!emailDomain.contains(".")||!emailDomain.matches("com$")) {
+
+		if(!emailDomain.matches("^[a-zA-Z0-9.-]+\\.com$")) {
 			throw new VOException("email domain is in wrong form");
 		}
 		this.emailDomain = emailDomain;
 	}
-	public String getJoinDate() {
-		return joinDate;
-	}
+//	public boolean setEmailDomain(String emailDomain)throws VOException{
+//		if(emailDomain==null||"".equals(emailDomain)) {
+//			return false;
+////			throw new VOException("email domain is empty");
+//		}
+//
+//		if(emailDomain.matches("^[a-zA-Z0-9.-]+\\.com$")) {
+//			return false;
+////			throw new VOException("email domain is in wrong form");
+//		}
+//		return true;
+////		this.emailDomain = emailDomain;
+//	}
 	public void setJoinDate(String joinDate)throws VOException {
 		if(joinDate==null||"".equals(joinDate)) {
 			throw new VOException("join date is empty");

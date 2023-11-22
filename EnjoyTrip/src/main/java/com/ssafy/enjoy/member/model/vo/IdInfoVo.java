@@ -1,6 +1,6 @@
-package com.ssafy.enjoy.member.model;
+package com.ssafy.enjoy.member.model.vo;
 
-public class IdInfo {
+public class IdInfoVo {
 	private String id;
 	private String salt;
 	@Override

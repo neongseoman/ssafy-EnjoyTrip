@@ -4,14 +4,14 @@ import java.sql.SQLException;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.member.model.IdInfo;
+import com.ssafy.enjoy.member.model.vo.IdInfoVo;
 
 @Mapper
 public interface IdInfoMapper {
 
-	IdInfo readIdInfo(String id) throws SQLException;
+	IdInfoVo readIdInfo(String id) throws SQLException;
 
-	void createIdInfo(IdInfo idInfo) throws SQLException;
+	void createIdInfo(IdInfoVo idInfoVo) throws SQLException;
 
 	void deleteIdInfo(String userId) throws SQLException;
 

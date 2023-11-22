@@ -2,22 +2,22 @@ package com.ssafy.enjoy.member.model.mapper;
 
 import java.sql.SQLException;
 
-import com.ssafy.enjoy.member.model.MemberVO;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.enjoy.member.model.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.member.model.ModifyMember;
+import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 
 @Mapper
 public interface MemberMapper {
 
 	int idCheck(String id) throws Exception ;
 
-	MemberVO readMember(String id, String pw) throws SQLException;
+	MemberVo readMember(String id, String pw) throws SQLException;
 
 	void createMember(MemberDto member) throws SQLException;
 
-	void updateMember(ModifyMember member) throws SQLException;
+	void updateMember(ModifyMemberDto member) throws SQLException;
 
 	String login(MemberDto m);
 

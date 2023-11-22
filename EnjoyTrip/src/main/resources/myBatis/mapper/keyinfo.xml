@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.ssafy.enjoy.member.model.mapper.KeyInfoMapper">
-	<resultMap type="com.ssafy.enjoy.member.model.KeyInfo"
+	<resultMap type="com.ssafy.enjoy.member.model.vo.KeyInfoVo"
 		id="keyInfoDto">
 		<result column="hashed_id" property="hashedId" />
 		<result column="salt" property="salt" />
@@ -16,7 +16,7 @@
 		from `key_info`
 		where `hashed_id`=#{hashedId}
 	</select>
-	<insert id="createKeyInfo" parameterType="keyInfo">
+	<insert id="createKeyInfo" parameterType="keyInfoVo">
 		insert into
 		`key_info`(`hashed_id`, `key`, `salt`)
 		values(#{hashedId}, #{key},

@@ -1,6 +1,6 @@
-package com.ssafy.enjoy.member.model;
+package com.ssafy.enjoy.member.model.vo;
 
-public class KeyInfo {
+public class KeyInfoVo {
 	private String hashedId;
 	private String salt;
 	private String key;

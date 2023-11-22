@@ -1,8 +1,8 @@
-package com.ssafy.enjoy.member.model;
+package com.ssafy.enjoy.member.model.dto;
 
 import com.ssafy.enjoy.member.model.dto.MemberDto;
 
-public class ModifyMember extends MemberDto {
+public class ModifyMemberDto extends MemberDto {
 	private String newPassword;
 
 	public String getNewPassword() {
@@ -15,7 +15,7 @@ public class ModifyMember extends MemberDto {
 		}
 	}
 
-	public ModifyMember(String newPassword) {
+	public ModifyMemberDto(String newPassword) {
 		setNewPassword(newPassword);
 	}
 

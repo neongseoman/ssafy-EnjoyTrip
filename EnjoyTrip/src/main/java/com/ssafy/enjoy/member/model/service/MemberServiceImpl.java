@@ -7,15 +7,15 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.ssafy.enjoy.member.model.dto.MemberDto;
+import com.ssafy.enjoy.member.model.vo.IdInfoVo;
+import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.enjoy.member.model.IdInfo;
-import com.ssafy.enjoy.member.model.KeyInfo;
-import com.ssafy.enjoy.member.model.LoginTry;
-import com.ssafy.enjoy.member.model.MemberVO;
-import com.ssafy.enjoy.member.model.ModifyMember;
+import com.ssafy.enjoy.member.model.vo.LoginTryVo;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
+import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.mapper.IdInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.KeyInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.LogintryMapper;
@@ -38,37 +38,37 @@ public class MemberServiceImpl implements MemberService {
 	KeyInfoMapper keyInfoMapper;
 
 	@Override
-	public MemberVO loginMember(MemberDto member, String ip) throws Exception {
+	public MemberVo loginMember(MemberDto member, String ip) throws Exception {
 		try {
-			LoginTry loginTry = logintryMapper.readLoginTry(ip, member.getUserId());
-			if (loginTry != null) {
+			LoginTryVo loginTryVo = logintryMapper.readLoginTry(ip, member.getUserId());
+			if (loginTryVo != null) {
 				Date today = new Date();
 				Time now = new Time(today.getHours(), today.getMinutes() - 30, today.getSeconds());
-				if (loginTry.getRetry() >= 5 && today == loginTry.getLastTryDate()
-						&& loginTry.getLastTryTime().after(now)) {
+				if (loginTryVo.getRetry() >= 5 && today == loginTryVo.getLastTryDate()
+						&& loginTryVo.getLastTryTime().after(now)) {
 					throw new Exception("login try limit 30min");
 				}
 			} else {
 				logintryMapper.createLogintry(ip, member.getUserId());
-				loginTry = logintryMapper.readLoginTry(ip, member.getUserId());
+				loginTryVo = logintryMapper.readLoginTry(ip, member.getUserId());
 			}
 			if (memberMapper.idCheck(member.getUserId()) != 1) {
 //				System.out.println(member.getUserId());
 				throw new Exception("no such user");
 			}
-			IdInfo idInfo = idInfoMapper.readIdInfo(member.getUserId());
-			String hashed_id = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(member.getUserId(), idInfo.getSalt()));
-			KeyInfo keyInfo = keyInfoMapper.readKeyInfo(hashed_id);
-			byte[] key = OpenCrypt.hexToByteArray(keyInfo.getKey());
+			IdInfoVo idInfoVo = idInfoMapper.readIdInfo(member.getUserId());
+			String hashed_id = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(member.getUserId(), idInfoVo.getSalt()));
+			KeyInfoVo keyInfoVo = keyInfoMapper.readKeyInfo(hashed_id);
+			byte[] key = OpenCrypt.hexToByteArray(keyInfoVo.getKey());
 			String cUserPwd = OpenCrypt.aesEncrypt(member.getUserPassword(), key);
-			String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfo.getSalt()));
+			String hashed_cUserPwd = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA256(cUserPwd, keyInfoVo.getSalt()));
 
-			MemberVO userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
+			MemberVo userinfo = memberMapper.readMember(member.getUserId(), hashed_cUserPwd);
 			if (userinfo == null) {
-				logintryMapper.updateLointryFail(loginTry.getClientIp(), loginTry.getUserId());
+				logintryMapper.updateLointryFail(loginTryVo.getClientIp(), loginTryVo.getUserId());
 				throw new Exception("wrong password");
 			}
-			logintryMapper.updateLogintrySuccess(loginTry.getClientIp(), loginTry.getUserId());
+			logintryMapper.updateLogintrySuccess(loginTryVo.getClientIp(), loginTryVo.getUserId());
 //			System.out.println(userinfo);
 			return userinfo;
 		} catch (NoSuchAlgorithmException e) {
@@ -101,23 +101,23 @@ public class MemberServiceImpl implements MemberService {
 			if (idCheck(member.getUserId()) != 0) {
 				throw new Exception("이미 존재하는 사용자");
 			}
-			IdInfo idInfo = new IdInfo();
-			idInfo.setId(member.getUserId());
-			idInfo.setSalt(UUID.randomUUID().toString());
-			byte[] hashed_id_byte= OpenCrypt.getSHA256(idInfo.getId(), idInfo.getSalt());
+			IdInfoVo idInfoVo = new IdInfoVo();
+			idInfoVo.setId(member.getUserId());
+			idInfoVo.setSalt(UUID.randomUUID().toString());
+			byte[] hashed_id_byte= OpenCrypt.getSHA256(idInfoVo.getId(), idInfoVo.getSalt());
 			String hashed_id = OpenCrypt.byteArrayToHex(hashed_id_byte);
-			KeyInfo keyInfo = new KeyInfo();
-			keyInfo.setHashedId(hashed_id);
+			KeyInfoVo keyInfoVo = new KeyInfoVo();
+			keyInfoVo.setHashedId(hashed_id);
 			byte[] key_byte = OpenCrypt.generateKey("AES", 128);
-			keyInfo.setKey(OpenCrypt.byteArrayToHex(key_byte));
-			keyInfo.setSalt(UUID.randomUUID().toString());
+			keyInfoVo.setKey(OpenCrypt.byteArrayToHex(key_byte));
+			keyInfoVo.setSalt(UUID.randomUUID().toString());
 			String key_crypt = OpenCrypt.aesEncrypt(member.getUserPassword(), key_byte);
-			byte[] key_hashed_byte = OpenCrypt.getSHA256(key_crypt, keyInfo.getSalt());
+			byte[] key_hashed_byte = OpenCrypt.getSHA256(key_crypt, keyInfoVo.getSalt());
 			member.setUserPassword(OpenCrypt.byteArrayToHex(key_hashed_byte));
 			memberMapper.createMember(member);
 			memberMapper.addLoginCheck(member.getUserId());
-			idInfoMapper.createIdInfo(idInfo);
-			keyInfoMapper.createKeyInfo(keyInfo);
+			idInfoMapper.createIdInfo(idInfoVo);
+			keyInfoMapper.createKeyInfo(keyInfoVo);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
@@ -128,14 +128,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMember(ModifyMember member) throws Exception {
+	public void updateMember(ModifyMemberDto member) throws Exception {
 		try {
-			IdInfo idInfo = idInfoMapper.readIdInfo(member.getUserId());
-			byte[] hashed_id_byte = OpenCrypt.getSHA256(idInfo.getId(), idInfo.getSalt());
+			IdInfoVo idInfoVo = idInfoMapper.readIdInfo(member.getUserId());
+			byte[] hashed_id_byte = OpenCrypt.getSHA256(idInfoVo.getId(), idInfoVo.getSalt());
 			String hashed_id = OpenCrypt.byteArrayToHex(hashed_id_byte);
-			KeyInfo keyInfo = keyInfoMapper.readKeyInfo(hashed_id);
-			String pw_crypt = OpenCrypt.aesEncrypt(member.getNewPassword(),OpenCrypt.hexToByteArray(keyInfo.getKey()));
-			byte[] pw_hashed_byte = OpenCrypt.getSHA256(pw_crypt, keyInfo.getSalt());
+			KeyInfoVo keyInfoVo = keyInfoMapper.readKeyInfo(hashed_id);
+			String pw_crypt = OpenCrypt.aesEncrypt(member.getNewPassword(),OpenCrypt.hexToByteArray(keyInfoVo.getKey()));
+			byte[] pw_hashed_byte = OpenCrypt.getSHA256(pw_crypt, keyInfoVo.getSalt());
 			String pw_hashed = OpenCrypt.byteArrayToHex(pw_hashed_byte);
 			member.setNewPassword(pw_hashed);
 			System.out.println(member);
@@ -169,7 +169,7 @@ public class MemberServiceImpl implements MemberService {
 		try {
 			memberMapper.deleteLoginCondition(member.getUserId());
 			memberMapper.deleteMember(member.getUserId());
-			IdInfo idinfo = idInfoMapper.readIdInfo(member.getUserId());
+			IdInfoVo idinfo = idInfoMapper.readIdInfo(member.getUserId());
 			idInfoMapper.deleteIdInfo(member.getUserId());
 			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
 			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);

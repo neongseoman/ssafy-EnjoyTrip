@@ -4,12 +4,12 @@ import java.sql.SQLException;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.member.model.LoginTry;
+import com.ssafy.enjoy.member.model.vo.LoginTryVo;
 
 @Mapper
 public interface LogintryMapper {
 	
-	LoginTry readLoginTry(String ip, String id) throws SQLException;
+	LoginTryVo readLoginTry(String ip, String id) throws SQLException;
 
 	void updateLointryFail(String ip, String id) throws SQLException;
 

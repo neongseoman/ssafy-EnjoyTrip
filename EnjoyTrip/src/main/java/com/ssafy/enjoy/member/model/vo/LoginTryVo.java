@@ -1,9 +1,9 @@
-package com.ssafy.enjoy.member.model;
+package com.ssafy.enjoy.member.model.vo;
 
 import java.sql.Time;
 import java.util.Date;
 
-public class LoginTry {
+public class LoginTryVo {
 	private String userId;
 	private String clientIp;
 	private Date lastTryDate;

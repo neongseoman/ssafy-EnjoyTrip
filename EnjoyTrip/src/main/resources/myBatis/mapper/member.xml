@@ -10,7 +10,7 @@
 		where `userId`=#{id}
 	</select>
 
-	<select id="readMember" parameterType="String" resultType="memberVO">
+	<select id="readMember" parameterType="String" resultType="memberVo">
 		select `userId`, `userPassword`, `userName`, `emailId`, `emailDomain`
 		from members
 		where `userId`=#{id} and `userPassword`=#{pw}
@@ -21,7 +21,7 @@
 		values(#{userId}, #{userPassword}, #{userName}, #{emailId}, #{emailDomain})
 	</insert>
 
-	<update id="updateMember" parameterType="modifyMember">
+	<update id="updateMember" parameterType="modifyMemberDto">
 		update members
 		set `userPassword`=#{newPassword}, `userName`=#{userName}, `emailId`=#{emailId}, `emailDomain`=#{emailDomain}
 		where `userId`=#{userId} and `userPassword`=#{userPassword}

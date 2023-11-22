@@ -1,8 +1,6 @@
 package com.ssafy.enjoy.member.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.member.model.MemberVO;
-import com.ssafy.enjoy.member.model.ModifyMember;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
+import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.dto.FailResDto;
 import com.ssafy.enjoy.member.model.dto.MemberResDto;
 import com.ssafy.enjoy.member.model.dto.ResDto;
@@ -60,12 +58,11 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
-                MemberVO userinfo = memberService.loginMember(member, ip);
+                MemberVo userinfo = memberService.loginMember(member, ip);
                 if (memberService.isLogin(userinfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
                 }
-
                 SessionReqDto sessionReqModel = new SessionReqDto(userinfo.getUserId());
                 String sessionId = sessionService.sessionReq(sessionReqModel); // session put도 해줌.
                 memberService.updateLoginCondition(userinfo.getUserId());
@@ -146,7 +143,7 @@ public class MemberController {
 
     @Description("update")
     @PostMapping("yztR0IHo")
-    public ResponseEntity<ResDto> update(@RequestBody ModifyMember member, HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<ResDto> update(@RequestBody ModifyMemberDto member, HttpServletRequest request, HttpSession session) {
         System.out.println(member.toString());
         if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
 
@@ -157,7 +154,7 @@ public class MemberController {
                 member.setNewPassword(member.getUserPassword());
             }
             try {
-                MemberVO userinfo = memberService.loginMember(member, request.getRemoteAddr());
+                MemberVo userinfo = memberService.loginMember(member, request.getRemoteAddr());
                 member.setUserPassword(userinfo.getUserPassword());
                 try {
                     memberService.updateMember(member);

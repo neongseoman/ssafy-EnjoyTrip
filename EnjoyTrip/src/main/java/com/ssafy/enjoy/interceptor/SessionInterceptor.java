@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
-
     SessionService sessionService = SessionService.getInstance();
 
     @Override

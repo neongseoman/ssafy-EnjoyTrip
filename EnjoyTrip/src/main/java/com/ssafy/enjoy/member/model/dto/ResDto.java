@@ -11,11 +11,13 @@ public abstract class ResDto {
         if (msg == null){
             this.msg="";
         }
+        this.msg = msg;
     }
 
     public void setDetail(String detail) {
         if (detail == null)
             this.detail = "";
+        this.detail = detail;
     }
 
     public ResDto(String msg, String detail) {
