@@ -5,11 +5,12 @@ import java.sql.SQLException;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoy.member.model.vo.IdInfoVo;
+import com.ssafy.util.VOException;
 
 @Mapper
 public interface IdInfoMapper {
 
-	IdInfoVo readIdInfo(String id) throws SQLException;
+	IdInfoVo readIdInfo(String id) throws SQLException, VOException;
 
 	void createIdInfo(IdInfoVo idInfoVo) throws SQLException;
 

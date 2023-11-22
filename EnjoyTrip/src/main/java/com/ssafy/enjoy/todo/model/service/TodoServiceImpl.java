@@ -1,8 +1,8 @@
 package com.ssafy.enjoy.todo.model.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,8 @@ public class TodoServiceImpl implements TodoService {
 	public List<ScheduleVo> getList(ScheduleDto schedule) throws Exception {
 		try {
 			return todoMapper.readTodos(schedule);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("로드 실패");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -33,9 +32,8 @@ public class TodoServiceImpl implements TodoService {
 			for (int i = 0; i < todos.size(); i++) {
 				todoMapper.createTodo(todos.get(i));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("업로드 실패");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.ssafy.enjoy.board.model.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,8 @@ public class BoardServiceImpl implements BoardService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -59,9 +62,8 @@ public class BoardServiceImpl implements BoardService {
 				positions.get(i).setArticleNo(articleNo);
 				positionMapper.createPosition(positions.get(i));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -70,9 +72,8 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			boardMapper.updateHit(board);
 			return boardMapper.readBoardDetail(board);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -86,9 +87,8 @@ public class BoardServiceImpl implements BoardService {
 				positions.get(i).setArticleNo(articleNo);
 				positionMapper.createPosition(positions.get(i));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -97,9 +97,8 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			positionMapper.deletePositions(board.getArticleNo());
 			boardMapper.deleteBoard(board);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -121,9 +120,8 @@ public class BoardServiceImpl implements BoardService {
 			} else {
 				return boardMapper.countBoard() / SizeConstant.LIST_SIZE+1;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -131,9 +129,8 @@ public class BoardServiceImpl implements BoardService {
 	public List<PositionVo> getPositions(BoardDto board) throws Exception {
 		try {
 			return positionMapper.readPositions(board.getArticleNo());
-		}catch(SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 

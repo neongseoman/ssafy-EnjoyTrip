@@ -6,20 +6,21 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
-import com.ssafy.enjoy.member.model.dto.MemberDto;
-import com.ssafy.enjoy.member.model.vo.IdInfoVo;
-import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.enjoy.member.model.vo.LoginTryVo;
-import com.ssafy.enjoy.member.model.vo.MemberVo;
+import com.ssafy.enjoy.member.model.dto.MemberDto;
 import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.mapper.IdInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.KeyInfoMapper;
 import com.ssafy.enjoy.member.model.mapper.LogintryMapper;
 import com.ssafy.enjoy.member.model.mapper.MemberMapper;
+import com.ssafy.enjoy.member.model.vo.IdInfoVo;
+import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
+import com.ssafy.enjoy.member.model.vo.LoginTryVo;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
 import com.ssafy.util.OpenCrypt;
 
 @Service
@@ -74,9 +75,8 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -121,9 +121,8 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -143,9 +142,8 @@ public class MemberServiceImpl implements MemberService {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			throw new Exception("Server error");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		} catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
@@ -174,9 +172,8 @@ public class MemberServiceImpl implements MemberService {
 			byte[] hashedIdByte = OpenCrypt.getSHA256(idinfo.getId(), idinfo.getSalt());
 			String hashedId = OpenCrypt.byteArrayToHex(hashedIdByte);
 			keyInfoMapper.deleteKeyInfo(hashedId);
-		}catch(SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Server error");
+		}catch(MyBatisSystemException e) {
+			throw new Exception("Database error");
 		}
 	}
 
