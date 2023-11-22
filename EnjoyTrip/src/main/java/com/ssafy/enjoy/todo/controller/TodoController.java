@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.todo.model.Schedule;
+import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
 import com.ssafy.enjoy.todo.model.service.TodoService;
+import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
+import com.ssafy.util.DtoException;
 
 @RestController
 @RequestMapping("/SVIhWrLV")
@@ -21,11 +23,10 @@ public class TodoController {
 	TodoService todoService;
 	
 	@PostMapping("/Crh17XqZ")
-	public Map<String, Object> download(@RequestBody Schedule schedule){
+	public Map<String, Object> download(@RequestBody ScheduleDto schedule){
 		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println(schedule);
 		try {
-			List<Schedule> list = todoService.getList(schedule);
+			List<ScheduleVo> list = todoService.getList(schedule);
 			result.put("msg", "OK");
 			result.put("detail", "할일 목록 로드 성공");
 			result.put("list", list);
@@ -38,12 +39,12 @@ public class TodoController {
 	}
 	
 	@PostMapping("/PmtI1NmN")
-	public Map<String, Object> upload(@RequestBody Map<String, Object> map){
+	public Map<String, Object> upload(@RequestBody Map<String, Object> map) throws DtoException{
 		List<Map> todos = (List)map.get("todos");
 		String userId = (String)map.get("userId");
-		List<Schedule> todo_list = new ArrayList<Schedule>();
+		List<ScheduleDto> todo_list = new ArrayList<ScheduleDto>();
 		for(Map todo : todos) {
-			Schedule temp = new Schedule();
+			ScheduleDto temp = new ScheduleDto();
 			temp.setUserId((String)todo.get("user_id"));
 			temp.setDate((String)todo.get("date"));
 			temp.setTime((String)todo.get("time"));

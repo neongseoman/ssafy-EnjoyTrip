@@ -6,8 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoy.todo.model.Schedule;
+import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
 import com.ssafy.enjoy.todo.model.mapper.TodoMapper;
+import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -16,7 +17,7 @@ public class TodoServiceImpl implements TodoService {
 	TodoMapper todoMapper;
 
 	@Override
-	public List<Schedule> getList(Schedule schedule) throws Exception {
+	public List<ScheduleVo> getList(ScheduleDto schedule) throws Exception {
 		try {
 			return todoMapper.readTodos(schedule);
 		} catch (SQLException e) {
@@ -26,7 +27,7 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public void putList(List<Schedule> todos, String userId) throws Exception {
+	public void putList(List<ScheduleDto> todos, String userId) throws Exception {
 		try {
 			todoMapper.deleteTodo(userId);
 			for (int i = 0; i < todos.size(); i++) {

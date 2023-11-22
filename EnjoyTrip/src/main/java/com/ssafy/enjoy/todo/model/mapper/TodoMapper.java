@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.todo.model.Schedule;
+import com.ssafy.enjoy.todo.model.dto.ScheduleDto;
+import com.ssafy.enjoy.todo.model.vo.ScheduleVo;
 
 @Mapper
 public interface TodoMapper {
 
-	List<Schedule> readTodos(Schedule schedule) throws SQLException;
+	List<ScheduleVo> readTodos(ScheduleDto schedule) throws SQLException;
 
-	void createTodo(Schedule schedule) throws SQLException;
+	void createTodo(ScheduleDto schedule) throws SQLException;
 
 	void deleteTodo(String userId) throws SQLException;
 

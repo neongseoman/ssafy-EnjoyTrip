@@ -1,6 +1,5 @@
 package com.ssafy.enjoy.todo.model.dto;
 
-import com.ssafy.enjoy.todo.model.Schedule;
 import com.ssafy.util.DtoException;
 
 public class ScheduleDto {
@@ -32,7 +31,7 @@ public class ScheduleDto {
 	}
 	public void setDate(String date) throws DtoException {
 		if(date==null||"".equals(date)) {
-			throw new DtoException(Schedule.class, "date is empty");
+			throw new DtoException(ScheduleDto.class, "date is empty");
 		}
 		if(!date.matches("^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")) {
 			throw new DtoException(ScheduleDto.class, "date is in wrong format");
