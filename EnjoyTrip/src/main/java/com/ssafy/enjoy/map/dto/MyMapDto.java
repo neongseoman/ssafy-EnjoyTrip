@@ -3,11 +3,6 @@ package com.ssafy.enjoy.map.dto;
 import com.ssafy.util.DtoException;
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import static com.ssafy.enjoy.map.data.OfficialMapData.*;
 
 @Getter
@@ -26,7 +21,6 @@ public class MyMapDto {
     private double latitude;
     private double longitude;
     private String tel;
-    private String sessionId;
 
     public void setSido_code(int sido_code) throws DtoException {
         if (!sidoCodeList.contains(sido_code))
@@ -35,6 +29,8 @@ public class MyMapDto {
     }
 
     public void setSido_name(String sido_name)  throws DtoException{
+        if (sido_name == null || !"".equals(sido_name))
+            throw new DtoException(MyMapDto.class,"sido_name");
         if (!sidoNameList.contains(sido_name))
             throw new DtoException(MyMapDto.class,"sido_name");
         this.sido_name = sido_name;
@@ -47,6 +43,8 @@ public class MyMapDto {
     }
 
     public void setGugun_name(String gugun_name) throws DtoException {
+        if (gugun_name == null || !"".equals(gugun_name))
+            throw new DtoException(MyMapDto.class,"gugun_name is null");
         if (!gugunNameList.contains(gugun_name))
             throw new DtoException(MyMapDto.class,"gugun_name");
         this.gugun_name = gugun_name;
@@ -65,24 +63,32 @@ public class MyMapDto {
     }
 
     public void setTitle(String title) throws DtoException {
-        if (title == null)
+        if (title == null || !"".equals(zipcode))
             throw new DtoException(MyMapDto.class,"title");
         this.title = title;
     }
 
-    public void setFirst_image(String first_image) {
+    public void setFirst_image(String first_image) throws DtoException {
+        if (first_image == null || !"".equals(zipcode))
+            throw new DtoException(MyMapDto.class,"first_image");
         this.first_image = first_image;
     }
 
-    public void setAddr1(String addr1) {
+    public void setAddr1(String addr1) throws DtoException {
+        if (addr1 == null || !"".equals(zipcode))
+            throw new DtoException(MyMapDto.class,"addr1");
         this.addr1 = addr1;
     }
 
-    public void setAddr2(String addr2) {
+    public void setAddr2(String addr2) throws DtoException {
+        if (addr2 == null || !"".equals(zipcode))
+            throw new DtoException(MyMapDto.class,"addr2");
         this.addr2 = addr2;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipcode(String zipcode) throws DtoException {
+        if (zipcode == null || !"".equals(zipcode))
+            throw new DtoException(MyMapDto.class,"zipcode");
         this.zipcode = zipcode;
     }
 
@@ -94,13 +100,12 @@ public class MyMapDto {
         this.longitude = longitude;
     }
 
-    public void setTel(String tel) {
+    public void setTel(String tel) throws DtoException {
+        if (tel == null || !"".equals(zipcode))
+            throw new DtoException(MyMapDto.class,"tel");
         this.tel = tel;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
 
     @Override
     public String toString() {
@@ -118,8 +123,6 @@ public class MyMapDto {
                 ", zipcode='" + zipcode + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", tel='" + tel + '\'' +
-                ", sessionId='" + sessionId + '\'' +
-                '}';
+                ", tel='" + tel;
     }
 }

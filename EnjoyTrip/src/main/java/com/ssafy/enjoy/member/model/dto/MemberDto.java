@@ -1,9 +1,7 @@
 package com.ssafy.enjoy.member.model.dto;
 
 import com.ssafy.util.DtoException;
-import com.ssafy.util.MyException;
 import lombok.Getter;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 @Getter
 public class MemberDto {
