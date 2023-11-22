@@ -54,6 +54,7 @@ public class MemberController {
         } else {
             try {
                 MemberVo userInfo = memberService.loginMember(member, ip);
+                System.out.println(userInfo);
                 if (memberService.isLogin(userInfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);

@@ -42,20 +42,7 @@ public class MemberVo {
 			throw new VOException("email domain is in wrong form");
 		}
 		this.emailDomain = emailDomain;
-	}
-//	public boolean setEmailDomain(String emailDomain)throws VOException{
-//		if(emailDomain==null||"".equals(emailDomain)) {
-//			return false;
-////			throw new VOException("email domain is empty");
-//		}
-//
-//		if(emailDomain.matches("^[a-zA-Z0-9.-]+\\.com$")) {
-//			return false;
-////			throw new VOException("email domain is in wrong form");
-//		}
-//		return true;
-////		this.emailDomain = emailDomain;
-//	}
+	}//	}
 	public void setJoinDate(String joinDate)throws VOException {
 		if(joinDate==null||"".equals(joinDate)) {
 			throw new VOException("join date is empty");
@@ -64,5 +51,17 @@ public class MemberVo {
 			throw new VOException("join date is in wrong form");
 		}
 		this.joinDate = joinDate;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberVo{" +
+				"userId='" + userId + '\'' +
+				", userName='" + userName + '\'' +
+				", userPassword='" + userPassword + '\'' +
+				", emailId='" + emailId + '\'' +
+				", emailDomain='" + emailDomain + '\'' +
+				", joinDate='" + joinDate + '\'' +
+				'}';
 	}
 }
