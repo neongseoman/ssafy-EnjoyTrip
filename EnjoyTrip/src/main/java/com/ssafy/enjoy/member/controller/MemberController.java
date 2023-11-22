@@ -1,6 +1,7 @@
 package com.ssafy.enjoy.member.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,36 +42,29 @@ public class MemberController {
     public ResponseEntity<ResDto> login(@RequestBody MemberDto member, HttpServletRequest request) throws UnsupportedEncodingException {
         String ip = request.getRemoteAddr();
         System.out.println(member);
+        String userId =(String) request.getAttribute("userId");
 
-        String userAgent = request.getHeader("User-Agent");
-        String hashedUserAgent = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA1(userAgent, "ssafy"));
-//        System.out.println(userAgent);
-//        System.out.println(hashedUserAgent);
-//        System.out.println(userAgent.getBytes(StandardCharsets.UTF_8).length);
-//        System.out.println(hashedUserAgent.getBytes(StandardCharsets.UTF_8).length);
-//        System.out.println(hashedUserAgent.substring(0,16).getBytes(StandardCharsets.UTF_8).length);
-//        System.out.println(hashedUserAgent.substring(0,32).getBytes(StandardCharsets.UTF_8).length);
-//        System.out.println(hashedUserAgent.getBytes().length);
-//        System.out.println(hashedUserAgent.getBytes("UTF-8").length);
-//        System.out.println(hashedUserAgent.getBytes(StandardCharsets.UTF_8).length);
+        String hashedUserAgent = OpenCrypt.byteArrayToHex(OpenCrypt.getSHA1(request.getHeader("User-Agent"), "ssafy"));
+
         // =======>> 결론: 해쉬하고 16으로 짜른 값이 길이가 적절하다. userAgent 통째로 한 것 보다.
         if (member.getUserId() == null || member.getUserPassword() == null) {
             FailResDto failResDto = new FailResDto("No","no id or no pw");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
             try {
-                MemberVo userinfo = memberService.loginMember(member, ip);
-                if (memberService.isLogin(userinfo.getUserId()) == 1){
+                MemberVo userInfo = memberService.loginMember(member, ip);
+                if (memberService.isLogin(userInfo.getUserId()) == 1){
                     FailResDto failResDto = new FailResDto("No","이미 로그인된 사용자");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(failResDto);
                 }
-                SessionReqDto sessionReqModel = new SessionReqDto(userinfo.getUserId());
-                String sessionId = sessionService.sessionReq(sessionReqModel); // session put도 해줌.
-                memberService.updateLoginCondition(userinfo.getUserId());
+                SessionReqDto sessionReqModel = new SessionReqDto(userInfo.getUserId());
+                String sessionId = sessionService.sessionReq(sessionReqModel,userInfo,hashedUserAgent); // session put도 해줌.
+                memberService.updateLoginCondition(userInfo.getUserId());
                 sessionService.getSession(sessionId).setHashedUserAgent(hashedUserAgent.substring(0,10));
 
                 MemberResDto memberResDto =
-                        new MemberResDto("OK","로그인 성공",sessionId,userinfo.getUserName(),userinfo.getUserId());
+                        new MemberResDto("OK","로그인 성공",sessionId,userInfo.getUserName(),userInfo.getUserId());
+
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(memberResDto);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -131,6 +125,7 @@ public class MemberController {
         System.out.println(id);
         try{
             System.out.println("logout :  " + id);
+            memberService.logout(id);
 //        session.invalidate();
             FailResDto failResDto = new FailResDto("Yes","로그아웃 성공");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,"application/json").body(failResDto);

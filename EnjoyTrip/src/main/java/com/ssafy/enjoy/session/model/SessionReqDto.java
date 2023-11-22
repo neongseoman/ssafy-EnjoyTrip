@@ -2,6 +2,8 @@ package com.ssafy.enjoy.session.model;
 
 public class SessionReqDto {
     String userId;
+    String userName;
+
 
     public SessionReqDto(String userId) {
         this.userId = userId;

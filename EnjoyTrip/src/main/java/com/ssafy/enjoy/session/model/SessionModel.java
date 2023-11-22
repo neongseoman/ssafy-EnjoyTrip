@@ -2,10 +2,7 @@ package com.ssafy.enjoy.session.model;
 
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Getter
 public class SessionModel {
@@ -17,9 +14,13 @@ public class SessionModel {
     private int blackListPoint;
     private LocalDateTime latelyAccessTime;
 
-    public SessionModel(String userId, String sessionId) {
+    public SessionModel(String userId, String userName, String sessionId, String hashedUserAgent, int blackListPoint, LocalDateTime latelyAccessTime) {
         this.userId = userId;
+        this.userName = userName;
         this.sessionId = sessionId;
+        this.hashedUserAgent = hashedUserAgent;
+        this.blackListPoint = blackListPoint;
+        this.latelyAccessTime = latelyAccessTime;
     }
 
     public void setSessionId(String sessionId) {
