@@ -20,7 +20,7 @@ app.post('/session', (req, res) => {
         axios.post(URL, {"userId": body.userId, "sessionId": key}, {
             headers: {"Content-Type": "application/json"}
         })
-    }, 1000000)
+    }, 5*60*1000)
     res.send(key)
 })
 
