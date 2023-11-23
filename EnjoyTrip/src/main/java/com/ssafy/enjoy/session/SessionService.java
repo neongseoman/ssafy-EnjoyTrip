@@ -1,26 +1,30 @@
 package com.ssafy.enjoy.session;
 
-import com.ssafy.enjoy.member.model.vo.MemberVo;
-import com.ssafy.enjoy.session.model.SessionModel;
-import com.ssafy.enjoy.session.model.SessionReqDto;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.Local;
-import org.springframework.context.annotation.Description;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Description;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.ssafy.enjoy.member.model.mapper.MemberMapper;
+import com.ssafy.enjoy.member.model.vo.MemberVo;
+import com.ssafy.enjoy.session.model.SessionModel;
+import com.ssafy.enjoy.session.model.SessionReqDto;
+
 
 @Service
 public class SessionService { // 세션은 빈번하게 사용되니까
+	@Autowired
+	MemberMapper memberMapper;
     private static SessionService instance;
     private SessionService(){}
     public static SessionService getInstance(){
@@ -92,6 +96,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
     @Description("이게 오면 그냥 바로 삭제 => logout.")
     public boolean invalidate(String sessionId){
         if (isSessionValid(sessionId)){
+        	memberMapper.logoutMember(session.get(sessionId).getUserId());
             session.remove(sessionId);
             return true;
         }
@@ -126,6 +131,7 @@ public class SessionService { // 세션은 빈번하게 사용되니까
             return false;
         }
         System.out.println("session 삭제");
+        memberMapper.logoutMember(sessionModel.getUserId());
         session.remove(sessionId);
         return true;
     }

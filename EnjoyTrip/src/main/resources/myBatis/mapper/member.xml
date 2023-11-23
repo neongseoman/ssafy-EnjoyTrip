@@ -22,7 +22,7 @@
 	</insert>
 
 	<update id="updateMember" parameterType="modifyMemberDto">
-		update members
+		update `members`
 		set `userPassword`=#{newPassword}, `userName`=#{userName}, `emailId`=#{emailId}, `emailDomain`=#{emailDomain}
 		where `userId`=#{userId} and `userPassword`=#{userPassword}
 	</update>
@@ -37,6 +37,11 @@
 		UPDATE login_check
 		set is_login = case when is_login = 0 then 1 else 0 end
 		where user_id = #{userId}
+	</update>
+	<update id="logoutMember" parameterType="String">
+		UPDATE `login_check`
+		set `is_login`=0
+		where `user_id` = #{userId}
 	</update>
 
 	<select id="isLogin" parameterType="String" resultType="int">

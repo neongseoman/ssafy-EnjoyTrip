@@ -33,7 +33,7 @@ public class ScheduleDto {
 		if(date==null||"".equals(date)) {
 			throw new DtoException(ScheduleDto.class, "date is empty");
 		}
-		if(!date.matches("^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")) {
+		if(!date.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")) {
 			throw new DtoException(ScheduleDto.class, "date is in wrong format");
 		}
 		this.date = date;

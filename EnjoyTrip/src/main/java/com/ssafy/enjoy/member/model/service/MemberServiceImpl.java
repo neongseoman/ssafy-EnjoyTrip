@@ -175,7 +175,7 @@ public class MemberServiceImpl implements MemberService {
 
 	public void logout(String id) throws Exception {
 		System.out.println(id);
-		memberMapper.updateLoginCondition(id);
+		memberMapper.logoutMember(id);
 	}
 
 	@Override

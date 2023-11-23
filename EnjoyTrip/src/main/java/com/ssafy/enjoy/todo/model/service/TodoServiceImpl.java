@@ -21,6 +21,7 @@ public class TodoServiceImpl implements TodoService {
 		try {
 			return todoMapper.readTodos(schedule);
 		}catch(MyBatisSystemException e) {
+			e.printStackTrace();
 			throw new Exception("Database error");
 		}
 	}

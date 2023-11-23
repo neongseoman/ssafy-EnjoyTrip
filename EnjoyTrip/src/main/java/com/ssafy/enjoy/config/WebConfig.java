@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new SessionInterceptor())
-				.addPathPatterns("/reHfPyFw/**", "/Crh17XqZ/**", "/YZ97gY92/**", "/MytfEaEE/**") // 유저
+				.addPathPatterns("/reHfPyFw/**", "/Crh17XqZ/**", "/YZ97gY92/**", "/MytfEaEE/**", "/B1Fc0O5K/**", "/SVIhWrLV/**") // 유저
 				.excludePathPatterns("/reHfPyFw/MAqGI3Cv", "/reHfPyFw/EpMrOzqa","/reHfPyFw/ZbsgU6oY"); // 로그인, 아이디 체크, 회원가입 제외
 	}
 

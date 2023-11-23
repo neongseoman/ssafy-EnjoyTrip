@@ -34,7 +34,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         JsonParser jsonParser = new JsonParser();
         Object obj = jsonParser.parse(reqBody);
         JsonObject jsonObj = (JsonObject) obj;
-
+        System.out.println(jsonObj);
         if (jsonObj.get("sessionId") == null) {
         	System.out.println("session is not null");
         	return false;

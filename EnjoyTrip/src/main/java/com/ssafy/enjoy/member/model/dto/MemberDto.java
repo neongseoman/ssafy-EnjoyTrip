@@ -12,7 +12,6 @@ public class MemberDto {
 	private String emailId;
 	private String emailDomain;
 
-	public MemberDto() {}
 
 	public void setUserId(String userId) throws  DtoException {
 		if (userId == null || "".equals(userId))
@@ -26,18 +25,18 @@ public class MemberDto {
 		this.userName = userName;
 	}
 	public void setUserPassword(String userPassword) throws DtoException {
-		if (userId == null || "".equals(userId))
-			throw new DtoException(MemberDto.class, "user id");
+		if (userPassword == null || "".equals(userPassword))
+			throw new DtoException(MemberDto.class, "user password");
 		this.userPassword = userPassword;
 	}
 	public void setEmailId(String emailId) throws DtoException {
-		if (userId == null || "".equals(userId))
+		if (emailId == null || "".equals(emailId))
 			throw new DtoException(MemberDto.class, "emailId");
 		this.emailId = emailId;
 	}
 
 	public void setEmailDomain(String emailDomain) throws DtoException {
-		if (userId == null || "".equals(userId))
+		if (emailDomain == null || "".equals(emailDomain))
 			throw new DtoException(MemberDto.class, "emailDomain");
 		this.emailDomain = emailDomain;
 	}

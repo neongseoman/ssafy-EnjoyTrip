@@ -150,8 +150,7 @@ public class MemberController {
         System.out.println(member.toString());
         member.setUserId((String)request.getAttribute("userId"));
         member.setUserName((String)request.getAttribute("userName"));
-        if (member.getUserId() == null || member.getUserPassword() == null || member.getUserName() == null || member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
-
+        if (member.getUserPassword() == null||member.getEmailId() == null || member.getEmailDomain() == null || member.getNewPassword() == null) {
             FailResDto failResDto = new FailResDto("NO","내용이 없음");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(failResDto);
         } else {
@@ -172,7 +171,7 @@ public class MemberController {
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
                 }
             } catch (Exception e) {
-                e.getMessage();
+                e.printStackTrace();
                 FailResDto failResDto = new FailResDto("NO","ERRROR");
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(failResDto);
             }

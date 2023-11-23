@@ -53,19 +53,19 @@ public class CommentController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (comment.getArticleNo() == 0) {
 			result.put("msg", "NO");
-			result.put("detail", "fail to load comment");
+			result.put("detail", "fail to upload comment");
 		} else {
 			try {
 				comment.setUserId((String)request.getAttribute("userId"));
 				comment.setUserName((String)request.getAttribute("userName"));
 				commentService.writeComment(comment);
 				result.put("msg", "OK");
-				result.put("detail", "fail to load comment");
+				result.put("detail", "success to upload comment");
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.put("msg", "NO");
-				result.put("detail", "fail to load comment");
+				result.put("detail", "fail to upload comment");
 			}
 		}
 		return result;
