@@ -10,7 +10,7 @@
 	<select id="readGugun" resultMap="myMapVo" >
 		select gugun_code, gugun_name, sido_code from gugun
 	</select>
-	<select id="readMap" parameterType="map" resultMap="myMapVo">
+	<select id="readMap" parameterType="myMapDto" resultMap="myMapVo">
 		select * from `attraction_info`
 		where `sido_code`=#{sido_code} and `gugun_code`=#{gugun_code} and `content_type_id`=#{content_type_id}
 	</select>

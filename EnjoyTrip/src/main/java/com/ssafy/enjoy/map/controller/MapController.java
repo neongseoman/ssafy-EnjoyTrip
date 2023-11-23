@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ssafy.enjoy.map.dto.MyMapDto;
-import com.ssafy.enjoy.map.vo.MyMapVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.enjoy.map.vo.MapDescVo;
+import com.ssafy.enjoy.map.model.dto.MyMapDto;
 import com.ssafy.enjoy.map.model.service.DescService;
 import com.ssafy.enjoy.map.model.service.MapService;
+import com.ssafy.enjoy.map.vo.MapDescVo;
+import com.ssafy.enjoy.map.vo.MyMapVo;
 
 @RestController
 @RequestMapping("/MytfEaEE")
@@ -60,6 +60,7 @@ public class MapController {
 	
 	@PostMapping("/hqJImwm8")
 	public Map<String, Object> search(@RequestBody MyMapDto map){
+		System.out.println(map);
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			List list = mapService.search(map);

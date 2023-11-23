@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.enjoy.map.dto.MyMapDto;
+import com.ssafy.enjoy.map.model.dto.MyMapDto;
 import com.ssafy.enjoy.map.vo.MyMapVo;
 import com.ssafy.util.Exception.VOException;
 

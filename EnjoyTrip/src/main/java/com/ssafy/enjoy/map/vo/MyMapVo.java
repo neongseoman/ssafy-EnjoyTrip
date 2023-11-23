@@ -1,9 +1,14 @@
 package com.ssafy.enjoy.map.vo;
 
-import com.ssafy.util.Exception.VOException;
-import lombok.Getter;
+import static com.ssafy.enjoy.map.data.OfficialMapData.contentTypeIdList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.gugunCodeList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.gugunNameList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.sidoCodeList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.sidoNameList;
 
-import static com.ssafy.enjoy.map.data.OfficialMapData.*;
+import com.ssafy.util.Exception.VOException;
+
+import lombok.Getter;
 
 @Getter
 public class MyMapVo {
@@ -29,7 +34,7 @@ public class MyMapVo {
 	}
 
 	public void setSido_name(String sido_name)  throws VOException{
-		if (sido_name == null || !"".equals(sido_name))
+		if (sido_name == null || "".equals(sido_name))
 			throw new VOException("sido_name");
 		if (!sidoNameList.contains(sido_name))
 			throw new VOException("sido_name");
@@ -43,7 +48,7 @@ public class MyMapVo {
 	}
 
 	public void setGugun_name(String gugun_name) throws VOException {
-		if (gugun_name == null || !"".equals(gugun_name))
+		if (gugun_name == null || "".equals(gugun_name))
 			throw new VOException("gugun_name is null");
 		if (!gugunNameList.contains(gugun_name))
 			throw new VOException("gugun_name");
@@ -51,7 +56,7 @@ public class MyMapVo {
 	}
 
 	public void setContent_type_id(int content_type_id) throws VOException {
-		if (!contentTypeIdList.contains(gugun_name))
+		if (!contentTypeIdList.contains(content_type_id))
 			throw new VOException("content_type_id");
 		this.content_type_id = content_type_id;
 	}
@@ -63,45 +68,51 @@ public class MyMapVo {
 	}
 
 	public void setTitle(String title) throws VOException {
-		if (title == null || !"".equals(zipcode))
+		if (title == null || "".equals(title))
 			throw new VOException("title");
 		this.title = title;
 	}
 
 	public void setFirst_image(String first_image) throws VOException {
-		if (first_image == null || !"".equals(zipcode))
+		if (first_image == null || "".equals(zipcode))
 			throw new VOException("first_image");
 		this.first_image = first_image;
 	}
 
 	public void setAddr1(String addr1) throws VOException {
-		if (addr1 == null || !"".equals(zipcode))
+		if (addr1 == null || "".equals(addr1))
 			throw new VOException("addr1");
 		this.addr1 = addr1;
 	}
 
 	public void setAddr2(String addr2) throws VOException {
-		if (addr2 == null || !"".equals(zipcode))
+		if (addr2 == null)
 			throw new VOException("addr2");
 		this.addr2 = addr2;
 	}
 
 	public void setZipcode(String zipcode) throws VOException {
-		if (zipcode == null || !"".equals(zipcode))
+		if (zipcode == null || "".equals(zipcode))
 			throw new VOException("zipcode");
 		this.zipcode = zipcode;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(double latitude) throws VOException {
+		if(latitude<-90.0||latitude>90.0) {
+			throw new VOException("latitude is out of range");
+		}
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(double longitude) throws VOException {
+		if(longitude<-180||longitude>180) {
+			throw new VOException("longitude is out of range");
+		}
 		this.longitude = longitude;
 	}
 
 	public void setTel(String tel) throws VOException {
-		if (tel == null || !"".equals(zipcode))
+		if (tel == null)
 			throw new VOException("tel");
 		this.tel = tel;
 	}

@@ -6,7 +6,7 @@ import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoy.map.dto.MyMapDto;
+import com.ssafy.enjoy.map.model.dto.MyMapDto;
 import com.ssafy.enjoy.map.model.mapper.MapMapper;
 import com.ssafy.enjoy.map.vo.MyMapVo;
 
@@ -39,6 +39,7 @@ public class MapServiceImpl implements MapService {
 		try {
 			return mapMapper.readMap(map);
 		}catch(MyBatisSystemException e) {
+			e.printStackTrace();
 			throw new Exception("Database error");
 		}
 	}

@@ -1,9 +1,14 @@
-package com.ssafy.enjoy.map.dto;
+package com.ssafy.enjoy.map.model.dto;
+
+import static com.ssafy.enjoy.map.data.OfficialMapData.contentTypeIdList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.gugunCodeList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.gugunNameList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.sidoCodeList;
+import static com.ssafy.enjoy.map.data.OfficialMapData.sidoNameList;
 
 import com.ssafy.util.Exception.DtoException;
-import lombok.Getter;
 
-import static com.ssafy.enjoy.map.data.OfficialMapData.*;
+import lombok.Getter;
 
 @Getter
 public class MyMapDto {
@@ -51,7 +56,7 @@ public class MyMapDto {
     }
 
     public void setContent_type_id(int content_type_id) throws DtoException {
-        if (!contentTypeIdList.contains(gugun_name))
+        if (!contentTypeIdList.contains(content_type_id))
             throw new DtoException(MyMapDto.class,"content_type_id");
         this.content_type_id = content_type_id;
     }
@@ -123,6 +128,6 @@ public class MyMapDto {
                 ", zipcode='" + zipcode + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", tel='" + tel;
+                ", tel=" + tel;
     }
 }
