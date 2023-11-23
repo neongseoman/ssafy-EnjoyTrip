@@ -89,4 +89,9 @@
 		order by `article_no` desc
 		limit 1
 	</select>
+	<update id="deleteMember" parameterType="String">
+		update `board`
+		set `user_id`='anonymous'
+		where `user_id`=#{userId}
+	</update>
 </mapper>

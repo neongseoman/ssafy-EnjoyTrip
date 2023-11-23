@@ -49,6 +49,7 @@ public class BoardServiceImpl implements BoardService {
 			e.printStackTrace();
 			throw new Exception("Server error");
 		}catch(MyBatisSystemException e) {
+			e.printStackTrace();
 			throw new Exception("Database error");
 		}
 	}

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.enjoy.board.model.mapper.BoardMapper;
+import com.ssafy.enjoy.board.model.mapper.CommentMapper;
 import com.ssafy.enjoy.member.model.dto.MemberDto;
 import com.ssafy.enjoy.member.model.dto.ModifyMemberDto;
 import com.ssafy.enjoy.member.model.mapper.IdInfoMapper;
@@ -21,6 +23,7 @@ import com.ssafy.enjoy.member.model.vo.IdInfoVo;
 import com.ssafy.enjoy.member.model.vo.KeyInfoVo;
 import com.ssafy.enjoy.member.model.vo.LoginTryVo;
 import com.ssafy.enjoy.member.model.vo.MemberVo;
+import com.ssafy.enjoy.todo.model.mapper.TodoMapper;
 import com.ssafy.util.OpenCrypt;
 
 @Service
@@ -37,6 +40,15 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	KeyInfoMapper keyInfoMapper;
+	
+	@Autowired
+	CommentMapper commentMapper;
+	
+	@Autowired
+	BoardMapper boardMapper;
+	
+	@Autowired
+	TodoMapper todoMapper;
 
 	@Override
 	public MemberVo loginMember(MemberDto member, String ip) throws Exception {
@@ -169,6 +181,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(MemberDto member) throws Exception {
 		try {
+			boardMapper.deleteMember(member.getUserId());
+			commentMapper.deleteMember(member.getUserId(), member.getUserName());
 			memberMapper.deleteLoginCondition(member.getUserId());
 			memberMapper.deleteMember(member.getUserId());
 			IdInfoVo idinfo = idInfoMapper.readIdInfo(member.getUserId());

@@ -24,4 +24,9 @@
 		delete from `comment`
 		where `user_id`=#{userId} and `idx`=#{idx}
 	</delete>
+	<update id="deleteMember" parameterType="String">
+		update `comment`
+		set `user_id`='anonymous', `user_name`='익명'
+		where `user_id`=#{userId} and `user_name`=#{userName}
+	</update>
 </mapper>

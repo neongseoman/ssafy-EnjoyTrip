@@ -46,6 +46,7 @@ public class BoardController {
 			result.put("msg", "NO");
 			result.put("detail", "fail to load board");
 		}
+		System.out.println(result);
 		return result;
 	}
 

@@ -41,4 +41,6 @@ public interface BoardMapper {
 
 	int readBoardNo(BoardDto board) throws SQLException;
 
+	void deleteMember(String userId) throws SQLException;
+
 }

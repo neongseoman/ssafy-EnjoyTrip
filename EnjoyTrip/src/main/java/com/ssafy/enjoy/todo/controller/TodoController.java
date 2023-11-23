@@ -29,6 +29,7 @@ public class TodoController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			ScheduleDto schedule = new ScheduleDto();
+			System.out.println(request.getAttribute("userId"));
 			schedule.setUserId((String)request.getAttribute("userId"));
 			List<ScheduleVo> list = todoService.getList(schedule);
 			result.put("msg", "OK");

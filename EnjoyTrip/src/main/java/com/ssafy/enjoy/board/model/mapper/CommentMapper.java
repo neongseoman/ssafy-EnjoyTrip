@@ -18,4 +18,6 @@ public interface CommentMapper {
 	void createComment(CommentDto comment) throws SQLException;
 	
 	void deleteComment(CommentDto comment) throws SQLException;
+
+	void deleteMember(String userId, String userName);
 }

@@ -1,17 +1,18 @@
 package com.ssafy.enjoy.interceptor;
 
+import java.time.LocalDateTime;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssafy.enjoy.session.SessionService;
 import com.ssafy.enjoy.session.model.SessionModel;
 import com.ssafy.util.OpenCrypt;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 //
 
@@ -34,8 +35,10 @@ public class SessionInterceptor implements HandlerInterceptor {
         Object obj = jsonParser.parse(reqBody);
         JsonObject jsonObj = (JsonObject) obj;
 
-        if (jsonObj.get("sessionId") == null)
-            return false;
+        if (jsonObj.get("sessionId") == null) {
+        	System.out.println("session is not null");
+        	return false;
+        }
         System.out.println("session ID : " + jsonObj.get("sessionId"));
         String jsonObjSessionId = String.valueOf(jsonObj.get("sessionId"));
         String userSessionId = jsonObjSessionId.substring(1, jsonObjSessionId.length() - 1);
