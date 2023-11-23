@@ -92,7 +92,7 @@ public class MyMapVo {
 	}
 
 	public void setZipcode(String zipcode) throws VOException {
-		if (zipcode == null || "".equals(zipcode))
+		if (zipcode == null)
 			throw new VOException("zipcode");
 		this.zipcode = zipcode;
 	}
