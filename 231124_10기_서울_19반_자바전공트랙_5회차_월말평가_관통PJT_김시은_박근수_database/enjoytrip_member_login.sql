@@ -1,0 +1,62 @@
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: ssafy1019mysql.clhnapusjk4s.ap-northeast-2.rds.amazonaws.com    Database: enjoytrip
+-- ------------------------------------------------------
+-- Server version	8.0.33
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+
+--
+-- Table structure for table `member_login`
+--
+
+DROP TABLE IF EXISTS `member_login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `member_login` (
+  `user_id` varchar(16) NOT NULL,
+  `salt` varchar(500) DEFAULT NULL,
+  `access_token` varchar(500) DEFAULT NULL,
+  `refresh_token` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `member_login`
+--
+
+LOCK TABLES `member_login` WRITE;
+/*!40000 ALTER TABLE `member_login` DISABLE KEYS */;
+INSERT INTO `member_login` VALUES ('asdfadf','386ea41a-a175-4cb3-acad-261cd23af9d9','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi67CV6re87IiYIiwiaWF0IjoxNzAwMDI4OTIzLCJleHAiOjE3MDAwMjkxMDN9.LDw7S19z-7EqG-VpE_-xL4dryCKi2hwnPzVt_RR1bCk','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFzZGZhZGYiLCJpYXQiOjE3MDAwMjg5MjMsImV4cCI6MTcwMDAzMDcyM30.ReM0b7JNkFR7YmMhlXlySLmZ7BZjl2aJ54xq30i1HUw'),('asdfasdf','33e0dc67-37c2-4f3d-bbcd-7b04db271405','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi67CV6re87IiYIiwiaWF0IjoxNzAwMDI4ODM2LCJleHAiOjE3MDAwMjkwMTZ9.8x2v9XRBLBCkIFre6oO7mXaKdrf1dtYUJK4SJGmkz6A','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFzZGZhc2RmIiwiaWF0IjoxNzAwMDI4ODM2LCJleHAiOjE3MDAwMzA2MzZ9.eEWgNqdgLN9BI0zLidEjeZuBC8VWkc6zR25vFFg2QUI');
+/*!40000 ALTER TABLE `member_login` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-11-24  9:16:57
